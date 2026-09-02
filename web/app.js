@@ -1,4 +1,4 @@
-/* Skills War Chest — browser interface.
+/* War Chest — browser interface.
  * Zero dependencies, zero build step. Works three ways:
  *   1. served  : index.html beside a data/ directory        (fetch)
  *   2. bundled : dist/skills-war-chest.html             (window.__WARCHEST__)
@@ -672,7 +672,7 @@ function kitScript() {
   const rs = [...S.kit].map(id => S.index.find(r => r.id === id)).filter(Boolean);
   const lines = rs.map(r => `install_skill "${r.origin_repo}" "${r.source_path}" "${r.name}"`).join("\n");
   return `#!/usr/bin/env bash
-# Skills War Chest — install kit (${rs.length} skill${rs.length === 1 ? "" : "s"})
+# War Chest — install kit (${rs.length} skill${rs.length === 1 ? "" : "s"})
 # generated ${new Date().toISOString().slice(0, 19)}Z
 # Override the target with:  SKILLS_DIR=~/.config/agent/skills ./install-kit.sh
 set -euo pipefail
@@ -1073,7 +1073,7 @@ python3 -m http.server 8080
   $("#viewbtn").textContent = S.view === "grid" ? "▦" : "▤";
   $("#kitcount").textContent = S.kit.size || "";
   $("#cmpcount").textContent = S.compare.size || "";
-  document.title = `Skills War Chest — ${S.meta.skill_count} skills`;
+  document.title = `War Chest — ${S.meta.skill_count} skills`;
   wire();
   render();
 

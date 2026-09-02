@@ -1,4 +1,4 @@
-/* Skills War Chest — dark slate + brass.
+/* War Chest — dark slate + brass.
    Tokens are defined once on :root (dark is the default look); the light
    palette re-binds the same names under [data-theme="light"]. Nothing below
    the token block hardcodes a colour. */

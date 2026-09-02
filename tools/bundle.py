@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skills War Chest — standalone bundler.
+War Chest — standalone bundler.
 
 Inlines web/styles.css, web/app.js and the whole of data/ into a single
 self-contained HTML file at dist/skills-war-chest.html. That file needs no
@@ -76,7 +76,7 @@ def artifact_variant():
     """A body-only copy of the full bundle, for hosts that supply their own
     <!doctype>/<head> skeleton (the Artifact publisher). Same page, no wrapper."""
     src = (DIST / "skills-war-chest.html").read_text(encoding="utf-8")
-    title = "<title>Skills War Chest</title>"
+    title = "<title>War Chest</title>"
     style = src[src.index("<style>"):src.index("</style>") + 8]
     body = src[src.index("<body>") + 6:src.rindex("</body>")]
     out = DIST / "skills-war-chest-artifact.html"

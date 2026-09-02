@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skills War Chest — source sync.
+War Chest — source sync.
 
 Clones (or fast-forwards) every repo listed in sources.json into sources/<id>.
 sources/ is gitignored: it is a cache, never part of this repo's history.

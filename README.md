@@ -1,4 +1,4 @@
-# Skills War Chest
+# War Chest
 
 A searchable, tagged, rated browser interface over agent skills gathered from
 across GitHub. 369 skills from 7 repositories, indexed against the open

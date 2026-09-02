@@ -70,7 +70,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
      Everything below is specific to this repository. If you re-fetch the
      upstream file, re-append this section. -->
 
-## 5. This Repository — Skills War Chest
+## 5. This Repository — War Chest
 
 An **index** of agent skills from seven upstream repos, plus a zero-dependency
 browser interface over it. Read `docs/ARCHITECTURE.md` before changing anything

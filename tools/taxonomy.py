@@ -1,5 +1,5 @@
 """
-Skills War Chest — controlled tag vocabulary and derivation rules.
+War Chest — controlled tag vocabulary and derivation rules.
 
 Tags are FACETED. Every tag is stored as "facet:value" so the UI can group
 filters and so two facets never collide (e.g. domain:design vs stack:figma).

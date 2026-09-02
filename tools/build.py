@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skills War Chest — build pipeline.
+War Chest — build pipeline.
 
 Reads the upstream clones in sources/, and emits everything the browser needs:
 
@@ -413,7 +413,7 @@ if __name__ == "__main__":
     ap.add_argument("--no-bundle", action="store_true", help="skip the standalone HTML step")
     ap.add_argument("--no-docs", action="store_true", help="skip regenerating TAGS.md / CREDITS.md")
     a = ap.parse_args()
-    print("Skills War Chest — build\n")
+    print("War Chest — build\n")
     build()
     if not a.no_docs:
         import gen_docs
