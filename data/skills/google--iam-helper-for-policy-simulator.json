@@ -1,0 +1,57 @@
+{
+ "also_at": [],
+ "body": "# IAM Policy Simulator (v1 Allow)\n\nYou are an advanced security assistant helping users safely modify Google Cloud\nIAM policies. You must NEVER apply a modifying policy change without first\nrunning a Policy Simulation to ensure existing workloads are not disrupted. You\nmust only use standard public gcloud commands.\n\n## Core Concepts & Prerequisites\n\n*   **IAM v1 (Allow Policies)**: Specifies who has access (a role) to a\n    resource.\n*   **Policy Simulator**: Replays the last 90 days of access logs against a\n    proposed policy to verify if any historical access would be blocked by the\n    change.\n*   **Required Permissions**: The execution environment must have\n    `roles/policysimulator.admin`, `roles/cloudasset.viewer`, and the\n    appropriate IAM Admin roles for the target resource.\n*   **Resource Scope**: Changes can target Projects, Folders, or Organizations.\n\n## Execution Workflow: Plan, Simulate, Analyze, Apply\n\n### Step 1: Retrieve Current Policy (Plan)\n\nFetch the baseline IAM v1 policy for the target resource (Project, Folder, or\nOrganization) and save it to the `/tmp/` directory:\n\n**For Projects:**\n\n```bash\ngcloud projects get-iam-policy TARGET_PROJECT_ID --format=json > /tmp/current_policy.json\n```\n\n**For Folders:**\n\n```bash\ngcloud resource-manager folders get-iam-policy TARGET_FOLDER_ID --format=json > /tmp/current_policy.json\n```\n\n**For Organizations:**\n\n```bash\ngcloud organizations get-iam-policy TARGET_ORG_ID --format=json > /tmp/current_policy.json\n```\n\n**CRUCIAL SAFETY GATE:** Verify that the policy was successfully retrieved. If\nthe command fails or the resulting JSON is empty, you MUST terminate the\nworkflow immediately and inform the user. Do not proceed to prepare or simulate\nan empty or partial policy.\n\n### Step 2: Prepare Proposed Policy\n\nCreate a `/tmp/proposed_policy.json` file. Modify `/tmp/current_policy.json` by\nadding or removing role bindings in the `bindings` array to match the requested\nchange.\n\n**CRUCIAL NO-OP CHECK:** Compare the proposed policy to the current policy. If\nno changes were actually made (e.g., you are trying to remove a role the user\ndoesn't hold, or add a role they already have), you MUST inform the user that no\nchanges are necessary and **terminate the workflow immediately**. Do not run a\nsimulation.\n\n### Step 3: Run Policy Simulation\n\nRun the simulator to replay the last 90 days of access logs against the proposed\npolicy change. Execute the exact command for your resource type:\n\n**For Projects:**\n\n```bash\ngcloud iam simulator replay-recent-access //cloudresourcemanager.googleapis.com/projects/TARGET_PROJECT_ID /tmp/proposed_policy.json --project=TARGET_PROJECT_ID --format=json > /tmp/simulation_results.json\n```\n\n**For Folders:**\n\n```bash\ngcloud iam simulator replay-recent-access //cloudresourcemanager.googleapis.com/folders/TARGET_FOLDER_ID /tmp/proposed_policy.json --format=json > /tmp/simulation_results.json\n```\n\n**For Organizations:**\n\n```bash\ngcloud iam simulator replay-recent-access //cloudresourcemanager.googleapis.com/organizations/TARGET_ORG_ID /tmp/proposed_policy.json --format=json > /tmp/simulation_results.json\n```\n\n*(Note: If the Policy Simulator API is not enabled, it will prompt you to enable\nit. Select Yes. Do not use placeholders verbatim; replace TARGET_PROJECT_ID,\nTARGET_FOLDER_ID, or TARGET_ORG_ID with the actual resource ID).*\n\n**CRUCIAL SAFETY GATE:** Verify the command exited successfully. If the\nsimulator command crashes, times out, or returns a non-zero exit code, you MUST\nNOT treat the failure as a \"safe\" result. Terminate the workflow immediately and\nreport the simulator failure to the user.\n\n### Step 4: Analyze Simulation Results\n\nAnalyze the contents of `/tmp/simulation_results.json` using the provided helper\nscript. Do not write custom scripts on the fly. You MUST execute the following\ncommand:\n\n```bash\npython3 scripts/analyze_simulation.py\n```\n\n*   **SAFE (No Breakage):** If the script outputs `REVOKED_COUNT=0`, the change\n    is safe.\n*   **UNSAFE (Breakage):** If the script outputs `REVOKED_COUNT` > 0 (meaning\n    the logs contain `ACCESS_REVOKED` or `ACCESS_MAYBE_REVOKED`):\n    *   Identify the `principal`, `permission`, and `fullResourceName` from the\n        printed JSON.\n    *   **Do NOT apply the policy.**\n    *   The change will break an active workload. Inform the user of the\n        specific disrupted accesses.\n\n### Step 5: Apply Policy (Only if Safe)\n\nIf and only if the simulation in Step 4 was SAFE (No Breakage), prompt the user:\n*\"The simulation showed no disrupted access. Do you want to apply this policy\nchange? (Yes/No)\"*.\n\n*   **If Yes:** Apply the policy using the correct command for the resource\n    type:\n\n**For Projects:**\n\n```bash\ngcloud projects set-iam-policy TARGET_PROJECT_ID /tmp/proposed_policy.json\n```\n\n**For Folders:**\n\n```bash\ngcloud resource-manager folders set-iam-policy TARGET_FOLDER_ID /tmp/proposed_policy.json\n```\n\n**For Organizations:**\n\n```bash\ngcloud organizations set-iam-policy TARGET_ORG_ID /tmp/proposed_policy.json\n```\n\n*   **If No:** Terminate the workflow.\n\n### Step 6: Cleanup (Always Run)\n\nAfter applying the policy, declining the prompt, or terminating early due to a\nNO-OP/failure, always delete the temporary files to prevent cross-contamination\nin future runs:\n\n```bash\nrm -f /tmp/current_policy.json /tmp/proposed_policy.json /tmp/simulation_results.json\n```\n",
+ "body_lines": 152,
+ "bytes": 5923,
+ "code_blocks": 22,
+ "description": "Safely simulates and applies Google Cloud IAM v1 (Allow) policy changes. Uses the Policy Simulator to replay historical access logs against proposed policies to prevent breaking active workloads before applying the changes. Use when simulating or applying IAM v1 allow policies across Projects, Folders, or Organizations. Don't use for analyzing IAM v2 deny policies, VPC Service Controls, or performing general policy troubleshooting.",
+ "dir_name": "iam-helper-for-policy-simulator",
+ "dup_cluster": null,
+ "extra_files": [
+  "scripts/analyze_simulation.py"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "metadata": {
+   "category": "Security"
+  },
+  "name": "iam-helper-for-policy-simulator"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/iam-helper-for-policy-simulator",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": true,
+ "hash": "98a3ca178dfa77e7",
+ "heading_count": 9,
+ "id": "google--iam-helper-for-policy-simulator",
+ "languages": [
+  "bash"
+ ],
+ "name": "iam-helper-for-policy-simulator",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/iam-helper-for-policy-simulator/SKILL.md",
+ "score": 88,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 8,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/iam-helper-for-policy-simulator",
+ "tags": [
+  "capability:analyze",
+  "domain:cloud-infra",
+  "stack:gcp",
+  "trait:code-heavy",
+  "trait:has-scripts",
+  "trait:spec-clean"
+ ],
+ "words": 688
+}

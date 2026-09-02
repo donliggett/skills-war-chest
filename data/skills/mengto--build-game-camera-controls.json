@@ -1,0 +1,52 @@
+{
+ "also_at": [],
+ "body": "# Build Game Camera Controls\n\nKeep gameplay readable before making the camera cinematic. Define one authoritative target, camera bounds, zoom range, collision/occlusion policy, and reduced-motion behavior.\n\n## Implement\n\n- Smooth position and look-at targets independently; never bind the camera directly to jittery render state.\n- Preserve player, immediate threat, objective, and interaction cues in frame at the intended distance.\n- Clamp orbit, pitch, and zoom; prevent walls or props from hiding the player without making geometry invisible globally.\n- Treat lock-on, scripted moments, and shake as temporary modifiers layered over the base camera.\n- On touch, separate camera gesture zones from movement/action controls and provide reset framing.\n\n## Verify\n\nTest corners, tall props, tunnels, multiple enemies, lock-on switching, pause, reduced motion, portrait, and landscape. Confirm no camera behavior breaks targeting, UI, or performance.\n",
+ "body_lines": 16,
+ "bytes": 1195,
+ "code_blocks": 0,
+ "description": "Implement or tune Three.js game cameras. Use for isometric framing, follow behavior, orbit/zoom limits, occlusion, lock-on, camera shake, touch camera controls, and camera regression tests.",
+ "dir_name": "build-game-camera-controls",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "build-game-camera-controls"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/game-development/build-game-camera-controls",
+ "grade": "B",
+ "group": "game-development",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "9a9f5765d410bde6",
+ "heading_count": 3,
+ "id": "mengto--build-game-camera-controls",
+ "languages": [],
+ "name": "build-game-camera-controls",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-camera-controls/SKILL.md",
+ "score": 66,
+ "score_breakdown": {
+  "body": 13,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/game-development/build-game-camera-controls",
+ "tags": [
+  "capability:build",
+  "domain:game-dev",
+  "domain:testing",
+  "stack:threejs",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 133
+}

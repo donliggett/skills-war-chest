@@ -1,0 +1,52 @@
+{
+ "also_at": [],
+ "body": "# Scaffold Exercises\n\nCreate exercise directory structures that pass `pnpm ai-hero-cli internal lint`, then commit with `git commit`.\n\n## Directory naming\n\n- **Sections**: `XX-section-name/` inside `exercises/` (e.g., `01-retrieval-skill-building`)\n- **Exercises**: `XX.YY-exercise-name/` inside a section (e.g., `01.03-retrieval-with-bm25`)\n- Section number = `XX`, exercise number = `XX.YY`\n- Names are dash-case (lowercase, hyphens)\n\n## Exercise variants\n\nEach exercise needs at least one of these subfolders:\n\n- `problem/` - student workspace with TODOs\n- `solution/` - reference implementation\n- `explainer/` - conceptual material, no TODOs\n\nWhen stubbing, default to `explainer/` unless the plan specifies otherwise.\n\n## Required files\n\nEach subfolder (`problem/`, `solution/`, `explainer/`) needs a `readme.md` that:\n\n- Is **not empty** (must have real content, even a single title line works)\n- Has no broken links\n\nWhen stubbing, create a minimal readme with a title and a description:\n\n```md\n# Exercise Title\n\nDescription here\n```\n\nIf the subfolder has code, it also needs a `main.ts` (>1 line). But for stubs, a readme-only exercise is fine.\n\n## Workflow\n\n1. **Parse the plan** - extract section names, exercise names, and variant types\n2. **Create directories** - `mkdir -p` for each path\n3. **Create stub readmes** - one `readme.md` per variant folder with a title\n4. **Run lint** - `pnpm ai-hero-cli internal lint` to validate\n5. **Fix any errors** - iterate until lint passes\n\n## Lint rules summary\n\nThe linter (`pnpm ai-hero-cli internal lint`) checks:\n\n- Each exercise has subfolders (`problem/`, `solution/`, `explainer/`)\n- At least one of `problem/`, `explainer/`, or `explainer.1/` exists\n- `readme.md` exists and is non-empty in the primary subfolder\n- No `.gitkeep` files\n- No `speaker-notes.md` files\n- No broken links in readmes\n- No `pnpm run exercise` commands in readmes\n- `main.ts` required per subfolder unless it's readme-only\n\n## Moving/renaming exercises\n\nWhen renumbering or moving exercises:\n\n1. Use `git mv` (not `mv`) to rename directories - preserves git history\n2. Update the numeric prefix to maintain order\n3. Re-run lint after moves\n\nExample:\n\n```bash\ngit mv exercises/01-retrieval/01.03-embeddings exercises/01-retrieval/01.04-embeddings\n```\n\n## Example: stubbing from a plan\n\nGiven a plan like:\n\n```\nSection 05: Memory Skill Building\n- 05.01 Introduction to Memory\n- 05.02 Short-term Memory (explainer + problem + solution)\n- 05.03 Long-term Memory\n```\n\nCreate:\n\n```bash\nmkdir -p exercises/05-memory-skill-building/05.01-introduction-to-memory/explainer\nmkdir -p exercises/05-memory-skill-building/05.02-short-term-memory/{explainer,problem,solution}\nmkdir -p exercises/05-memory-skill-building/05.03-long-term-memory/explainer\n```\n\nThen create readme stubs:\n\n```\nexercises/05-memory-skill-building/05.01-introduction-to-memory/explainer/readme.md -> \"# Introduction to Memory\"\nexercises/05-memory-skill-building/05.02-short-term-memory/explainer/readme.md -> \"# Short-term Memory\"\nexercises/05-memory-skill-building/05.02-short-term-memory/problem/readme.md -> \"# Short-term Memory\"\nexercises/05-memory-skill-building/05.02-short-term-memory/solution/readme.md -> \"# Short-term Memory\"\nexercises/05-memory-skill-building/05.03-long-term-memory/explainer/readme.md -> \"# Long-term Memory\"\n```\n",
+ "body_lines": 102,
+ "bytes": 3589,
+ "code_blocks": 10,
+ "description": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.",
+ "dir_name": "scaffold-exercises",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "scaffold-exercises"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/misc/scaffold-exercises",
+ "grade": "A",
+ "group": "misc",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "75f5c9d771606fb9",
+ "heading_count": 9,
+ "id": "mattpocock--scaffold-exercises",
+ "languages": [
+  "bash",
+  "md"
+ ],
+ "name": "scaffold-exercises",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/misc/scaffold-exercises/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/misc/scaffold-exercises",
+ "tags": [
+  "capability:build",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 407
+}

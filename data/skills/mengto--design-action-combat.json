@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# Design Action Combat\n\nTreat combat as explicit state machines with visible, testable timing rather than animation-driven guesses.\n\n## Specify every combat verb\n\nFor each player or enemy action, define: startup, active window, recovery, cancellation rules, resource cost, contact shape, damage/posture outcome, cooldown, and feedback. Make telegraph, danger, contact, and recovery readable at normal camera distance.\n\n## Use authoritative outcomes\n\n- Drive hits, blocks, parries, and interrupts from authoritative collision/contact events.\n- Require direction, range, phase, and state validity before resolving an outcome.\n- Apply each contact once using stable action and target identifiers.\n- Keep visuals downstream of resolved simulation events.\n\n## Tune for decisions\n\nGive each defense a distinct purpose: spacing, dodge, timed guard, interruption, or resource trade. Avoid unpunishable attacks, recovery loops, unavoidable damage, and dominant spam. Boss phases must alter decision pressure without invalidating learned timing.\n\n## Test combat deterministically\n\nCover early/late timing, wrong direction, out-of-range contact, multiple targets, interrupted actions, phase changes, cooldown boundaries, pause/frame step, equip swaps, and repeated inputs. Use seeded or queryable review scenarios instead of requiring long campaign playthroughs.\n\n## Verify in play\n\nTest at realistic frame rate and camera distance. Confirm that player intent, contact feedback, health/posture changes, sound/VFX, and target state agree. Check reduced motion and input alternatives before release.\n",
+ "body_lines": 27,
+ "bytes": 1866,
+ "code_blocks": 0,
+ "description": "Design, implement, tune, or test readable tactical action combat for web games. Use for attack timing, guard and dodge windows, hit contact, posture, lock-on, weapons, boss phases, combat feedback, and deterministic combat tests.",
+ "dir_name": "design-action-combat",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "design-action-combat"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/game-development/design-action-combat",
+ "grade": "B",
+ "group": "game-development",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "0b6289f0c6519875",
+ "heading_count": 6,
+ "id": "mengto--design-action-combat",
+ "languages": [],
+ "name": "design-action-combat",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/design-action-combat/SKILL.md",
+ "score": 66,
+ "score_breakdown": {
+  "body": 13,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/game-development/design-action-combat",
+ "tags": [
+  "capability:build",
+  "capability:review",
+  "domain:design",
+  "domain:game-dev",
+  "domain:testing",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 211
+}

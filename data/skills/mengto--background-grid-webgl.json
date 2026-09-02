@@ -1,0 +1,60 @@
+{
+ "also_at": [],
+ "body": "# Background Grid WebGL Skill\n\n## Use When\n- Create a perspective WebGL background grid with fading lines, subtle particle haze, slow forward drift, and gentle camera parallax.\n\n## Workflow\n\n## Scope\n- Apply this only to the immersive background grid layer, not to the full page layout, copy, or unrelated particle or laser systems.\n- Use it when the design needs a perspective tech grid receding into space with subtle motion and depth.\n\n## Visual target\n- Create a large perspective ground-plane grid viewed from an elevated camera angle so the lines recede toward the horizon.\n- Keep the grid understated and atmospheric: thin lines, soft fade with distance, dark background, and restrained glow rather than a loud retro neon floor.\n- Add a light field of floating particles or dust to give the scene depth without overpowering the grid.\n- Use the design's primary color or strongest accent color sparingly for glow, particles, or secondary emphasis. If the design is neutral, a white or cool gray grid is acceptable.\n\n## Implementation guidance\n- Prefer Three.js or equivalent real WebGL rendering for this effect.\n- Use a perspective camera positioned above the plane and looking toward the origin to emphasize depth.\n- Build the grid as a large plane helper or custom grid with line opacity fading by distance so the far field dissolves smoothly.\n- Animate the grid with slow forward drift or repeated positional cycling so it feels alive without becoming distracting.\n- Add subtle mouse-responsive camera parallax or offset, but keep the movement calm and damped.\n- Add a sparse additive particle field with low opacity and slow motion to soften the empty space around the grid.\n\n## Tuning knobs\n- Grid density: control plane size, division count, and line spacing.\n- Fade: adjust opacity falloff so the grid recedes naturally into darkness.\n- Motion: tune forward drift speed, particle float speed, and camera smoothing.\n- Camera: adjust height, distance, tilt, and parallax strength to control perspective drama.\n- Color: keep the base grid subtle and use the active design accent only as a restrained highlight.\n\n## Avoid\n- Bright synthwave neon grids unless the design explicitly calls for that style.\n- Thick linework or high-contrast grids that compete with foreground content.\n- Dense particles or fog that obscure the grid structure.\n- Aggressive mouse tracking or fast grid motion that makes the background feel unstable.\n",
+ "body_lines": 38,
+ "bytes": 2622,
+ "code_blocks": 0,
+ "description": "Create a perspective WebGL background grid with fading lines, subtle particle haze, slow forward drift, and gentle camera parallax.",
+ "dir_name": "background-grid-webgl",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-2f563338-39fa-47ea-9761-658d4f3f84db-1600w.jpg",
+  "demo/assets/page-02-4f5668c5-fc4a-44e0-bc5e-a664189d3c31-1600w.jpg",
+  "demo/assets/page-03-77415a2e-dcbc-4748-a29d-fced4821881a-1600w.jpg",
+  "demo/assets/page-04-c92852bb-a510-405a-85ab-ffa0fde136a4-1600w.jpg",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 10,
+ "frontmatter": {
+  "name": "background-grid-webgl"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/background-grid-webgl",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "07c155855b67a96c",
+ "heading_count": 8,
+ "id": "mengto--background-grid-webgl",
+ "languages": [],
+ "name": "background-grid-webgl",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/background-grid-webgl/SKILL.md",
+ "score": 57,
+ "score_breakdown": {
+  "body": 13,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/background-grid-webgl",
+ "tags": [
+  "capability:build",
+  "domain:design",
+  "domain:web",
+  "stack:threejs",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 400
+}

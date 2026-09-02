@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# GKE Networking\n\nThis reference covers networking configuration for GKE clusters. The golden path\nenforces private, VPC-native clusters with Dataplane V2.\n\n> **MCP Tools:** `get_cluster`, `update_cluster`, `apply_k8s_manifest`,\n> `get_k8s_resource`\n\n## Golden Path Networking Defaults\n\nSetting                                                              | Golden Path Value                  | Day-0/1 | Notes\n-------------------------------------------------------------------- | ---------------------------------- | ------- | -----\n`privateClusterConfig.enablePrivateNodes`                            | `true`                             | Day-0   | Nodes have no public IPs\n`masterAuthorizedNetworksConfig.privateEndpointEnforcementEnabled`   | `true`                             | Day-0   | Control plane only reachable via private endpoint or DNS\n`controlPlaneEndpointsConfig.dnsEndpointConfig.allowExternalTraffic` | `true`                             | Day-0   | Allows DNS-based access from outside VPC\n`networkConfig.datapathProvider`                                     | `ADVANCED_DATAPATH` (Dataplane V2) | Day-0   | eBPF-based, built-in Network Policy\n`networkConfig.dnsConfig.clusterDns`                                 | `CLOUD_DNS`                        | Day-0   | Managed DNS, more reliable than kube-dns\n`networkConfig.enableIntraNodeVisibility`                            | `true`                             | Day-1   | VPC Flow Logs for intra-node traffic\n`ipAllocationPolicy.autoIpamConfig.enabled`                          | `true`                             | Day-0   | Automatic IP range management\n`ipAllocationPolicy.createSubnetwork`                                | `true`                             | Day-0   | Auto-create dedicated subnet\n`defaultMaxPodsConstraint.maxPodsPerNode`                            | `48`                               | Day-0   | Conservative default; 110 for high density\n\n## Private Cluster Access Patterns\n\nThe golden path creates a private cluster. Users access it via:\n\n1.  **DNS endpoint (default)**: `allowExternalTraffic: true` enables access via\n    the cluster's DNS endpoint from outside the VPC. No VPN required.\n2.  **Private endpoint**: Direct access from within the VPC or via Cloud\n    VPN/Interconnect.\n3.  **Authorized networks**: Add specific CIDRs to\n    `masterAuthorizedNetworksConfig` for IP-based access control.\n\n```bash\n# Access private cluster via DNS endpoint (golden path default)\ngcloud container clusters get-credentials {cluster_name} \\\n  --region {region} --dns-endpoint \\\n  --quiet\n\n# Access via private endpoint (from within VPC)\ngcloud container clusters get-credentials {cluster_name} \\\n  --region {region} --internal-ip \\\n  --quiet\n```\n\n## Bring-Your-Own VPC/Subnet\n\nIf the customer has existing network infrastructure:\n\n```bash\ngcloud container clusters create-auto {cluster_name} \\\n  --region {region} \\\n  --network {vpc_name} \\\n  --subnetwork {subnet_name} \\\n  --cluster-secondary-range-name {pod_range} \\\n  --services-secondary-range-name {svc_range} \\\n  --enable-private-nodes \\\n  --enable-master-authorized-networks \\\n  --quiet\n```\n\n> **Day-0 Warning**: VPC, subnet, and IP ranges cannot be changed after cluster\n> creation.\n\n## VPC-Native Mode Benefits\n\nVPC-native clusters route traffic natively using GCP Alias IP ranges. Key\nbenefits to cover:\n\n1.  **Scalability**: Traffic routes natively inside the VPC, bypassing the need\n    for custom routes and avoiding custom route limit bottlenecks.\n2.  **Direct VPC Integration**: Direct resource integration across GCP networks\n    without complex bridging or routing tunnels.\n3.  **Avoiding IP Exhaustion**: Supports discontiguous IP ranges and optimizes\n    allocation, reducing the risk of exhausting subnet IP ranges.\n\n## IP Planning\n\n| Resource      | Golden Path  | Notes                                      |\n| ------------- | ------------ | ------------------------------------------ |\n| Pod CIDR      | `/17` (auto) | ~32K pod IPs; size based on maxPodsPerNode |\n| Service CIDR  | `/20` (auto) | ~4K service IPs                            |\n| Node subnet   | auto-created | /20 recommended for growth                 |\n| Max pods/node | 48           | Each node gets a /25 pod range; set to 110 |\n:               :              : for /24 per node                           :\n\n**Pod CIDR sizing rule of thumb:**\n\n-   `maxPodsPerNode=48` -> each node uses a `/25` (128 IPs) from pod CIDR\n-   `maxPodsPerNode=110` -> each node uses a `/24` (256 IPs) from pod CIDR\n-   Larger maxPodsPerNode = fewer nodes fit in a given CIDR\n\n## Egress\n\n-   Default: nodes use Cloud NAT for outbound internet access (private nodes\n    have no public IPs) to allow private nodes to reach the internet without\n    public IP exposure.\n-   For static egress IPs: configure Cloud NAT with manual IP allocation to\n    maintain a consistent source IP for external allowlists or partner\n    firewalls.\n-   For restricted egress: route through a firewall appliance via custom routes\n    to inspect and filter outbound traffic according to organization security\n    policies.\n\n## Network Policy\n\nDataplane V2 (golden path) provides built-in Network Policy enforcement — no\nadditional addon needed. Apply default-deny per namespace, then allow specific\nflows.\n\n> See the `gke-workload-security` skill for default-deny policy and the\n> `gke-multitenancy` skill for per-team allow policies.\n",
+ "body_lines": 113,
+ "bytes": 5948,
+ "code_blocks": 4,
+ "description": "Plans, configures, and manages core GKE cluster networking. Covers private clusters, VPC-native configurations, DNS, node egress, Dataplane V2, and IP planning. Use when designing GKE networking layouts, configuring private clusters, setting up Dataplane V2, planning GKE IP ranges, or managing VPC- native cluster modes. Don't use for application ingress, load balancing, or service networking (use gke-service-networking instead).",
+ "dir_name": "gke-networking",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Networking"
+  },
+  "name": "gke-networking"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-networking",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "5e8361041f5c3bbd",
+ "heading_count": 10,
+ "id": "google--gke-networking",
+ "languages": [
+  "bash"
+ ],
+ "name": "gke-networking",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-networking/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-networking",
+ "tags": [
+  "capability:plan",
+  "domain:cloud-infra",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 626
+}

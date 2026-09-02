@@ -1,0 +1,51 @@
+{
+ "also_at": [],
+ "body": "You have been provided a spec. This spec should have tickets associated with it, describing how to implement the spec.\n\nThe goal is a PR which implements the entire spec on a single branch.\n\nThe tickets are not a list of steps. They are a **task graph** with blocking relationships between them. This means there is always a **frontier** of tickets which are ready to be grabbed.\n\nCommunication to and from subagents should be sparse. Communicate primarily through **context pointers**: to the spec, tickets, research notes, and previous commits. Don't duplicate information already available via pointers.\n\n**Implementer subagents** should be run in the background where possible for **maximum concurrency**.\n\n## Steps\n\n1. Read the spec and tickets. Read enough to understand the task graph.\n\n2. (optional) Use an **exploration subagent** to conduct any exploration required by the tickets - relevant codebase files or external documentation. Ensure the exploration subagent can save files - it should save its markdown notes in a directory outside the repo, accessible by all future subagents. This lets **implementer subagents** focus on implementation rather than exploration.\n\n3. Create a branch, and a draft PR. The PR should be marked as 'closing' the spec issue and tickets.\n\n4. Use **implementer subagents** to implement each ticket. Each implementer subagent should work in its own worktree, on its own branch.\n\n5. Once an **implementer subagent** completes, merge its work to the PR branch with a **merger subagent**.\n\n6. If this changes the **frontier** of available tickets, kick off more **implementer subagents** to work on the new tickets. This allows for maximum concurrency.\n\n7. Once all tickets are complete, run /code-review on the PR branch. Fix all issues raised by the code review in a single **implementer subagent**.\n\n8. Mark the PR as ready for review.\n\n9. Clean up all **implementer subagent** worktrees.\n",
+ "body_lines": 30,
+ "bytes": 2043,
+ "code_blocks": 0,
+ "description": "Implement a specification in code.",
+ "dir_name": "implement-spec",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "disable-model-invocation": true,
+  "name": "implement-spec"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/in-progress/implement-spec",
+ "grade": "D",
+ "group": "in-progress",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "f703b5f41df9c220",
+ "heading_count": 1,
+ "id": "mattpocock--implement-spec",
+ "languages": [],
+ "name": "implement-spec",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/implement-spec/SKILL.md",
+ "score": 45,
+ "score_breakdown": {
+  "body": 10,
+  "description": 2,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/in-progress/implement-spec",
+ "tags": [
+  "capability:build",
+  "capability:plan",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 303
+}

@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "Call the Skill tool twice, for \"grilling\" and \"domain-modeling\".\n",
+ "body_lines": 2,
+ "bytes": 247,
+ "code_blocks": 0,
+ "description": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.",
+ "dir_name": "grill-with-docs",
+ "dup_cluster": "mattpocock--grill-me",
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "disable-model-invocation": true,
+  "name": "grill-with-docs"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/engineering/grill-with-docs",
+ "grade": "D",
+ "group": "engineering",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "7de372c13488f1ee",
+ "heading_count": 0,
+ "id": "mattpocock--grill-with-docs",
+ "languages": [],
+ "name": "grill-with-docs",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/grill-with-docs/SKILL.md",
+ "score": 42,
+ "score_breakdown": {
+  "body": 3,
+  "description": 6,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/engineering/grill-with-docs",
+ "tags": [
+  "capability:plan",
+  "capability:teach",
+  "domain:design",
+  "domain:docs-writing",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 9
+}

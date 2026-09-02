@@ -1,0 +1,65 @@
+{
+ "also_at": [],
+ "body": "# Skill Registry\n\nThis skill provides instructions for interacting with the **Skill Registry** on\nthe Gemini Enterprise Agent Platform.\n\n## Core Capabilities\n\n-   **Skill Discovery** - Query the registry to easily search, list, get\n    specific skills, and inspect revision histories.\n-   **Skill Lifecycle Management** - Upload, update, or permanently delete\n    skills.\n-   **Operation Monitoring** - Utility to check the completion status of\n    long-running state changes (LROs).\n-   **Generate Skill** - Automate the initial scaffolding of new agent skills\n    locally.\n\n## Core Directives\n\n-   **Mandatory Validation**: ALWAYS execute the environment validation check\n    before performing any operations.\n\n    Before any operation, you **must** validate the core environment.\n\n    ```bash\n    # Execute the validation script\n    python3 scripts/validate_env.py\n    ```\n\n## Prerequisites & Authentication\n\n### Library & Authentication\n\nEnsure you have the latest Google Cloud credentials and libraries installed.\n\n```bash\n# Install required libraries\npip install google-auth requests\n\n# Authenticate with Google Cloud\ngcloud auth application-default login\n```\n\n### Environment Variables\n\nThe following variables are required for operations:\n\n-   `GCP_PROJECT_ID`: Your Google Cloud Project ID.\n-   `GCP_LOCATION`: The region (e.g., `us-central1`).\n\n--------------------------------------------------------------------------------\n\n## Quickstart\n\nQuickly search for available skills in the registry:\n\n```bash\npython3 scripts/skill_registry_ops.py search \\\n  --query \"test skill\" \\\n  --top-k 5\n```\n\n--------------------------------------------------------------------------------\n\n## Operations\n\n-   **Skill Discovery**: [query-skills.md](references/query-skills.md)\n-   **Skill Lifecycle**: [manage-skills.md](references/manage-skills.md)\n-   **Monitor Operations**:\n    [monitor-operations.md](references/monitor-operations.md)\n-   **Generate Skill**: [generate-skill.md](references/generate-skill.md)\n",
+ "body_lines": 71,
+ "bytes": 2314,
+ "code_blocks": 4,
+ "description": "Interact with the Gemini Enterprise Agent Platform Skill Registry to create and search for available skills. Use this skill to enable agents to register functionality or discover new capabilities.",
+ "dir_name": "agent-platform-skill-registry",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/generate-skill.md",
+  "references/manage-skills.md",
+  "references/monitor-operations.md",
+  "references/query-skills.md",
+  "scripts/requirements.txt",
+  "scripts/skill_registry_ops.py",
+  "scripts/validate_env.py"
+ ],
+ "file_count": 8,
+ "frontmatter": {
+  "metadata": {
+   "category": "AiAndMachineLearning"
+  },
+  "name": "agent-platform-skill-registry"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/agent-platform-skill-registry",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": true,
+ "hash": "6cfc4cc1e7aa396f",
+ "heading_count": 10,
+ "id": "google--agent-platform-skill-registry",
+ "languages": [
+  "bash"
+ ],
+ "name": "agent-platform-skill-registry",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-skill-registry/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 25,
+  "description": 11,
+  "packaging": 12,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/agent-platform-skill-registry",
+ "tags": [
+  "capability:build",
+  "domain:cloud-infra",
+  "stack:gemini",
+  "trait:code-heavy",
+  "trait:has-references",
+  "trait:has-scripts",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 216
+}

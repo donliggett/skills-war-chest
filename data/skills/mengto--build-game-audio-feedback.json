@@ -1,0 +1,56 @@
+{
+ "also_at": [],
+ "body": "# Build Game Audio Feedback\n\nUse audio to confirm player intent and combat state, not to add constant noise.\n\n## Map feedback\n\nAssign distinct cues for input accepted, windup, contact, block, miss, damage, interrupt, pickup, warning, death, and objective completion. Define priority so critical feedback remains audible during crowded encounters.\n\n## Build for browsers\n\nUnlock audio from a user gesture, respect mute/volume settings, release completed nodes, cap simultaneous voices, and provide subtitles or visual equivalents for meaningful cues. Change music by state with controlled transitions rather than restarts.\n\n## Verify\n\nTest first interaction, rapid actions, pause, tab/background return, mobile, muted state, and reduced motion/accessibility. Check memory and console health after a representative session.\n",
+ "body_lines": 16,
+ "bytes": 1107,
+ "code_blocks": 0,
+ "description": "Design or implement responsive audio feedback for a Three.js or web game. Use for action sounds, combat layers, music states, spatial audio, mix priorities, mute controls, accessibility, mobile audio unlock, and audio performance.",
+ "dir_name": "build-game-audio-feedback",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "build-game-audio-feedback"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/game-development/build-game-audio-feedback",
+ "grade": "B",
+ "group": "game-development",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "f547a7f1941e2548",
+ "heading_count": 4,
+ "id": "mengto--build-game-audio-feedback",
+ "languages": [],
+ "name": "build-game-audio-feedback",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-audio-feedback/SKILL.md",
+ "score": 66,
+ "score_breakdown": {
+  "body": 13,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/game-development/build-game-audio-feedback",
+ "tags": [
+  "capability:build",
+  "capability:optimize",
+  "capability:review",
+  "domain:design",
+  "domain:game-dev",
+  "domain:media",
+  "format:audio",
+  "stack:threejs",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 113
+}

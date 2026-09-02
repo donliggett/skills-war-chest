@@ -1,0 +1,67 @@
+{
+ "also_at": [],
+ "body": "# Getting Started with Google Analytics Data API\n\nThe Google Analytics Data API v1beta provides programmatic access to Google\nAnalytics report data. It allows you to build customized dashboards,\nautomate reporting workflows, and integrate Google Analytics data into your enterprise\napplications.\n\n## Enabling the API via Cloud CLI\n\nBefore making API calls, ensure the Google Analytics Data API is enabled in your\nGoogle Cloud project.\n\nIf `gcloud` is not found, prompt the user to install the Google Cloud CLI before\nrunning these commands.\n\n1.  **Enable the API:** Use the Cloud CLI (`gcloud`) to enable\n    `analyticsdata.googleapis.com`.\n\n    ```bash\n    gcloud services enable analyticsdata.googleapis.com --quiet\n    ```\n\n    *Why: Enabling the API ensures your Cloud project has the necessary quota\n    and permissions allocated for running Google Analytics reports.*\n\n2.  **Verify API Enablement:**\n\n    ```bash\n    gcloud services list --enabled --filter=\"analyticsdata.googleapis.com\"\n    ```\n\n## Authentication\n\nTo authenticate your API requests, you must generate Application Default\nCredentials (ADC) and give your account the necessary scopes. Run the following\ncommand in your terminal:\n\n```bash\ngcloud auth application-default login --scopes=\"https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/analytics.readonly\"\n```\n\n*Why: This configures ADC in your local environment with the required Cloud\nPlatform and Google Analytics read-only scopes, allowing the client library to\nautomatically authenticate your requests.*\n\n## Creating a Data API Report (v1beta)\n\nTo create a report, use the official Google Analytics Data client library.\nAlways prefer the `v1beta` version of the API for stability and access to\ncurrent Google Analytics reporting capabilities.\n\n> [!IMPORTANT] **Mandatory Agent Directive:** When the user selects or requires\n> a specific programming language, read the corresponding client library setup\n> reference guide in `references/` listed below.\n\n### Supported Client Libraries\n\n#### Python\n\nIf you need to install or set up the Google Analytics Data API client library\nfor Python, read the setup guide:\n\n*   [Python Installation Reference](references/python.md) *(Package:\n    `google-analytics-data`)*\n\n#### Java\n\nIf you need to install or set up the Google Analytics Data API client library\nfor Java, read the setup guide:\n\n*   [Java Installation Reference](references/java.md) *(Artifact:\n    `com.google.cloud:google-cloud-analytics-data`)*\n\n#### PHP\n\nIf you need to install or set up the Google Analytics Data API client library\nfor PHP, read the setup guide:\n\n*   [PHP Installation Reference](references/php.md) *(Package:\n    `google/analytics-data`)*\n\n#### Node.js\n\nIf you need to install or set up the Google Analytics Data API client library\nfor Node.js, read the setup guide:\n\n*   [Node.js Installation Reference](references/nodejs.md) *(Package:\n    `@google-analytics/data`)*\n\n#### Go\n\nIf you need to install or set up the Google Analytics Data API client library\nfor Go, read the setup guide:\n\n*   [Go Installation Reference](references/go.md) *(Package:\n    `cloud.google.com/go/analytics/data/apiv1beta`)*\n\n#### .NET\n\nIf you need to install or set up the Google Analytics Data API client library\nfor .NET / C#, read the setup guide:\n\n*   [.NET Installation Reference](references/dotnet.md) *(Package:\n    `Google.Analytics.Data.V1Beta`)*\n\n#### Ruby\n\nIf you need to install or set up the Google Analytics Data API client library\nfor Ruby, read the setup guide:\n\n*   [Ruby Installation Reference](references/ruby.md) *(Gem:\n    `google-analytics-data-v1beta`)*\n\n> [!NOTE] **Additional Resources**: For further examples of calling the Data API\n> with Java, PHP, Node.js, .NET, Python and REST, as well as hints on\n> authentication with a service account, refer to the official\n> [Data API Quickstart](https://developers.google.com/analytics/devguides/reporting/data/v1/quickstart).\n\n### Python Quick Start\n\n1.  **Install the Client Library:**\n\n    ```bash\n    pip install google-analytics-data\n    ```\n\n    If `pip` is not available, prompt the user to install `pip` before\n    installing the client library.\n\n2.  **Run a Report Request:** Below is a complete example demonstrating how to\n    query a Google Analytics property for active users and sessions grouped by city and date.\n    Replace `YOUR-PROPERTY-ID` with your actual Google Analytics property ID (e.g.,\n    `1234567`).\n\n    ```python\n    from google.analytics.data_v1beta import BetaAnalyticsDataClient\n    from google.analytics.data_v1beta.types import DateRange, Dimension, Metric, RunReportRequest\n\n    def sample_run_report(property_id: str):\n        # Initialize the client.\n        # Assumes Application Default Credentials (ADC) are configured in your environment.\n        client = BetaAnalyticsDataClient()\n\n        request = RunReportRequest(\n            property=f\"properties/{property_id}\",\n            dimensions=[\n                Dimension(name=\"city\"),\n                Dimension(name=\"date\")\n            ],\n            metrics=[\n                Metric(name=\"activeUsers\"),\n                Metric(name=\"sessions\")\n            ],\n            date_ranges=[\n                DateRange(start_date=\"2026-05-01\", end_date=\"today\")\n            ],\n        )\n\n        response = client.run_report(request)\n\n        print(f\"Report result for property {property_id}:\")\n        for row in response.rows:\n            print(\n                f\"City: {row.dimension_values[0].value}, \"\n                f\"Date: {row.dimension_values[1].value}, \"\n                f\"Active Users: {row.metric_values[0].value}, \"\n                f\"Sessions: {row.metric_values[1].value}\"\n            )\n\n    if __name__ == \"__main__\":\n        sample_run_report(\"YOUR-PROPERTY-ID\")\n    ```\n\n    *Why: Using `BetaAnalyticsDataClient` and `RunReportRequest` ensures\n    compatibility with the v1beta endpoint and strongly typed request\n    validation.*\n\n## Metrics and Dimensions Schema\n\nWhen constructing your `RunReportRequest`, you must use valid API names for\ndimensions and metrics. Refer to the official\n[Data API Schema documentation](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema)\nfor the complete, authoritative list of available fields.\n\n### Commonly Used Dimensions\n\nDimensions represent categorical attributes of your data.\n\n*   `city`: The town or city of the user.\n*   `country`: The country of the user.\n*   `date`: The date of the event, formatted as YYYYMMDD.\n*   `deviceCategory`: The category of mobile device (e.g., desktop, mobile,\n    tablet).\n*   `eventName`: The name of the triggered event.\n*   `pageTitle`: The title of the web page.\n\n### Commonly Used Metrics\n\nMetrics represent quantitative measurements.\n\n*   `activeUsers`: The number of active users.\n*   `eventCount`: The total count of events.\n*   `sessions`: The total number of sessions.\n*   `screenPageViews`: The number of app screens or web pages viewed.\n*   `totalRevenue`: The total revenue from purchases, subscriptions, and\n    advertising.\n\n### Metrics and Dimensions Compatibility Check\n\nSome dimensions and metrics cannot be queried together in the same report\nrequest. If you encounter an `INVALID_ARGUMENT` error regarding incompatible\nfields, verify your field combinations For programmatic access to the Data API\nschema, use `getMetadata()`. To programmatically check the compatibility of\nspecific dimension and metric combinations before running a report, use the\n`checkCompatibility()` method.\n\n```python\nfrom google.analytics.data_v1beta import BetaAnalyticsDataClient\nfrom google.analytics.data_v1beta.types import CheckCompatibilityRequest, Compatibility, Dimension, Metric\n\ndef sample_check_compatibility(property_id: str):\n    client = BetaAnalyticsDataClient()\n\n    # Define the dimensions and metrics you want to query together.\n    # For example, checking if 'itemName' (an e-commerce dimension)\n    # is compatible with 'activeUsers' and 'totalRevenue'.\n    request = CheckCompatibilityRequest(\n        property=f\"properties/{property_id}\",\n        dimensions=[\n            Dimension(name=\"itemName\"),\n            Dimension(name=\"date\")\n        ],\n        metrics=[\n            Metric(name=\"activeUsers\"),\n            Metric(name=\"totalRevenue\")\n        ],\n    )\n    response = client.check_compatibility(request)\n\n    print(f\"Compatibility check for property {property_id}:\")\n    for dim in response.dimension_compatibilities:\n        is_compatible = dim.compatibility == Compatibility.COMPATIBLE\n        print(f\"Dimension '{dim.dimension_metadata.api_name}' is compatible: {is_compatible}\")\n\n    for metric in response.metric_compatibilities:\n        is_compatible = metric.compatibility == Compatibility.COMPATIBLE\n        print(f\"Metric '{metric.metric_metadata.api_name}' is compatible: {is_compatible}\")\n\nif __name__ == \"__main__\":\n    sample_check_compatibility(\"YOUR-PROPERTY-ID\")\n```\n",
+ "body_lines": 252,
+ "bytes": 9595,
+ "code_blocks": 4,
+ "description": "Manages Google Analytics reporting data, enables the Analytics Data API via the Cloud CLI, and creates reports using the Google Analytics Data API (v1beta). Use when you need to interact with Google Analytics properties, run customized analytics reports, query metrics (like activeUsers, screenPageViews) and dimensions (like city, date), check metrics and dimensions compatibility, or verify API enablement. Don't use for Google Analytics Admin API operations (e.g., creating properties, managing users) or for front-end tracking installation.",
+ "dir_name": "google-analytics-data-api-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/dotnet.md",
+  "references/go.md",
+  "references/java.md",
+  "references/nodejs.md",
+  "references/php.md",
+  "references/python.md",
+  "references/ruby.md"
+ ],
+ "file_count": 8,
+ "frontmatter": {
+  "metadata": {
+   "category": "GoogleAnalytics"
+  },
+  "name": "google-analytics-data-api-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/analytics/google-analytics-data-api-basics",
+ "grade": "A",
+ "group": "analytics",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "7d06ef4629089af8",
+ "heading_count": 17,
+ "id": "google--google-analytics-data-api-basics",
+ "languages": [
+  "bash",
+  "python"
+ ],
+ "name": "google-analytics-data-api-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/analytics/google-analytics-data-api-basics/SKILL.md",
+ "score": 87,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/analytics/google-analytics-data-api-basics",
+ "tags": [
+  "capability:analyze",
+  "capability:audit",
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:data",
+  "format:cli",
+  "trait:code-heavy",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 987
+}

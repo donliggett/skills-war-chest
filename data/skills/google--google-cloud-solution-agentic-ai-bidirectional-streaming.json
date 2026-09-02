@@ -1,0 +1,61 @@
+{
+ "also_at": [],
+ "body": "# Live bidirectional multimodal streaming agentic AI solution\n\nThis skill guides agents through the workflow to design and implement a\ntailored multi-product solution in the cloud for a live, bidirectional\nmultimodal streaming workload, use case, or requirement.\n\n## Workflow\n\nThe solution design and implementation workflow consists of the following\nphases:\n\n*   **Phase 1: Requirements discovery and analysis**: Analyze the workload's\n    requirements, constraints, dependencies, and current state.\n*   **Phase 2: Solution design**: Build a technology stack, architecture, and\n    deployment configuration for the workload based on Google Cloud design best\n    practices and recommendations.\n*   **Phase 3: Implementation plan**: Generate automation and instructions to\n    deploy the solution.\n*   **Phase 4: Solution validation**: Validate that the deployment meets the\n    requirements of the workload.\n\n### Phase 1: Requirements discovery and analysis\n\n- [ ] **Step 1: Discover requirements**: Understand the functional and\n  non-functional requirements, business goals, and current state (if any) of the\n  workload, including its architecture, dependencies, and constraints. Use the\n  following questions to guide the requirements discovery process:\n   - What are the primary input modalities (audio, video, or text) and\n     what is the target latency for real-time, narrated feedback?\n   - Do you require real-time safety monitoring, hazard detection, or visual\n     inspection? If so, then what specific safety hazards, operational risks,\n     or incorrect steps need to be monitored and detected in the video\n     stream?\n   - What existing systems, knowledge bases, product documentation, or\n     schematic repositories must the AI agents access for grounded guidance?\n   - What are the client-side device constraints and network limitations?\n\n- [ ] **Step 2: Identify components**: Based on the requirements analysis,\n  identify the components of the workload and their relationships. Also identify\n  any cross-cloud components, hybrid components, or on-prem components that the\n  solution needs to integrate with.\n\n- [ ] **Step 3: Generate component decomposition**: Generate a technical\n  decomposition of the components of the workload. The technical decomposition\n  must break down the solution into logical components.\n\n- [ ] **Step 4: Ask for confirmation**: Ask the user to confirm whether the\n  generated technical decomposition matches their workload requirements.\n\n- [ ] **Step 5: Iterate**: If the user requests changes, then generate an\n  updated technical decomposition, and ask the user to confirm the changes.\n  Continue iterating until the user confirms the technical decomposition.\n\n### Phase 2: Solution design\n\n- [ ] **Step 1: Retrieve relevant Google Cloud documentation**:\n   - [Enable live bidirectional multimodal streaming](https://docs.cloud.google.com/architecture/agentic-ai-bidirectional-multimodal-streaming.md.txt)\n   - [Multi-agent AI system in Google Cloud](https://docs.cloud.google.com/architecture/multiagent-ai-system.md.txt)\n   - [Choose your agentic AI architecture components](https://docs.cloud.google.com/architecture/choose-agentic-ai-architecture-components.md.txt)\n   - [Multi-agent private networking patterns in Google Cloud](https://docs.cloud.google.com/architecture/multi-agent-private-networking-patterns.md.txt)\n\n   *Important*: Use the content that you retrieve from Google Cloud\n   documentation to ground the guidance that you generate in the remaining\n   steps of this phase.\n\n- [ ] **Step 2: Map components to Google Cloud products**: For each component in\n  the confirmed technical decomposition and agentic design pattern, identify the\n  appropriate Google Cloud products and features, based on the guidelines in\n  [references/product-mapping.md](references/product-mapping.md).\n\n- [ ] **Step 3: Create architecture diagram**: Generate an architecture diagram\n  in Mermaid format: https://github.com/mermaid-js/mermaid.\n\n- [ ] **Step 4: Generate design recommendations**: Generate design guidance\n  based on the guidelines in [references/design-recommendations.md](references/design-recommendations.md).\n\n- [ ] **Step 5: Draft solution architecture**: Compile the requirements, technical\n  decomposition, product mapping, architecture diagram, and design\n  recommendations into a single Markdown file named\n  `solution-architecture-guide.md`, based on the template in\n  [assets/output-template.md](assets/output-template.md).\n\n- [ ] **Step 6: Request review**: Present the generated solution architecture to\n  the user and request their feedback or approval.\n\n- [ ] **Step 7: Iterate**: If the user requests changes, generate an updated\n  solution architecture and repeat steps 2-6 until the user approves the\n  solution architecture.\n\n### Phase 3: Implementation plan\n\n- [ ] **Step 1: Retrieve relevant implementation resources**:\n   - [Host AI agents on Cloud Run](https://docs.cloud.google.com/run/docs/ai-agents.md.txt)\n   - [Triggering Cloud Run with WebSockets](https://docs.cloud.google.com/run/docs/triggering/websockets.md.txt)\n   - [Start and Manage a Gemini Live API Session](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/live-api/start-manage-session.md.txt)\n   - [ADK Streaming Tools](https://adk.dev/streaming/streaming-tools/)\n   - [ADK Streaming Configuration](https://adk.dev/streaming/configuration/)\n   - [Codelab: Way Back Home Level 4 instructions](https://codelabs.developers.google.com/way-back-home-level-4/instructions#0)\n     (and\n     [solution code](https://github.com/gca-americas/way-back-home/tree/main/level_4))\n\n   *Important*: Use these resources as the technical foundation for the IaC and\n   deployment instructions you generate in the remaining steps of this phase.\n\n- [ ] **Step 2: Identify deployment prerequisites**: Document prerequisites for\n  the deployment, including the following:\n   - Projects and billing associations\n   - Required Google Cloud APIs\n   - Required IAM permissions\n   - Any other prerequisites\n\n- [ ] **Step 3: Generate Infrastructure as Code (IaC)**: Generate code, like\n  Terraform, and deployment scripts to automate the provisioning of the proposed\n  Google Cloud resources.\n\n- [ ] **Step 4: Write deployment instructions**: Draft sequential, step-by-step\n  deployment instructions to execute the IaC and initialize the workload\n  components. Update deployment instructions in\n  `solution-architecture-guide.md`, based on the template in\n  [assets/output-template.md](assets/output-template.md).\n\n- [ ] **Step 5: Request review**: Present the generated deployment instructions\n  to the user for feedback and confirmation.\n\n- [ ] **Step 6: Iterate**: If the user requests changes, then generate an\n  updated implementation plan and repeat steps 2-5 until the user approves the\n  implementation plan.\n\n### Phase 4: Solution validation\n\n- [ ] **Step 1: Retrieve relevant verification resources (optional)**: If the\n  resources from Phase 3 are not already in your context, retrieve the same\n  implementation resources as the starting point for the\n  validation checks and verification scripts that you generate in this phase.\n\n- [ ] **Step 2: Define validation checks**: Outline validation steps to verify\n  that the deployed infrastructure meets the workload requirements:\n   - **Deployment dry-run**: Commands like `terraform plan` to preview\n     changes.\n   - **Connectivity and routing**: Verification of network paths, load\n     balancer routing, and service endpoints.\n   - **Security policies**: Verification of restricted access, firewall\n     rules, and IAM enforcement.\n\n- [ ] **Step 3: Generate verification scripts**: Draft lightweight scripts or\n  command-line instructions, such as using `curl` or `gcloud`, that the user can\n  run to perform these validation checks.\n\n- [ ] **Step 4: Compile validation report**: Document the validation steps,\n  verification scripts, and expected outcomes in\n  `solution-architecture-guide.md`, based on the template in\n  [assets/output-template.md](assets/output-template.md).\n\n- [ ] **Step 5: Conduct validation and finalize**: Assist the user in executing\n  the validation checks and troubleshooting any deployment issues. After the\n  solution is validated successfully, request final approval from the user.\n\n- [ ] **Step 6: Iterate**: If the user requests changes, then generate an\n  updated validation plan and repeat steps 2-5 until the user approves the\n  validation plan.\n",
+ "body_lines": 161,
+ "bytes": 9217,
+ "code_blocks": 0,
+ "description": "Guides agents to interactively discover customer requirements for live, bidirectional multi-agent AI systems that process continuous streams of multimodal data for real-time technical guidance and safety monitoring. Generates a custom Google Cloud solution that uses opinionated best practices and architecture guidance. Use when users need agentic assistance to design and create a multi-product solution in the cloud for live bidirectional multimodal streaming workloads. Don't use for simple text-based chat applications or workloads without real-time streaming requirements.",
+ "dir_name": "google-cloud-solution-agentic-ai-bidirectional-streaming",
+ "dup_cluster": null,
+ "extra_files": [
+  "assets/output-template.md",
+  "references/design-recommendations.md",
+  "references/product-mapping.md"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "metadata": {
+   "category": "MultiProductSolutions"
+  },
+  "name": "google-cloud-solution-agentic-ai-bidirectional-streaming"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/google-cloud-solution-agentic-ai-bidirectional-streaming",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": true,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "da57fba5030251c2",
+ "heading_count": 6,
+ "id": "google--google-cloud-solution-agentic-ai-bidirectional-streaming",
+ "languages": [],
+ "name": "google-cloud-solution-agentic-ai-bidirectional-streaming",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-agentic-ai-bidirectional-streaming/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/google-cloud-solution-agentic-ai-bidirectional-streaming",
+ "tags": [
+  "capability:build",
+  "capability:orchestrate",
+  "capability:plan",
+  "domain:cloud-infra",
+  "domain:design",
+  "domain:ml-ai",
+  "stack:gcp",
+  "trait:has-assets",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 1033
+}

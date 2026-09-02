@@ -1,0 +1,55 @@
+{
+ "also_at": [],
+ "body": "# GKE Multi-Tenancy\n\nThis reference covers enterprise multi-tenancy patterns on GKE, including\nnamespace isolation, RBAC planning, resource quotas, and network segmentation.\n\n> **MCP Tools:** `apply_k8s_manifest`, `get_k8s_resource`, `check_k8s_auth`,\n> `describe_k8s_resource`, `delete_k8s_resource`\n\n## When to Use\n\n-   Multiple teams sharing a single GKE cluster\n-   Isolating workloads by environment (dev/staging/prod) within one cluster\n-   Implementing least-privilege access control\n-   Cost allocation across teams or projects\n\n## Multi-Tenancy Models\n\n| Model                         | Isolation    | Complexity | Cost           |\n| ----------------------------- | ------------ | ---------- | -------------- |\n| **Namespace-per-team**        | Soft (RBAC + | Low        | Lowest (shared |\n:                               : Network      :            : cluster)       :\n:                               : Policy)      :            :                :\n| **Namespace-per-environment** | Soft         | Low        | Low            |\n| **Node pool-per-team**        | Medium       | Medium     | Medium         |\n:                               : (dedicated   :            :                :\n:                               : compute)     :            :                :\n| **Cluster-per-team**          | Hard (full   | High       | Highest        |\n:                               : isolation)   :            :                :\n\n> **Golden path recommendation**: Start with namespace-per-team for cost\n> efficiency. Escalate to stronger isolation only when compliance requires it.\n\n## Namespace Isolation Setup\n\n### 1. Create Namespaces\n\n```bash\nkubectl create namespace team-a\nkubectl create namespace team-b\nkubectl label namespace team-a team=a\nkubectl label namespace team-b team=b\n```\n\n### 2. RBAC Configuration\n\n**Principle**: Grant minimal permissions per namespace. Never bind to\n`system:authenticated`.\n\n```yaml\n# Namespace-scoped role for a team\napiVersion: rbac.authorization.k8s.io/v1\nkind: Role\nmetadata:\n  name: team-a-developer\n  namespace: team-a\nrules:\n- apiGroups: [\"\", \"apps\", \"batch\"]\n  resources: [\"pods\", \"deployments\", \"services\", \"configmaps\", \"jobs\"]\n  verbs: [\"get\", \"list\", \"watch\", \"create\", \"update\", \"patch\", \"delete\"]\n---\napiVersion: rbac.authorization.k8s.io/v1\nkind: RoleBinding\nmetadata:\n  name: team-a-developers\n  namespace: team-a\nsubjects:\n- kind: Group\n  name: \"team-a@example.com\"  # Google Group\n  apiGroup: rbac.authorization.k8s.io\nroleRef:\n  kind: Role\n  name: team-a-developer\n  apiGroup: rbac.authorization.k8s.io\n```\n\n**RBAC best practices:** Use Google Groups for subject bindings. Prefer\nnamespace-scoped Roles over ClusterRoles. See the `gke-platform-security` skill\nfor full RBAC hardening guidance.\n\n### 3. Resource Quotas\n\nPrevent any single team from consuming all cluster resources:\n\n```yaml\napiVersion: v1\nkind: ResourceQuota\nmetadata:\n  name: team-a-quota\n  namespace: team-a\nspec:\n  hard:\n    requests.cpu: \"10\"\n    requests.memory: \"20Gi\"\n    limits.cpu: \"20\"\n    limits.memory: \"40Gi\"\n    pods: \"50\"\n    services: \"10\"\n    persistentvolumeclaims: \"10\"\n```\n\n### 4. LimitRanges\n\nSet default and maximum resource constraints per container:\n\n```yaml\napiVersion: v1\nkind: LimitRange\nmetadata:\n  name: team-a-limits\n  namespace: team-a\nspec:\n  limits:\n  - type: Container\n    default:\n      cpu: \"500m\"\n      memory: \"512Mi\"\n    defaultRequest:\n      cpu: \"100m\"\n      memory: \"128Mi\"\n    max:\n      cpu: \"4\"\n      memory: \"8Gi\"\n```\n\n> [!IMPORTANT] **Mandatory Defaults**: When defining `min` or `max` limits in a\n> `LimitRange`, you **must** also define corresponding `default` and\n> `defaultRequest` values. If you set a `min` or `max` without defaults, any pod\n> deployed without explicit resource requests/limits will be rejected by the\n> admission controller.\n\n### 5. Network Isolation\n\nApply default-deny per namespace (see the `gke-workload-security` skill), then\nallow intra-team traffic:\n\n```yaml\n# Allow same-namespace pods to talk + DNS\napiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: allow-same-namespace\n  namespace: team-a\nspec:\n  podSelector: {}\n  ingress:\n  - from:\n    - podSelector: {}\n  egress:\n  - to:\n    - podSelector: {}\n  - to:  # Allow DNS\n    - namespaceSelector: {}\n      podSelector:\n        matchLabels:\n          k8s-app: kube-dns\n    ports:\n    - protocol: UDP\n      port: 53\n```\n\n## Cost Allocation\n\n### Labels for Cost Attribution\n\n```bash\n# Label namespaces for billing\nkubectl label namespace team-a cost-center=engineering\nkubectl label namespace team-b cost-center=data-science\n```\n\n### GKE Cost Allocation\n\nEnable GKE cost allocation to break down costs by namespace and label:\n\n```bash\ngcloud container clusters update <CLUSTER_NAME> --region <REGION> \\\n  --enable-cost-allocation\n```\n\nView in Cloud Billing > GKE Cost Allocation.\n",
+ "body_lines": 181,
+ "bytes": 5360,
+ "code_blocks": 14,
+ "description": "Plans and configures multi-tenancy on GKE. Covers namespace isolation, RBAC planning for teams, resource quotas, LimitRanges, network isolation, and cost allocation. Use when designing GKE multi-tenancy, configuring GKE namespaces, setting up resource quotas, or isolating GKE teams. Don't use for single-tenant cluster configuration or general deployment instructions (use gke-basics or gke-app-onboarding instead).",
+ "dir_name": "gke-multitenancy",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-multitenancy"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-multitenancy",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "7f868beb75f778f2",
+ "heading_count": 15,
+ "id": "google--gke-multitenancy",
+ "languages": [
+  "bash",
+  "yaml"
+ ],
+ "name": "gke-multitenancy",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-multitenancy/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-multitenancy",
+ "tags": [
+  "capability:plan",
+  "domain:cloud-infra",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 565
+}

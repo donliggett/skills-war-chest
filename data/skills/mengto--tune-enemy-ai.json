@@ -1,0 +1,52 @@
+{
+ "also_at": [],
+ "body": "# Tune Enemy AI\n\nMake enemy choices legible, bounded, and reproducible.\n\n## Model decisions explicitly\n\nUse a small state machine or utility layer with named states such as idle, investigate, pursue, reposition, windup, attack, recover, stagger, retreat, and defeated. State transitions must state their prerequisites, exit conditions, minimum dwell time, and cooldown effects.\n\n## Separate perception, intent, and motion\n\n1. Gather observable inputs: distance, line of sight, target state, occupancy, threat, health, and timers.\n2. Select one intention from constrained legal actions.\n3. Move and animate toward that intent without rewriting the decision mid-action.\n\nUse authoritative collision and navigation results for movement success. Do not derive them from rendered pose or assumed path completion.\n\n## Preserve fair combat\n\nTelegraph attacks before their active window. Prevent instant turn-and-hit behavior, perpetual chase, clipped attacks through blockers, and repeated recovery spam. Add spacing and commitment so the player can read and answer each enemy archetype.\n\n## Test the decision surface\n\nCreate deterministic fixtures for target acquisition, target loss, obstruction, path failure, close-range pressure, multiple enemies, retaliation, interrupt, stagger, boss phase, and reset. Assert transitions and outcomes, not only final positions. Run a real browser encounter after automated tests.\n",
+ "body_lines": 24,
+ "bytes": 1700,
+ "code_blocks": 0,
+ "description": "Build, debug, balance, or test combat enemy AI for playable action games. Use for aggro, target selection, navigation, spacing, attack choices, telegraphs, retreats, boss behavior, behavior-state machines, and deterministic AI regression tests.",
+ "dir_name": "tune-enemy-ai",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "tune-enemy-ai"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/game-development/tune-enemy-ai",
+ "grade": "B",
+ "group": "game-development",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "13bcd0294240d052",
+ "heading_count": 5,
+ "id": "mengto--tune-enemy-ai",
+ "languages": [],
+ "name": "tune-enemy-ai",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/tune-enemy-ai/SKILL.md",
+ "score": 66,
+ "score_breakdown": {
+  "body": 13,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/game-development/tune-enemy-ai",
+ "tags": [
+  "capability:build",
+  "capability:debug",
+  "domain:game-dev",
+  "domain:testing",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 195
+}

@@ -1,0 +1,55 @@
+{
+ "also_at": [],
+ "body": "# GKE Productionize Skill\n\nThis skill acts as a high-level orchestrator for preparing a GKE cluster and its\nworkloads for production readiness.\n\n> [!IMPORTANT]\n> This is a **meta-skill** or **orchestrator skill**. You are\n> expected to invoke and run many other specialized skills listed in this\n> document as part of the overall productionization process. Do not attempt to\n> implement all production readiness features directly within this skill;\n> instead, use this skill to assess the environment and then delegate to the\n> specific skills for each domain.\n\n## Scope\n\nThis skill is adaptable to:\n\n-   A single application (already on Kubernetes or not).\n-   A set of applications.\n-   A target cluster.\n\n## Workflow\n\n### 1. Discovery Phase\n\nBefore making recommendations, discover the current state of the environment.\n\n#### Cluster Discovery\n\nRun these commands to understand the cluster setup:\n\n-   Check cluster details: `gcloud container clusters describe {cluster_name}\n    --location {location} --project {project}`\n-   Check for Autopilot vs Standard: Look for the following block in the\n    describe output:\n\n    ```yaml\n    autopilot:\n      enabled: true\n    ```\n-   Check release channel: Look for `releaseChannel`.\n\n#### Workload Discovery\n\nIf a specific application is targeted, discover its configuration:\n\n-   Get deployment/statefulset details: `kubectl get deployment {app_name} -n\n    {namespace} -o yaml`\n-   Check for dedicated namespace and labels: `kubectl get namespace {namespace}\n    -o yaml` (Look for Pod Security Standards labels).\n-   Check for dedicated service account usage: `kubectl get pods -n {namespace}\n    -o\n    custom-columns=\"NAME:.metadata.name,SERVICE_ACCOUNT:.spec.serviceAccountName\"`\n-   Check for resource requests and limits.\n-   Check for liveness, readiness, and startup probes.\n-   Check for HPA: `kubectl get hpa -n {namespace}`\n-   Check for PDB: `kubectl get pdb -n {namespace}`\n-   Check for NetworkPolicies: `kubectl get networkpolicy -n {namespace}`\n\n### 2. Production Readiness Assessment\n\n**Before implementation, you MUST run the skills for each relevant specialized\narea listed below and incorporate its guidance into your assessment and plan.\nFailure to do so will result in a non-compliant production configuration.**\n\n#### A. App Onboarding (Pre-Kubernetes)\n\nIf the application is not yet running on GKE, you MUST run the\n`gke-app-onboarding` skill for planning containerization, image building, and\nbasic deployment.\n\n#### B. Scalability & Resource Management\n\nEnsure workloads have appropriate resources and autoscaling.\n\n-   **Action**: You MUST run the `gke-workload-scaling` skill for configuring\n    HPA, VPA, and resource limits.\n\n#### C. Observability\n\nEnsure adequate logging and monitoring are in place.\n\n-   **Action**: You MUST run the `gke-observability` skill for setting up Cloud\n    Logging, Monitoring, and Managed Prometheus.\n\n#### D. Reliability\n\nEnsure high availability and graceful degradation.\n\n-   **Action**: You MUST run the `gke-reliability` skill for configuring\n    regional clusters, PDBs, and health probes.\n\n#### E. Security\n\nHarden the cluster and workloads.\n\n-   **Action**: You MUST run the `gke-platform-security` and\n    `gke-workload-security` skills for Workload Identity, Network Policies, and\n    Shielded Nodes.\n-   **Namespace Isolation**: Ensure workloads run in dedicated namespaces with\n    Pod Security Standards (PSS) enforced via labels.\n-   **Least Privilege**: Ensure workloads use dedicated ServiceAccounts instead\n    of the `default` ServiceAccount.\n\n#### F. Backup & Disaster Recovery\n\nEnsure stateful data is protected.\n\n-   **Action**: You MUST run the `gke-backup-dr` skill for configuring Backup\n    for GKE and restore procedures.\n\n#### G. Edge Security & Ingress\n\nSecure external access.\n\n-   **Action**: You MUST run the `gke-service-networking` skill for Gateway API,\n    Ingress, and Cloud Armor.\n\n#### H. Cost Optimization\n\nEnsure efficient use of resources.\n\n-   **Action**: You MUST run the `gke-cost-optimization` skill for strategies on\n    rightsizing, quotas, and Spot VMs.\n\n#### I. Upgrades & Maintenance Posture\n\nEnsure a safe, predictable upgrade posture.\n\n-   **Action**: You MUST run the `gke-upgrades` skill for release channel\n    selection, maintenance windows/exclusions, and node pool upgrade strategy.\n\n#### J. Golden Path Defaults Audit\n\nEnsure the cluster configuration matches recommended defaults.\n\n-   **Action**: You MUST run the `gke-golden-path` skill to compare the cluster\n    against golden path defaults and report deviations with severity and\n    remediation.\n\n### 3. Production Readiness Scoring\n\nAfter the assessment, provide a summary report with a RAG (Red, Amber, Green)\nstatus for each area and an overall readiness score. This helps prioritize\nremediation efforts.\n\nApply this rubric deterministically so repeated assessments of the same\nenvironment produce the same result:\n\n1.  **Per-domain criteria**: For each assessed domain (A-J), list the concrete\n    checks performed (from the domain skill's guidance) and classify each check\n    as **pass**, **fail-critical** (production-blocking, e.g., no resource\n    requests, no backups for stateful data, public control plane in a locked\n    down environment), or **fail-minor** (improvement, e.g., missing VPA\n    recommendations, no Spot usage for batch).\n2.  **RAG mapping (per domain)**:\n    -   **Red** = one or more fail-critical checks.\n    -   **Amber** = no fail-critical, but one or more fail-minor checks.\n    -   **Green** = all checks pass.\n3.  **Domain score**: Green = 100, Amber = 50, Red = 0.\n4.  **Weighted overall score**: weight Security, Reliability, and Backup/DR at\n    2x; all other assessed domains at 1x. Overall score = sum(domain score x\n    weight) / sum(weights), rounded to the nearest integer. Exclude domains\n    that are not applicable (e.g., Backup/DR for fully stateless workloads) from\n    both sums and note the exclusion.\n5.  **Readiness verdict**: >= 90 with no Red domains = \"Production ready\";\n    70-89 with no Red domains = \"Ready with follow-ups\"; anything else =\n    \"Not production ready\".\n\nIn the report, show the per-domain check lists, RAG status, weights, and the\ncomputed overall score.\n\n## Adaptability Guidelines\n\n-   **Single App**: Focus on Health Probes, HPA, Resource Limits, PDB, and\n    Workload Identity for that specific app.\n-   **Cluster Wide**: Focus on Cluster Autoscaler, Multi-zonal setup, Release\n    Channels, Maintenance Windows, and default Network Policies.\n-   **Proactive Execution**: Proactively execute relevant skills (e.g.,\n    observability, security, scaling, reliability) to assess and propose\n    improvements, seeking user confirmation before applying state-changing\n    implementations.\n",
+ "body_lines": 183,
+ "bytes": 7394,
+ "code_blocks": 0,
+ "description": "Orchestrates comprehensive production readiness reviews and assessments for GKE clusters and workloads across scalability, security, reliability, observability, backup/DR, and cost optimization. Use when asked to productionize, prepare, assess, audit, or review a GKE cluster or workload before going live to production. Don't use for deep-dive single-domain implementation (use specific domain skills like gke-workload-scaling, gke-platform-security, gke-workload-security, gke-service-networking, gke-reliability instead).",
+ "dir_name": "gke-productionize",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-productionize"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-productionize",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "1090ccdfcd61d5a4",
+ "heading_count": 19,
+ "id": "google--gke-productionize",
+ "languages": [],
+ "name": "gke-productionize",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-productionize/SKILL.md",
+ "score": 76,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-productionize",
+ "tags": [
+  "capability:audit",
+  "capability:optimize",
+  "capability:orchestrate",
+  "domain:cloud-infra",
+  "domain:devops",
+  "domain:security",
+  "stack:kubernetes",
+  "trait:spec-clean"
+ ],
+ "words": 927
+}

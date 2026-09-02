@@ -1,0 +1,51 @@
+{
+ "also_at": [],
+ "body": "Write a handoff summary of the current conversation so a fresh agent can continue the work. Instead of saving it, launch a background agent seeded with the summary as its prompt: `claude --bg --name \"<descriptive name>\" \"<handoff summary>\"`. It starts in the current working directory and returns immediately; the user manages it with `claude agents`.\n\nAlways pass `-n`/`--name` with a descriptive name (e.g. `--name \"Fix login bug\"`); it sets the display name shown in the job list, session picker, and terminal title.\n\nInclude a \"suggested skills\" section in the summary, naming which skills the next agent should call the Skill tool for.\n\nDo not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Reference them by path or URL instead.\n\nRedact any sensitive information, such as API keys, passwords, or personally identifiable information, since the summary becomes the agent's prompt.\n\nIf the user passed arguments, treat them as a description of what the next session will focus on and tailor the summary accordingly.\n",
+ "body_lines": 12,
+ "bytes": 1301,
+ "code_blocks": 0,
+ "description": "Hand the current conversation off to a fresh background agent that picks up the work immediately.",
+ "dir_name": "claude-handoff",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "argument-hint": "What will the next session be used for?",
+  "disable-model-invocation": true,
+  "name": "claude-handoff"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/in-progress/claude-handoff",
+ "grade": "D",
+ "group": "in-progress",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "6738e8b7c7899ea0",
+ "heading_count": 0,
+ "id": "mattpocock--claude-handoff",
+ "languages": [],
+ "name": "claude-handoff",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/claude-handoff/SKILL.md",
+ "score": 42,
+ "score_breakdown": {
+  "body": 3,
+  "description": 6,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/in-progress/claude-handoff",
+ "tags": [
+  "domain:agent-workflow",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 167
+}

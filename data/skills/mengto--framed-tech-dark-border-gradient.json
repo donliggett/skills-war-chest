@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# Framed Tech Dark Border Gradient Skill\n\n## Use When\n- Create a framed dark technical design system with border-gradient shells, asymmetrical grid panels, mono utility labeling, and restrained monochrome atmosphere.\n\n## Workflow\n\n## Scope\n- Apply this as a full design-system direction across page shell, framing lines, cards, panels, typography, controls, and atmospheric background treatment.\n- Use it when the interface should feel premium, technical, dark, and architected around visible boundaries instead of soft floating cards.\n- This is not generic dashboard dark mode and not glossy glassmorphism. The identity should come from frame logic, border gradients, overshooting rails, and precise monochrome hierarchy.\n\n## Visual target\n- Build the page on a near-black foundation with subtle tonal separation between background, framed panels, and elevated interactive rows.\n- Use a strong outer container or application shell with visible edge rails, thin grid boundaries, and small corner markers that make the whole composition feel engineered.\n- Let one-pixel gradient borders or wrapper borders become a signature motif on containers, buttons, modules, and interactive cards.\n- Prefer a restrained monochrome palette of black, charcoal, smoke gray, white, and silver. If an accent color is needed, derive it from the brand and keep it sparse.\n- Pair quiet sans-serif typography with mono labels, uppercase system headings, and micro-metadata so the interface feels operational and precise.\n\n## Implementation guidance\n- Prefer asymmetrical grid layouts with clearly segmented panel blocks, such as a larger hero or information region balanced by a smaller visualization or utility panel.\n- Separate panels with thin dividers, border lines, or gap-based frame seams so every region reads as part of one measured container system.\n- Add vertical rails that extend slightly beyond the main shell, tiny corner squares, inset strokes, or short scanning lines to reinforce the technical framing.\n- Use border-gradient wrappers around premium surfaces, then place a darker inner fill inside them so the edge treatment stays crisp and visible.\n- Interactive rows, permission lists, nav items, and small control modules should use line-led states: active side bars, subtle fill lifts, hover brightening, and locked or muted inactive rows.\n- Background atmosphere should stay controlled and monochrome: soft wave fields, faint blur blooms, gentle flashlight falloff, or low-contrast moving line effects are appropriate.\n- Motion should feel calm and procedural, such as masked text reveals, scanning streaks, line sweeps, or slow ambient canvas movement rather than flashy transitions.\n\n## Recommended patterns\n- Large master shell with border-x rails, overshooting outer guide lines, and tiny corner squares marking the container boundary.\n- Grid of dark technical panels divided by thin white or gray lines, with one hero panel, one utility or visualization panel, and one structured list panel.\n- Mono top rails using section codes, status labels, sequence markers, and utility metadata in uppercase tracking.\n- Border-gradient buttons, pills, and cards with dark inner surfaces and restrained white-light highlight rather than saturated color.\n- Active list rows using a left-edge bar, brighter text, and subtle translucent fill while inactive rows remain outlined or low-contrast.\n- Soft monochrome canvas effects behind or inside selected panels to add atmosphere without weakening readability.\n\n## Tuning knobs\n- Border brightness: increase or reduce the white-to-transparent edge gradient depending on how premium or severe the framing should feel.\n- Grid asymmetry: keep panel proportions uneven enough to feel composed, but balanced enough to remain usable and intentional.\n- Technical density: add or remove corner marks, overshoot rails, scan lines, and metadata depending on how instrument-like the page should become.\n- Surface opacity: tune inner fills between matte solid and lightly translucent dark glass without losing the crisp frame silhouette.\n- Accent restraint: default to monochrome, then introduce brand color only in small active cues if the page needs more identity.\n\n## Avoid\n- Flat black layouts with no visible container logic or boundary system.\n- Heavy colorful neon glows that overpower the monochrome frame language.\n- Thick borders, chunky shadows, or bloated cards that make the system feel clumsy instead of precise.\n- Soft consumer-app styling that removes the engineered shell and utility-label character.\n- Treating gradient borders as decoration only; they should actively define hierarchy and premium structure.\n",
+ "body_lines": 50,
+ "bytes": 4879,
+ "code_blocks": 0,
+ "description": "Create a framed dark technical design system with border-gradient shells, asymmetrical grid panels, mono utility labeling, and restrained monochrome atmosphere.",
+ "dir_name": "framed-tech-dark-border-gradient",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/index.html",
+  "demo/preview.jpg"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "name": "framed-tech-dark-border-gradient"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/framed-tech-dark-border-gradient",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "ab553a6dceadfc4b",
+ "heading_count": 9,
+ "id": "mengto--framed-tech-dark-border-gradient",
+ "languages": [],
+ "name": "framed-tech-dark-border-gradient",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/framed-tech-dark-border-gradient/SKILL.md",
+ "score": 62,
+ "score_breakdown": {
+  "body": 18,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/framed-tech-dark-border-gradient",
+ "tags": [
+  "capability:build",
+  "domain:design",
+  "domain:ui-ux",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 695
+}

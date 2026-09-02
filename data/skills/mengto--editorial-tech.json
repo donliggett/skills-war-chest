@@ -1,0 +1,58 @@
+{
+ "also_at": [],
+ "body": "# Editorial Tech Skill\n\n## Use When\n- Blend editorial magazine composition with precision product-tech detailing using asymmetrical grids, cinematic media bands, mono utility labels, and restrained accent color.\n\n## Workflow\n\n## Scope\n- Apply this as a full design-system style direction across layout, typography, surfaces, media treatment, navigation, and motion.\n- Use it when the design should feel like a premium editorial spread merged with a high-end technology product interface.\n- This is not generic corporate SaaS and not pure magazine minimalism; it should sit in the middle with narrative composition plus precise technical detailing.\n\n## Visual target\n- Build asymmetrical editorial compositions with strong column structure, deliberate negative space, and clear spatial rhythm.\n- Pair large expressive headline moments with quieter utility text, mono labels, small metadata, and measured supporting copy.\n- Use cinematic media bands, panoramic image strips, inset photography panels, or immersive visual slices to create narrative flow across the layout.\n- Add fine divider lines, grid traces, subtle borders, section rules, and technical markers so the page feels engineered rather than soft or lifestyle-first.\n- Keep the palette restrained: mostly dark neutrals or controlled light neutrals, with one active accent color derived from the brand or design system.\n\n## Implementation guidance\n- Favor multi-column layouts, offset alignment, and editorial cropping instead of centered generic SaaS hero blocks.\n- Use one display-oriented type treatment for hero or section headlines, then support it with clean sans-serif or mono utility text for labels, steps, timestamps, and UI annotations.\n- Surfaces should feel premium and quiet: dark panels, muted fills, thin strokes, gradient-border shells, or lightly luminous overlays instead of loud glassmorphism.\n- Introduce cinematic horizontal bands or framed media regions that can cut across the grid and overlap adjacent columns in a controlled way.\n- Add subtle motion such as masked text reveals, calm parallax, slow media drift, or hover-state line brightening. Motion should feel intentional and technical, never playful or bouncy.\n- Accent color use should be selective: active states, numeric highlights, current steps, progress indicators, focal separators, or key call-to-action surfaces.\n\n## Recommended patterns\n- Navigation: sparse top bars with wide spacing, muted links, and a precise central mark or framed logo treatment.\n- Hero sections: oversized editorial headline on one side, compact supporting copy on another, then a cinematic band or inset media strip crossing the composition.\n- Information modules: step lists, chapter markers, mono counters, timeline ticks, bordered pills, and compact metadata clusters.\n- Containers: thin-framed panels, controlled image crops, subtle glow accents, and structural lines that reinforce the grid.\n- CTAs: simple but premium controls with crisp geometry, dark/light contrast, and restrained accent emphasis rather than oversized marketing buttons.\n\n## Tuning knobs\n- Editorial intensity: increase or reduce asymmetry and overlap depending on how dramatic the composition should feel.\n- Technical density: add or remove rules, markers, mono labels, and interface metadata to control how product-like the page becomes.\n- Accent restraint: keep color usage sparse so the system stays premium and not over-styled.\n- Media prominence: tune how much cinematic imagery or visual bands dominate compared with pure typography.\n- Contrast: preserve strong readability even when using moody dark surfaces and layered image treatments.\n\n## Avoid\n- Generic centered SaaS layouts with interchangeable cards and stock gradients.\n- Overdecorated sci-fi chrome, excessive neon, or noisy HUD overlays.\n- Bright multi-color palettes that break the restrained editorial tone.\n- Treating it as plain magazine design without any technical precision cues.\n- Using the accent color everywhere instead of letting it punctuate the composition.\n",
+ "body_lines": 48,
+ "bytes": 4261,
+ "code_blocks": 0,
+ "description": "Blend editorial magazine composition with precision product-tech detailing using asymmetrical grids, cinematic media bands, mono utility labels, and restrained accent color.",
+ "dir_name": "editorial-tech",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-fa51902b-c2a4-4c33-a96e-a8f1ef67edc6-1600w.jpg",
+  "demo/assets/page-02-4f5668c5-fc4a-44e0-bc5e-a664189d3c31-1600w.jpg",
+  "demo/assets/page-03-2f563338-39fa-47ea-9761-658d4f3f84db-1600w.jpg",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 9,
+ "frontmatter": {
+  "name": "editorial-tech"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/editorial-tech",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "9f032de321c81b2e",
+ "heading_count": 9,
+ "id": "mengto--editorial-tech",
+ "languages": [],
+ "name": "editorial-tech",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/editorial-tech/SKILL.md",
+ "score": 62,
+ "score_breakdown": {
+  "body": 18,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/editorial-tech",
+ "tags": [
+  "domain:design",
+  "domain:product",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 590
+}

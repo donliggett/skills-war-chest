@@ -1,0 +1,65 @@
+{
+ "also_at": [],
+ "body": "# Border Gradients\n\n## Use When\n- A surface needs a more premium edge than a flat `border`.\n- Dark glass, pricing, hero, modal, or feature-card UI feels too plain.\n- A hover or focus state needs a quiet brand accent.\n\n## Defaults\n- Width: `1px`; use `2px` only for large hero cards or active states.\n- Radius: inherit the parent radius.\n- Angle: `135deg` or `160deg`.\n- Stops: neutral highlight, one brand accent, neutral fade.\n- Opacity: keep most stops below `0.4`; subtle beats shiny.\n\n## Simple CSS Pattern\nUse this when the surface has a solid or translucent fill.\n\n```css\n.gradient-border {\n  --surface: rgba(10, 14, 24, 0.72);\n  --border-a: rgba(255, 255, 255, 0.34);\n  --border-b: rgba(125, 92, 255, 0.36);\n  --border-c: rgba(255, 255, 255, 0.08);\n\n  border: 1px solid transparent;\n  border-radius: 20px;\n  background:\n    linear-gradient(var(--surface), var(--surface)) padding-box,\n    linear-gradient(135deg, var(--border-a), var(--border-b), var(--border-c)) border-box;\n}\n```\n\n```html\n<div class=\"gradient-border\">\n  ...\n</div>\n```\n\n## Masked Pattern\nUse this when the surface already has a complex background that should not be overwritten.\n\n```css\n.gradient-border-mask {\n  position: relative;\n  border-radius: 20px;\n}\n\n.gradient-border-mask::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  border-radius: inherit;\n  padding: 1px;\n  background: linear-gradient(\n    145deg,\n    rgba(255, 255, 255, 0.34),\n    rgba(125, 92, 255, 0.36) 45%,\n    rgba(255, 255, 255, 0.08)\n  );\n  -webkit-mask:\n    linear-gradient(#fff 0 0) content-box,\n    linear-gradient(#fff 0 0);\n  -webkit-mask-composite: xor;\n  mask-composite: exclude;\n  pointer-events: none;\n}\n```\n\n## Tailwind Shortcut\nUse arbitrary properties for one-off surfaces.\n\n```html\n<div class=\"rounded-2xl border border-transparent [background:linear-gradient(rgba(10,14,24,.72),rgba(10,14,24,.72))_padding-box,linear-gradient(135deg,rgba(255,255,255,.34),rgba(125,92,255,.36),rgba(255,255,255,.08))_border-box]\">\n  ...\n</div>\n```\n\n## Taste Rules\n- Apply to one hierarchy level at a time: primary card, active tab, selected plan, or hero panel.\n- Do not use rainbow borders, full-saturation neon, or animated gradients by default.\n- Keep the border quieter than the content. It should frame, not compete.\n- Pair with restrained depth: a soft shadow or inner highlight is enough.\n- Check light and dark themes separately; the same alpha rarely works for both.\n\n## Quick Checks\n- No double border from an existing `border-color`.\n- Radius matches the surface exactly.\n- The gradient is visible at normal zoom but barely noticeable when scanning.\n- Focus states remain accessible and do not rely only on the gradient.\n",
+ "body_lines": 90,
+ "bytes": 2931,
+ "code_blocks": 8,
+ "description": "Apply subtle gradient-border treatments for premium web surfaces. Use when cards, pricing panels, nav bars, modals, buttons, or hero surfaces need a refined edge highlight without a loud glow.",
+ "dir_name": "css-border-gradient",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-65695f80-23f9-46ee-8487-cbb6c93cc48b-3840w.webp",
+  "demo/assets/page-02-724142aa-44a6-48d3-9cf3-761e00d05b78-1600w.jpg",
+  "demo/assets/page-03-4734259a-bad7-422f-981e-ce01e79184f2-1600w.jpg",
+  "demo/assets/page-04-005600e5-f6ab-4e59-bc86-eaeb02797dfa-1600w.jpg",
+  "demo/assets/page-05-e534354d-c5f2-4399-a1d9-2f50338e8c47-1600w.jpg",
+  "demo/assets/page-06-fb6415fd-bf4d-4ccf-8e9d-7ab445e99207-1600w.jpg",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 12,
+ "frontmatter": {
+  "name": "css-border-gradient"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/css-border-gradient",
+ "grade": "A",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "6c5e1924a7ec5504",
+ "heading_count": 8,
+ "id": "mengto--css-border-gradient",
+ "languages": [
+  "css",
+  "html"
+ ],
+ "name": "css-border-gradient",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/css-border-gradient/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/css-border-gradient",
+ "tags": [
+  "domain:business",
+  "domain:design",
+  "domain:web",
+  "stack:css",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 353
+}

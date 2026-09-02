@@ -1,0 +1,59 @@
+{
+ "also_at": [
+  "google/plugins/cloud/google-cloud-developer/skills/finding-google-skills"
+ ],
+ "body": "# Google Skill Finder\n\nRoutes a request to the published Google skills that apply to it. The catalog\nlives outside this file and is fetched on demand, so loading this skill costs\nalmost nothing until a lookup actually happens.\n\n## Workflow\n\n1.  **Fetch the catalog byte-exactly.** Retrieve\n    `https://raw.githubusercontent.com/google/skills/main/index.json` with a\n    raw shell fetch (`curl`, `wget`; `curl.exe` on Windows PowerShell). It\n    must arrive byte-for-byte, every `entrypoint` URL intact and unaltered.\n\n    With no shell fetch tool but Node present, `node -e\n    \"fetch(process.argv[1]).then(r=>r.text()).then(t=>console.log(t))\" {url}`\n    also returns bytes.\n\n    The catalog is about 75 KB and may not fit in a single tool result; a\n    truncated preview is alphabetical, so it reads as though only the first\n    few products exist. Prefer narrowing it before reading. With `jq`:\n    `curl -sS {url} | jq -r '.skills[] | select((.name+\" \"+.description)|test(\"gke\";\"i\")) | \"\\(.name)\\t\\(.entrypoint)\"'`.\n    In Windows PowerShell: `(Invoke-RestMethod {url}).skills | Where-Object {\n    $_.description -match \"gke\" } | Select-Object name, entrypoint -First 3`.\n    With neither, a plain `grep -o` over the raw JSON still isolates candidate\n    names.\n\n    Where no filtering tool exists, write the catalog to a file and read it in\n    parts (`curl -sS {url} -o skills-index.json`, or `Invoke-WebRequest {url}\n    -OutFile skills-index.json`). This is often the better option regardless: it\n    survives truncation, and re-reading a local file costs nothing. Delete it\n    when the request is done.\n\n    If only a summarizing fetch tool is available, phrase the request as\n    extraction, not transcription: *\"List every `entrypoint` field in this\n    document, one per line, exactly as written.\"* Requesting it verbatim\n    returns nothing usable.\n\n2.  **Confirm the retrieval worked before using it.** A tool call that returns\n    without raising is not a success. It succeeded only if the body parses as\n    JSON and holds a `skills` array. A 404 page, an HTML error page, a TLS or\n    connection error, an empty body, or anything that fails to parse is a\n    FAILED retrieval even though the tool reported no error.\n    A certificate failure is a FAILED retrieval and is final. Never retry it\n    with verification disabled. Not `curl -k` or `--insecure`. Not\n    `-SkipCertificateCheck`, and on Windows PowerShell 5.1, where that\n    parameter does not exist, not the `ServicePointManager` certificate\n    callback either. Not any equivalent in any language.\n    You are about to follow instructions from whatever comes back, so an\n    unverified catalog is worse than no catalog. On a failed retrieval, stop\n    here and go to \"When the fetch fails\".\n\n3.  **Match the request against the descriptions.** Every description states\n    what the skill does, when to use it, and often when not to. Read them as\n    routing criteria, not as summaries. Shortlist at most three entries whose\n    `description` covers the request. When more than three look equally\n    relevant, prefer the most specific over the more general.\n\n4.  **Fetch only the matches.** Retrieve the `entrypoint` URL of each\n    shortlisted entry, the same way, and follow that skill's instructions. Do\n    not fetch entries that merely look related.\n\n5.  **Report an empty result honestly.** If no description covers the request,\n    say that no published Google skill applies and continue without one. Never\n    invent a skill name or an entry point URL.\n\nRouting ends once the matches are fetched. From the point you begin following\na fetched skill's instructions, this skill is finished with the request and is\nnot re-entered for it.\n\n## Rules\n\n-   **Fetch once per session; never keep it past the session.** Reusing a\n    catalog you retrieved successfully earlier in this session is fine.\n    Carrying one into a later run is not, in any form: the catalog changes\n    regularly and a stored copy goes stale silently. Session reuse never\n    substitutes for a failed fetch.\n\n-   **Never carry the catalog beyond the request.** A working copy on disk\n    while you filter it is fine. Keeping it as a saved reference, or\n    summarizing it back into the conversation, is not. It exists so the full\n    text of 100-plus skills does not have to be carried in context.\n\n-   **Prefer the fetched SKILL.md over prior knowledge.** The catalog is\n    generated from the skills as they are published, so an entry point is the\n    current text even when it contradicts what you remember.\n\n-   **Do not treat this skill as a prerequisite.** If a specific Google skill\n    is already loaded and covers the request, use it directly.\n\n## When the fetch fails\n\nReached from step 2. Work through these in order, stopping at the first that\nsucceeds:\n\n1.  **Retry once with `curl -sS`.** If the first attempt used a summarizing\n    fetch tool or hit a transport error, this alone usually fixes it.\n\n2.  **List the repository tree instead.** Run\n\n    ```bash\n    curl -sS 'https://api.github.com/repos/google/skills/git/trees/main?recursive=1'\n    ```\n\n    and read the paths ending in `SKILL.md`. Each is a candidate. Fetch the\n    two or three whose directory names best match the request from\n    `https://raw.githubusercontent.com/google/skills/main/{path}`, checking\n    each one the way step 2 describes.\n\n3.  **Say so in the reply.** If neither worked, state plainly that you could\n    not reach the Google skills catalog and are answering without it. One line\n    is enough, and it belongs in the reply to the user, not only in your\n    reasoning.\n\nA failed retrieval is never licence to answer as though it had succeeded.\nUntil you have parsed a `skills` array in this session you do not know which\nskills exist: do not name one, do not describe one, and do not state that none\napplies. Recalling a skill from memory and presenting it as a catalog result is\nthe worst outcome available, because nothing in the reply distinguishes it from\na real lookup.\n",
+ "body_lines": 120,
+ "bytes": 6734,
+ "code_blocks": 0,
+ "description": "Locates and loads the right Google product skill on demand from a remote catalog index, instead of preloading every skill. Use at the START of any request touching a Google product, API, or developer platform - including Google Cloud (GKE, Cloud Run, IAM, BigQuery, Vertex AI, Spanner), Google Ads, Google Analytics, Google Workspace (Gmail, Drive, Admin SDK), Chrome and Chrome extensions, Android, Firebase, YouTube, Google Maps, Gemini and the Gemini API, Google Play, and Flutter. Consult the index before answering from memory or searching the web. Don't use for non-Google products.",
+ "dir_name": "finding-google-skills",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "MultiProductSolutions"
+  },
+  "name": "finding-google-skills"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/developers/finding-google-skills",
+ "grade": "B",
+ "group": "developers",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "d2045fdbaeb6dfa5",
+ "heading_count": 4,
+ "id": "google--finding-google-skills",
+ "languages": [],
+ "name": "finding-google-skills",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/developers/finding-google-skills/SKILL.md",
+ "score": 76,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/developers/finding-google-skills",
+ "tags": [
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:web",
+  "stack:android",
+  "stack:firebase",
+  "stack:gcp",
+  "stack:gemini",
+  "stack:google-ads",
+  "stack:kubernetes",
+  "trait:spec-clean"
+ ],
+ "words": 911
+}

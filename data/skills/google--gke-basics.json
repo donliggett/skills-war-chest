@@ -1,0 +1,59 @@
+{
+ "also_at": [],
+ "body": "# GKE Basics & Critical Gotchas\n\nManaged Kubernetes platform on Google Cloud. Defaults to Autopilot mode unless Standard is explicitly required.\n\n## Key Selection Rules: Autopilot vs. Standard\n\n* **Default to Autopilot** for almost all workloads.\n* **Use Standard ONLY if:**\n  * Custom node OS kernel parameters (`sysctl`) are required.\n  * Custom node taints or specific hardware node pools are required.\n  * DaemonSets require raw `hostPath` mounts to the host OS filesystem.\n* When explaining why Standard is required over Autopilot, explicitly cite all matching restrictions (e.g., custom sysctls and custom node taints).\n* *For advanced cluster architecture or complex node pool creation planning, refer to `gke-cluster-creation`.*\n\n## Critical Gotchas & Best Practices\n\n1. **Private Autopilot Clusters:**\n   * Use `--enable-private-nodes` for private node IP addresses.\n   * Use `--enable-private-endpoint` to disable public IP access to the control plane.\n   * Restrict control plane access with `--enable-master-authorized-networks` and `--master-authorized-networks=CIDR_BLOCK`:\n     ```bash\n     gcloud container clusters create-auto CLUSTER_NAME --region=REGION \\\n       --enable-private-nodes \\\n       --enable-private-endpoint \\\n       --enable-master-authorized-networks \\\n       --master-authorized-networks=CIDR_BLOCK\n     ```\n\n2. **Workload Identity (IAM Binding):**\n   * Never mount raw GCP Service Account JSON keys in Pods.\n   * Annotate the Kubernetes ServiceAccount (`KSA`) to bind to the Google Service Account (`GSA`):\n     ```yaml\n     metadata:\n       annotations:\n         iam.gke.io/gcp-service-account: GSA_NAME@PROJECT_ID.iam.gserviceaccount.com\n     ```\n\n3. **Autopilot Resource Requests:**\n   * In Autopilot, CPU requests must be specified in increments of 250m (0.25 vCPU). If an unaligned CPU request (e.g., 300m) is requested, round up to the nearest 250m increment (500m / 0.5 vCPU).\n   * Resource requests equal limits automatically. Omit `limits` to allow Autopilot to set defaults matching `requests`.\n\n4. **Cluster Credentials:**\n   * Always explicitly specify `--region` (for regional clusters) or `--zone` (for zonal clusters) when fetching credentials:\n     ```bash\n     gcloud container clusters get-credentials CLUSTER_NAME --region=REGION --quiet\n     ```\n\n## Reference Directory\n\n-   [Core Concepts](references/core-concepts.md): Architecture, cluster modes (Autopilot vs Standard), networking, scaling, and security model.\n\n-   [CLI Usage & Tool Reference](references/cli-reference.md): Tool preference hierarchy (MCP vs gcloud vs kubectl), `gcloud container` commands, and user preference overrides.\n\n-   [Client Libraries](references/client-library-usage.md): Official Kubernetes and Google Cloud Container client libraries in Python, Go, Node.js, and Java.\n\n-   [MCP Usage](references/mcp-usage.md): Connecting to and using the 23 structured GKE MCP tools for cluster management, K8s resources, and diagnostics.\n\n-   [Infrastructure as Code](references/iac-usage.md): Terraform examples for `google_container_cluster` (Autopilot), Kubernetes provider resources, and YAML samples.\n",
+ "body_lines": 59,
+ "bytes": 3654,
+ "code_blocks": 0,
+ "description": "Manages core GKE cluster provisioning, credentials, Autopilot vs Standard selection, and workload deployment. Use when creating GKE clusters, fetching kubectl credentials, configuring Workload Identity, or deciding between Autopilot and Standard modes. Don't use for specialized GKE networking (use gke-networking), advanced security hardening (use gke-platform-security or gke-workload-security), or cluster upgrades (use gke-upgrades).",
+ "dir_name": "gke-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/cli-reference.md",
+  "references/client-library-usage.md",
+  "references/core-concepts.md",
+  "references/iac-usage.md",
+  "references/mcp-usage.md"
+ ],
+ "file_count": 6,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-basics",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "750b49e99a3352e7",
+ "heading_count": 4,
+ "id": "google--gke-basics",
+ "languages": [],
+ "name": "gke-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-basics/SKILL.md",
+ "score": 80,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-basics",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:security",
+  "stack:kubernetes",
+  "trait:has-references",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 370
+}

@@ -1,0 +1,63 @@
+{
+ "also_at": [],
+ "body": "# IMA SDK client-side\n\nThe Google IMA SDK (Interactive Media Ads) lets you load in-stream video and\naudio ads into websites, apps, TVs and other digital platforms. Use an IMA SDK\nto request ads from any VAST-compliant ad server and manage ad playback.\n\n## Prerequisites\n\nBefore integrating the IMA SDK, you **must** read the platform-specific guide\nbelow to support all platforms that your app can support:\n\n*   **Web/HTML5/ReactJs/NodeJs/Angular:** Read all these guides\n    [ima-sdk-web-guide.md](references/ima-sdk-web-guide.md),\n    [ima-sdk-web-iframe-mode.md](references/ima-sdk-web-iframe-mode.md),\n    [ima-sdk-web-mobile-safari.md](references/ima-sdk-web-mobile-safari.md)\n*   **Android/AndroidTV/ReactNative:** Read [ima-sdk-android-guide.md](references/ima-sdk-android-guide.md)\n*   **iOS/tvOS/ReactNative:** Read all these guides\n    [ima-sdk-ios-guide.md](references/ima-sdk-ios-guide.md),\n    [ima-sdk-tvos-guide.md](references/ima-sdk-tvos-guide.md)\n\n--------------------------------------------------------------------------------\n\n## Quick start (general workflow)\n\n1.  Import the SDK: Prerequisites, dependencies.\n2.  Initialization: Early setup, Warmup, Settings Configuration, and Ad UI\n    Setup.\n3.  Ad Request: Creating and triggering the request, User gesture compliance.\n4.  Ad Load Success/Failure: Handling the load event to get the AdsManager, or\n    handling early fatal errors.\n5.  Ad Playback Events: Listening to playback events via AdsManager to\n    coordinate content play/pause, and handling non-fatal LOG events and fatal\n    active playback errors.\n6.  Cleanup: Properly destroying the AdsManager to release resources and prevent\n    memory leaks.\n\nFor detailed, platform-specific implementation details, always refer to the\nguides in the Prerequisites section.",
+ "body_lines": 38,
+ "bytes": 2189,
+ "code_blocks": 0,
+ "description": "Supports Interactive Media Ads (IMA) SDK. Use this skill for client-side ad insertion when you are requesting video ads for websites, apps, TVs or other platforms using VAST or VMAP. Do not use for Dynamic Ad Insertion (DAI), SSAI, or SGAI.",
+ "dir_name": "ima-sdk-client-side",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/ima-sdk-android-guide.md",
+  "references/ima-sdk-ios-guide.md",
+  "references/ima-sdk-tvos-guide.md",
+  "references/ima-sdk-web-guide.md",
+  "references/ima-sdk-web-iframe-mode.md",
+  "references/ima-sdk-web-mobile-safari.md"
+ ],
+ "file_count": 7,
+ "frontmatter": {
+  "license": "Apache-2.0",
+  "metadata": {
+   "author": "Google LLC",
+   "category": "GoogleAds",
+   "version": "1.0.2"
+  },
+  "name": "ima-sdk-client-side"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/ads/ima-sdk-client-side",
+ "grade": "A",
+ "group": "ads",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "ff6523c5b4cab603",
+ "heading_count": 3,
+ "id": "google--ima-sdk-client-side",
+ "languages": [],
+ "name": "ima-sdk-client-side",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/ima-sdk-client-side/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 13,
+  "description": 25,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/ads/ima-sdk-client-side",
+ "tags": [
+  "domain:marketing",
+  "domain:media",
+  "format:video",
+  "trait:has-references",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 189
+}

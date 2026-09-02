@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# Agent Platform RAG Engine Management\n\nThis skill provides instructions on how to interact with Agent Platform RAG\nEngine using the Agent Platform Python SDK. You\nMUST use the `vertexai` Python SDK to perform RAG Engine operations, rather than\nraw REST calls or MCP tools, because this code is intended to be run by external\nclients.\n\n## Safety & Confirmation Tiers (CRITICAL)\n\nBefore executing any commands or scripts on behalf of the user, you must adhere\nto the following safety tiers based on the action requested:\n\n1.  **Tier R: Read-only (`list_corpora`, `list_files`, `get_corpus`, `retrieval_query`)**\n    *   No confirmation needed. Execute immediately to gather information or retrieve grounded contexts.\n2.  **Tier RC: Read-only but consumes Compute Resources (`client.models.generate_content`)**\n    *   Requires **interactive confirmation** with 'Yes'/'No' options before\n    executing grounded content generation. The confirmation prompt MUST\n    clearly explain the proposed generation execution and its key parameters\n    (e.g., target corpus ID, query text, target model). Natural-language\n    paraphrases without specifying exact parameters are insufficient, as\n    explicit parameter listing is required to ensure unambiguous user approval\n    of the specific resource and configuration.\n    *   **Same-turn restriction**: Do not execute the generation code in the\n    same turn as presenting the confirmation prompt. Stop and wait for the\n    user's reply; only execute after explicit 'Yes' / approval.\n    *   **Gold Standard Example**:\n        > I will perform grounded content generation with the following\n        > parameters. Please confirm this information before I proceed:\n        > *   **Target Corpus ID**: `projects/123/locations/us/ragCorpora/abc`\n        > *   **Target Model**: `gemini-2.5-pro`\n        > *   **Query Text**: \"What are the company policies on remote work?\"\n        > Do you confirm? [Yes/No]\n\n## Phase 0: Environment Setup\n\n**CRITICAL**: Before running any of the Python snippets below, you must ensure\nthe environment is correctly initialized by following these steps:\n\n1.  **Google Cloud Authentication**: Authenticate with your Google Cloud\n    credentials and configure active Application Default Credentials (ADC) for\n    Agent Platform access:\n    \n    ```bash\n    gcloud auth login\n    gcloud auth application-default login\n    ```\n2.  **Virtual Environment**: Create and activate a dedicated virtual\n    environment:\n    \n    ```bash\n    python3 -m venv ~/rag_agent_venv\n    source ~/rag_agent_venv/bin/activate\n    ```\n3.  **Install Dependencies**: Install the required Agent Platform SDKs:\n    \n    ```bash\n    pip install google-cloud-aiplatform google-genai\n    ```\n4.  **Execution**: Advise the user that every time they execute a Python\n    snippet, they must ensure this virtual environment is activated first.\n\n## Workflow Decision Tree\n\n1.  **Information Gathering**: Has the user provided the Project ID, Region, and\n    Corpus ID?\n\n    *   **No** -> Proceed to [1. Listing Corpora and Files] to discover the\n        necessary Resource Names and IDs. Only ask the user if discovery fails.\n    *   **Yes** -> Proceed.\n\n2.  **Task Type**: What does the user want to do?\n\n    *   **List Corpora and Files** -> Proceed to [1. Listing Corpora and Files].\n    *   **Inspect a Corpus** -> Proceed to [2. Getting / Inspecting a RAG Engine\n        Corpus].\n    *   **Search for Contexts** -> Proceed to [3. Retrieving Contexts].\n    *   **Answer questions using RAG Engine** -> Proceed to [4. Answering the\n        User with Retrieved Context].\n\n> [!TIP] **Placeholder Parameter Replacement:** The Python scripts below use\n> bracketed string placeholders (like `\"{project_id}\"`, `\"{region}\"`, and\n> `\"{corpus_id}\"`). You **MUST** dynamically replace these placeholders with the\n> actual Project ID, Region, and Corpus ID values provided in the user's prompt\n> (or active context) before generating, providing, or executing the scripts.\n\n## 1. Listing Corpora and Files (Discovery)\n\nIf you do not know the Resource Name of the corpus or file, you MUST list them\nfirst to discover them. The SDK handles pagination automatically when converted\nto a list, but you can also use manual pagination for large sets.\n\n### 1.1 Listing and Discovering Corpora\n\n```python\nimport vertexai\nfrom vertexai.preview import rag\n\nvertexai.init(project=\"{project_id}\", location=\"{region}\")\n\n# Approach A: List ALL (Automatic Pagination)\n# The SDK's Pager iterates through all pages for you.\nall_corpora = list(rag.list_corpora())\nprint(f\"Found {len(all_corpora)} corpora in total.\")\nfor c in all_corpora:\n    print(f\"Corpus Name: {c.name} | Display Name: {c.display_name}\")\n\n# Approach B: Manual Pagination (for very large projects)\npager = rag.list_corpora(page_size=10)\n# Process first page\nfor c in pager:\n    print(f\"Corpus: {c.display_name}\")\n\n# Get next page if needed\nif pager.next_page_token:\n    second_page = rag.list_corpora(\n        page_size=10, page_token=pager.next_page_token\n    )\n```\n\n### 1.2 Listing and Discovering Files\n\nTo understand what files (and types) are in a corpus, list them and inspect the\n`display_name` (usually includes the extension).\n\n```python\nimport vertexai\nfrom vertexai.preview import rag\n\nvertexai.init(project=\"{project_id}\", location=\"{region}\")\ncorpus_name = (\n    \"projects/{project_id}/locations/{region}/ragCorpora/{corpus_id}\"\n)\n\n# List files with automatic pagination\nfiles = list(rag.list_files(corpus_name=corpus_name))\nprint(f\"Found {len(files)} files.\")\n\nfor f in files:\n    # High-level SDK RagFile objects usually have name, display_name,\n    # description\n    print(f\"File: {f.display_name} | Resource: {f.name}\")\n    # Tip: Check extension to understand file type (PDF, TXT, etc.)\n    if f.display_name.lower().endswith(\".pdf\"):\n        print(\"  Type: PDF\")\n    elif f.display_name.lower().endswith(\".txt\"):\n        print(\"  Type: Plain Text\")\n```\n\n## 2. Getting / Inspecting an Agent Platform RAG Engine Corpus\n\nTo retrieve details about an existing Agent Platform RAG Engine corpus:\n\n```python\nimport vertexai\nfrom vertexai.preview import rag\n\nvertexai.init(project=\"{project_id}\", location=\"{region}\")\n\n# To get details of a specific corpus\ncorpus_name = (\n    \"projects/{project_id}/locations/{region}/ragCorpora/{corpus_id}\"\n)\ncorpus = rag.get_corpus(name=corpus_name)\nprint(f\"Corpus Name: {corpus.name}\")\nprint(f\"Display Name: {corpus.display_name}\")\n```\n\n## 3. Retrieving Contexts\n\nTo retrieve relevant contexts from a RAG Engine corpus based on a query:\n\n```python\nimport vertexai\nfrom vertexai.preview import rag\n\nvertexai.init(project=\"{project_id}\", location=\"{region}\")\n\ncorpus_name = (\n    \"projects/{project_id}/locations/{region}/ragCorpora/{corpus_id}\"\n)\nquery = \"What is the speed of light?\"\n\n# Retrieve contexts\nresponse = rag.retrieval_query(\n    rag_corpora=[corpus_name],\n    text=query,\n    similarity_top_k=3\n)\n\nfor context in response.contexts.contexts:\n    print(f\"Context text: {context.text}\")\n    print(f\"Source: {context.source_uri}\")\n```\n\n## 4. Answering the User with Retrieved Context\n\nTo use the retrieved context alongside an Agent Platform model to generate a\ngrounded response:\n\n```python\nfrom google import genai\nfrom google.genai import types\n\nclient = genai.Client(enterprise=True, project=\"{project_id}\", location=\"{region}\")\ncorpus_name = (\n    \"projects/{project_id}/locations/{region}/ragCorpora/{corpus_id}\"\n)\n\n# Define the Agent Platform RAG Engine tool pointing to the corpus\nrag_tool = types.Tool(\n    retrieval=types.Retrieval(\n        vertex_rag_store=types.VertexRagStore(\n            rag_resources=[types.VertexRagStoreRagResource(rag_corpus=corpus_name)],\n            rag_retrieval_config=types.RagRetrievalConfig(\n                top_k=3,\n                filter=types.RagRetrievalConfigFilter(\n                    vector_similarity_threshold=0.5,\n                ),\n            ),\n        )\n    )\n)\n\n# Generate content using the RAG Engine tool\nresponse = client.models.generate_content(\n    model=\"gemini-2.5-flash\",\n    contents=\"What is the speed of light?\",\n    config=types.GenerateContentConfig(\n        tools=[rag_tool]\n    )\n)\nprint(response.text)\n```\n",
+ "body_lines": 235,
+ "bytes": 8693,
+ "code_blocks": 10,
+ "description": "Manage and query Agent Platform RAG Engine Corpora and retrieve grounded contexts using the Google GenAI SDK. Use when listing RAG corpora or files, inspecting a corpus, retrieving contexts, or generating content grounded in a RAG corpus. Do not use for standard database queries (use SQL/Spanner skills), Google Workspace RAG, or other RAG products like gRAG.",
+ "dir_name": "agent-platform-rag-engine-management",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "AiAndMachineLearning"
+  },
+  "name": "agent-platform-rag-engine-management"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/agent-platform-rag-engine-management",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "9c5eef7e2c29962d",
+ "heading_count": 20,
+ "id": "google--agent-platform-rag-engine-management",
+ "languages": [
+  "python"
+ ],
+ "name": "agent-platform-rag-engine-management",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-rag-engine-management/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/agent-platform-rag-engine-management",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:data",
+  "stack:sql",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 970
+}

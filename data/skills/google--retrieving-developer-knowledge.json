@@ -1,0 +1,68 @@
+{
+ "also_at": [
+  "google/plugins/cloud/google-cloud-developer/skills/retrieving-developer-knowledge"
+ ],
+ "body": "# Google Developer Knowledge\n\nThe Developer Knowledge skill provides access to official Google developer documentation across Google Cloud, AI/ML (ai.google.dev, ADK, TensorFlow), Android, Chrome, Web, Flutter, Go, Firebase, and other Google developer platforms via the Developer Knowledge MCP server or REST API fallback.\n\n## Workflow\n\n1. **Direct Retrieval**: When answering a technical question, execute a single documentation lookup directly within your current conversation context (do not delegate retrieval to subagents):\n   - **If MCP tools are present in your environment**: Call `answer_query` (for conceptual guides/workflows) or `search_documents` (for CLI flags/syntax).\n   - **If MCP tools are not present**: Execute a REST API request via `curl` against `https://developerknowledge.googleapis.com/v1`.\n   - **A declared server is not always a connected server.** Some clients cannot complete the MCP handshake with this server and expose no `answer_query`, `search_documents` or `get_documents` tool at all, even though the plugin declares one. Treat their absence as normal and use the REST fallback below.\n2. **Confirm the lookup succeeded before using it**: A response that arrives is not automatically an answer. `PERMISSION_DENIED`, `UNAUTHENTICATED`, HTTP 401 or 403, an empty result set, or any error payload is a FAILED lookup even when the tool itself reported no error. On a failed lookup, do not answer as though it had succeeded. Try the other transport once, and if that also fails, state plainly in your reply to the user that you could not reach Developer Knowledge and are answering without it. Presenting recalled documentation as a retrieved result is the worst available outcome, because nothing in the reply distinguishes it from a real lookup.\n3. **Immediate & Complete Solution Output**: Immediately upon receiving the documentation response, output the complete, self-contained, and executable technical solution (commands with all required flags and placeholders, YAML/JSON configurations, or code snippets) directly in your response text.\n\n## Tool Selection & Usage\n\nChoose the appropriate tool based on availability in your runtime environment:\n\n### 1. Developer Knowledge MCP Tools (Preferred)\nWhen MCP tools are present in your active tool definitions:\n- **`answer_query(query=\"...\")`**: Use for conceptual guides, architectural comparisons, product choice overviews, and multi-step workflows.\n- **`search_documents(query=\"...\", page_size=5)`**: Use for granular CLI flags, exact syntax, parameter names, and IAM permissions (`service.resource.verb`). Use 2–5 focused keywords (e.g., `cloud run filestore nfs mount gcloud`) rather than full conversational sentences.\n- **`get_documents(names=[\"documents/{uri_without_scheme}\"])`**: Fetch full documentation pages by resource name (e.g. `names: [\"documents/docs.cloud.google.com/run/docs/overview/what-is-cloud-run\"]`).\n\n### 2. REST API Fallback\nWhen the MCP tools are absent, query the Developer Knowledge REST API\n(`https://developerknowledge.googleapis.com/v1`) with `curl`. Two credentials\nwork, and you should try them in this order.\n\n**An existing Google credential, preferred.** If `gcloud` is authenticated,\npass a bearer token and your quota project. Nothing needs to be installed or\nconfigured:\n\n```bash\ncurl -s -X POST \"https://developerknowledge.googleapis.com/v1:answerQuery\" \\\n  -H \"Authorization: Bearer $(gcloud auth print-access-token)\" \\\n  -H \"X-Goog-User-Project: $(gcloud config get-value project 2>/dev/null)\" \\\n  -H \"Content-Type: application/json\" \\\n  -d \"{\\\"query\\\": \\\"How do I configure public read access on Cloud Storage?\\\"}\"\n```\n\nIf that fails to authenticate, on a 401, a 403, or any other credential error,\nthe account has a token the API will not accept. Substitute\n`gcloud auth application-default print-access-token` for\n`gcloud auth print-access-token` in the command above and try again. Which\ncredential the API accepts depends on how the environment was authenticated, so\ntreat an auth error here as a reason to try the application-default credential\nrather than as a failed lookup.\n\n**An API key, if one is configured.** Where `DEVELOPERKNOWLEDGE_API_KEY` is set\nin the environment, pass it as a `key` query parameter instead of an\n`Authorization` header. The remaining examples in this section use that form:\n- **Answer Query**:\n  ```bash\n  curl -s -X POST \"https://developerknowledge.googleapis.com/v1:answerQuery?key=${DEVELOPERKNOWLEDGE_API_KEY}\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\"query\": \"How do I configure public read access on Cloud Storage?\"}'\n  ```\n- **Search Document Chunks** (use 2–5 focused keywords):\n  ```bash\n  curl -s \"https://developerknowledge.googleapis.com/v1/documents:searchDocumentChunks?query=gcloud+logging+metrics+create&key=${DEVELOPERKNOWLEDGE_API_KEY}\"\n  ```\n- **Get Document**:\n  ```bash\n  curl -s \"https://developerknowledge.googleapis.com/v1/documents/docs.cloud.google.com/run/docs/overview/what-is-cloud-run?key=${DEVELOPERKNOWLEDGE_API_KEY}\"\n  ```\n- **Batch Get Documents**:\n  ```bash\n  curl -s -X POST \"https://developerknowledge.googleapis.com/v1/documents:batchGet?key=${DEVELOPERKNOWLEDGE_API_KEY}\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\"names\": [\"documents/docs.cloud.google.com/run/docs/overview/what-is-cloud-run\"]}'\n  ```\n\n## Synthesis & Output Guidelines\n\n1. **Grounding in Official Documentation**: Ground all solutions directly in retrieved documentation. Official documentation conventions have absolute precedence over memorized defaults.\n2. **Exact Parameter Formatting**: Format CLI flags, composite keys (e.g. `location=IP:PATH`), and IAM permission strings according to official Google specifications.\n3. **Complete Solutions in Final Response**: Always output the full, self-contained, executable technical solution (commands, configurations, or code snippets) with clear standard placeholders (e.g. `PROJECT_ID`, `SERVICE_NAME`, `REGION`) directly in your final message, even if previously referenced during internal planning.\n\n## References\n\n- [MCP Usage & Tool Details](references/mcp-usage.md)\n- [REST API Fallback Guide](references/api-fallback.md)\n- [Supported Domains & Scoping](references/supported-domains.md)\n",
+ "body_lines": 84,
+ "bytes": 6928,
+ "code_blocks": 2,
+ "description": "Searches, retrieves, and synthesizes official Google developer documentation across Google Cloud, AI/Gemini, Android, Chrome, Web, Flutter, Go, Firebase, and other Google developer platforms. Integrates with the Developer Knowledge MCP server (search_documents, get_documents, answer_query) or the Developer Knowledge REST API fallback. Use when searching for gcloud CLI commands, API syntax, IAM permissions, official documentation, architectural comparisons, or product choice overviews. Don't use for local filesystem lookups or non-Google documentation.",
+ "dir_name": "retrieving-developer-knowledge",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/api-fallback.md",
+  "references/mcp-usage.md",
+  "references/supported-domains.md"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "metadata": {
+   "category": "CloudInfrastructureAndServices"
+  },
+  "name": "retrieving-developer-knowledge"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/developers/retrieving-developer-knowledge",
+ "grade": "A",
+ "group": "developers",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "6d77ccdc183ec80b",
+ "heading_count": 7,
+ "id": "google--retrieving-developer-knowledge",
+ "languages": [
+  "bash"
+ ],
+ "name": "retrieving-developer-knowledge",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/developers/retrieving-developer-knowledge/SKILL.md",
+ "score": 87,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/developers/retrieving-developer-knowledge",
+ "tags": [
+  "capability:plan",
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:docs-writing",
+  "format:api",
+  "format:cli",
+  "stack:android",
+  "stack:firebase",
+  "stack:gcp",
+  "stack:gemini",
+  "stack:mcp",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 760
+}

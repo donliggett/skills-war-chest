@@ -1,0 +1,61 @@
+{
+ "also_at": [],
+ "body": "# Marquee Skill\n\n## Use When\n- A design needs a seamless infinite loop for logos, testimonials, screenshots, tags, or short feature chips.\n\n## Workflow\n1. Duplicate the item sequence so the end and beginning match perfectly.\n2. Animate the track with a linear transform from 0 to -50%.\n3. Keep item widths stable to prevent jumps during the loop.\n4. Mask or fade the edges when the marquee enters or exits a section.\n5. Pause or slow the marquee on hover only when interaction is useful.\n6. Respect prefers-reduced-motion with a static wrap or very slow movement.\n\n## Guardrails\n- Do not animate unique content that users must read carefully.\n- Do not use large CPU-heavy shadows or filters on every moving item.\n",
+ "body_lines": 17,
+ "bytes": 818,
+ "code_blocks": 0,
+ "description": "Apply seamless infinite marquee loops using duplicated items.",
+ "dir_name": "marquee-loop",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-6b97b0cc-6b81-4451-aacc-6b928e7d0a69-3840w.jpg",
+  "demo/assets/page-02-193e1472-0514-44eb-893a-1376091263f3-3840w.jpg",
+  "demo/assets/page-03-5180d964-2425-4134-8220-c1528af09124-800w.jpg",
+  "demo/assets/page-04-4f5668c5-fc4a-44e0-bc5e-a664189d3c31-1600w.jpg",
+  "demo/assets/page-05-fbddf75f-e2e3-4552-a710-55e2a5f4d6af-800w.jpg",
+  "demo/assets/page-06-16d38370-5873-45cf-bab1-60a7b923dc6e-800w.jpg",
+  "demo/assets/page-07-8e802a98-b83c-4c5d-99d1-e24406eb4ec9-3840w.jpg",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 13,
+ "frontmatter": {
+  "name": "marquee-loop"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/marquee-loop",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "53f705e5f245f414",
+ "heading_count": 4,
+ "id": "mengto--marquee-loop",
+ "languages": [],
+ "name": "marquee-loop",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/marquee-loop/SKILL.md",
+ "score": 52,
+ "score_breakdown": {
+  "body": 13,
+  "description": 6,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/marquee-loop",
+ "tags": [
+  "domain:design",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 124
+}

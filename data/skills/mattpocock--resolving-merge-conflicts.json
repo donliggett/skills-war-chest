@@ -1,0 +1,48 @@
+{
+ "also_at": [],
+ "body": "1. **See the current state** of the merge/rebase. Check git history, and the conflicting files.\n\n2. **Find the primary sources** for each conflict. Understand deeply why each change was made, and what the original intent was. Read the commit messages, check the PRs, check original issues/tickets.\n\n3. **Resolve each hunk.** Preserve both intents where possible. Where incompatible, pick the one matching the merge's stated goal and note the trade-off. Do **not** invent new behaviour. Always resolve; never `--abort`.\n\n4. Discover the project's **automated checks** and run them, typically typecheck, then tests, then format. Fix anything the merge broke.\n\n5. **Finish the merge/rebase.** Stage everything and commit. If rebasing, continue the rebase process until all commits are rebased.\n",
+ "body_lines": 10,
+ "bytes": 918,
+ "code_blocks": 0,
+ "description": "Use when you need to resolve an in-progress git merge/rebase conflict.",
+ "dir_name": "resolving-merge-conflicts",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "resolving-merge-conflicts"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/engineering/resolving-merge-conflicts",
+ "grade": "C",
+ "group": "engineering",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "9d8114f8ef0b31f5",
+ "heading_count": 0,
+ "id": "mattpocock--resolving-merge-conflicts",
+ "languages": [],
+ "name": "resolving-merge-conflicts",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/resolving-merge-conflicts/SKILL.md",
+ "score": 51,
+ "score_breakdown": {
+  "body": 3,
+  "description": 15,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/engineering/resolving-merge-conflicts",
+ "tags": [
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 117
+}

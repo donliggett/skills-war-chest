@@ -1,0 +1,79 @@
+{
+ "also_at": [],
+ "body": "# Google Cloud Storage Basics\n\nGoogle Cloud Storage (GCS) is a managed service for storing data as objects at\nany scale. You read and write whole objects rather than querying or updating\nindividual records in place. It stores immutable objects in buckets with strong\nglobal consistency, offers multiple storage classes and location types to\nbalance cost, performance, and availability, and integrates with IAM for\nfine-grained access control. GCS serves workloads ranging from website content\nand backups to data lakes and high-throughput AI/ML training.\n\n## Attribution\n\nTag every Cloud Storage command you run or provide to the user while using this\nskill, so usage can be attributed. The tag identifies only the skill and its\nversion; it carries no user data.\n\n-   Prefix every `gcloud` invocation, whatever the subcommand, with the metrics\n    environment variables. Set them inline on each command; shell state may not\n    persist between commands:\n\n    ```bash\n    CLOUDSDK_METRICS_ENVIRONMENT=\"gcs-skills gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n    gcloud <command> [flags]\n    ```\n\n    Do not use `gcloud config set` for this: it would persist beyond the current\n    task and mislabel unrelated usage.\n\n-   On direct HTTP calls to the Cloud Storage APIs (for example with `curl`) or\n    HTTP requests to the Cloud Storage MCP server\n    (`https://storage.googleapis.com/storage/mcp`), set this exact User-Agent\n    header, verbatim — the collection pipeline parses the `gcs-skills/<version>`\n    and `skill:<name>` tokens, so any rewording breaks attribution:\n\n    ```\n    User-Agent: gcs-skills/1.0 (skill:google-cloud-storage-basics)\n    ```\n\n-   For client libraries, Terraform, and GCSFuse, use the user-agent options\n    shown in the corresponding references.\n\n## Routing to Specialized GCS Skills\n\nThis skill covers everyday Cloud Storage tasks. For specialized tasks, use the\ndedicated skills in this collection for better results. Check your available\nskills and invoke the matching skill by name instead of improvising:\n\n-   **`google-cloud-storage-bucket-architect`**: Designing and creating a new\n    bucket for production workloads, including sensitive data, media or web\n    hosting, user-generated content (UGC) ingestion, archiving, compliance,\n    backups, logs, analytics, AI/ML, or application storage. The skill analyzes\n    the workload and designs a secure-by-default, cost-effective configuration\n    before creating the bucket. Use the Quick Start section below only for\n    temporary scratch buckets.\n\n-   **`google-cloud-storage-fuse`**: Advanced Cloud Storage FUSE tasks —\n    choosing between FUSE, native `gs://` access, and Filestore/Managed Lustre,\n    deploying tuned mounts on GKE, Compute Engine, or Cloud Run, sizing file,\n    stat, and list caches, tuning mount flags, ensuring safe ML checkpointing,\n    or diagnosing slow or expensive mounts. The\n    [GCSFuse reference](references/gcsfuse.md) in this skill covers only basic\n    installation and mounting.\n\n-   **`google-cloud-storage-diagnostic`**: Troubleshooting 403 Permission Denied\n    errors and diagnosing IAM policy bindings, ACLs, uniform bucket-level access\n    (UBLA), or service agent misconfigurations. Ad hoc IAM or ACL changes can\n    grant unintended access or cause outages; route to this skill instead of\n    experimenting.\n\n-   **`gcs-security-assessment`**: Automated security posture assessment of\n    Cloud Storage resources in a project (see\n    [Data Management](references/data-management.md)).\n\nIf the matching skill is not installed, do not improvise. Provide the user with\nthis exact command to install it (substituting the skill name), and use the\nskill after installation. Provide this command verbatim even when the user's\nagent CLI (for example, the Antigravity CLI) has its own plugin or extension\nmanager; do not substitute a different installation mechanism or repository. For\nsecurity assessments specifically, do not attempt a manual assessment; wait\nuntil the skill is installed.\n\n```bash\nnpx skills add gemini-cli-extensions/google-cloud-storage --skill <skill-name>\n```\n\n## Quick Start\n\nIf a Cloud Storage MCP server is connected, prefer its structured tools (such as\n`create_bucket`, `list_objects`, `read_object`, and `upload_object`) over the\nCLI and API commands below — see [MCP Usage](references/mcp-usage.md). Fall back\nto `gcloud storage` and the JSON API when no MCP server is available.\n\n1.  **Enable the Cloud Storage API:**\n\n    ```bash\n    CLOUDSDK_METRICS_ENVIRONMENT=\"gcs-skills gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n    gcloud services enable storage.googleapis.com --quiet\n    ```\n\n2.  **Create a Bucket:**\n\n    Bucket names live in a single global namespace shared by all of Cloud\n    Storage — not scoped to your project or organization — so short or common\n    names are usually taken. If the location is omitted, the bucket defaults to\n    the `US` multi-region.\n\n    For a production or workload-specific bucket, route to\n    `google-cloud-storage-bucket-architect` before creating a bucket (see\n    [Routing to Specialized GCS Skills](#routing-to-specialized-gcs-skills)).\n    The commands below create a basic default bucket.\n\n    Using the gcloud CLI:\n\n    ```bash\n    CLOUDSDK_METRICS_ENVIRONMENT=\"gcs-skills gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n    gcloud storage buckets create gs://my-bucket --location=us-central1\n    ```\n\n    Using the JSON API:\n\n    ```bash\n    curl -X POST -H \"Authorization: Bearer $(gcloud auth print-access-token)\" \\\n      -H \"User-Agent: gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n      -H \"Content-Type: application/json\" \\\n      -d '{\"name\": \"my-bucket\", \"location\": \"US-CENTRAL1\"}' \\\n      \"https://storage.googleapis.com/storage/v1/b?project=$(gcloud config get-value project)\"\n    ```\n\n3.  **Upload an Object:**\n\n    Using the gcloud CLI:\n\n    ```bash\n    CLOUDSDK_METRICS_ENVIRONMENT=\"gcs-skills gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n    gcloud storage cp ./my-file.txt gs://my-bucket\n    ```\n\n    Using the JSON API:\n\n    ```bash\n    curl -X POST -H \"Authorization: Bearer $(gcloud auth print-access-token)\" \\\n      -H \"User-Agent: gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n      -H \"Content-Type: text/plain\" \\\n      --data-binary @my-file.txt \\\n      \"https://storage.googleapis.com/upload/storage/v1/b/my-bucket/o?uploadType=media&name=my-file.txt\"\n    ```\n\n4.  **Download an Object:**\n\n    Using the gcloud CLI:\n\n    ```bash\n    CLOUDSDK_METRICS_ENVIRONMENT=\"gcs-skills gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n    gcloud storage cp gs://my-bucket/my-file.txt .\n    ```\n\n    Using the JSON API:\n\n    ```bash\n    curl -X GET -H \"Authorization: Bearer $(gcloud auth print-access-token)\" \\\n      -H \"User-Agent: gcs-skills/1.0 (skill:google-cloud-storage-basics)\" \\\n      \"https://storage.googleapis.com/storage/v1/b/my-bucket/o/my-file.txt?alt=media\"\n    ```\n\n## Reference Directory\n\n-   [Core Concepts](references/core-concepts.md): Buckets, objects, folders,\n    prefixes, bucket location types, and storage classes.\n\n-   [CLI & API Usage](references/cli-api-usage.md): CRUD and list operations for\n    buckets and objects using `gcloud storage` and the JSON API, plus Pub/Sub\n    notifications for event-driven processing.\n\n-   [Client Libraries](references/client-library-usage.md): Using Google Cloud\n    client libraries for Python, Java, Node.js, and Go, with pointers to all\n    other supported languages.\n\n-   [MCP Usage](references/mcp-usage.md): Choosing between the Google-hosted\n    remote Cloud Storage MCP server and the local MCP Toolbox, setup for each,\n    their tool sets and limits, and securing remote MCP with Model Armor and IAM\n    deny policies.\n\n-   [Infrastructure as Code](references/iac-usage.md): Terraform examples for\n    buckets covering storage classes, location types, lifecycle, retention, and\n    encryption.\n\n-   [Data Transfer](references/data-transfer.md): Storage Transfer Service,\n    `gcloud storage rsync`, upload strategies for large files, and performance\n    guidelines and limits.\n\n-   [Data Management](references/data-management.md): IAM roles, authentication\n    (including signed URLs and HMAC), access control, routing for 403 error\n    troubleshooting, network security, automated security assessment, data\n    protection, and pricing and cost optimization (lifecycle rules, Autoclass).\n\n-   [Storage Intelligence](references/storage-intelligence.md): The subscription\n    for managing storage at scale — Storage Insights datasets (BigQuery metadata\n    and activity index), data insights with Gemini Cloud Assist, dashboards,\n    inventory reports, storage batch operations, bucket relocation, plus\n    configuration, trial, and pricing nuances.\n\n-   [High-Performance Storage](references/high-performance-storage.md): Rapid\n    Bucket, Rapid Cache (Anywhere Cache), and hierarchical namespace for AI/ML,\n    analytics, and other performance-critical workloads.\n\n-   [GCSFuse](references/gcsfuse.md): Installing Cloud Storage FUSE, mounting\n    buckets, file operations, POSIX semantics and limitations (locking, writes,\n    renames, consistency), and caching. For advanced tuning, deployment, and\n    diagnosis, route to the `google-cloud-storage-fuse` skill.\n",
+ "body_lines": 210,
+ "bytes": 10531,
+ "code_blocks": 2,
+ "description": "Stores, retrieves, and manages data as objects in Cloud Storage (Google Cloud Storage, or GCS) buckets. Use when you need to interact with Cloud Storage — create or configure buckets, upload, download, stream, or transfer data, organize objects with folders, generate signed URLs, control access (IAM, ACLs, public access prevention), set storage classes and tiering (Standard, Nearline, Coldline, Archive), manage cost and lifecycle, protect data (versioning, encryption/CMEK, retention and Bucket Lock, object holds, soft delete), host static websites, trigger Pub/Sub notifications on object changes, mount buckets as a file system (gcsfuse), or optimize storage performance at any scale. Covers the gcloud storage / gsutil CLI, JSON and XML APIs, client libraries, Terraform, and Cloud Storage MCP servers. Don't use for block storage (Persistent Disk), data warehousing/analytics (BigQuery), or databases (Cloud SQL, Spanner, Bigtable, Firestore).",
+ "dir_name": "google-cloud-storage-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/cli-api-usage.md",
+  "references/client-library-usage.md",
+  "references/core-concepts.md",
+  "references/data-management.md",
+  "references/data-transfer.md",
+  "references/gcsfuse.md",
+  "references/high-performance-storage.md",
+  "references/iac-usage.md",
+  "references/mcp-usage.md",
+  "references/storage-intelligence.md"
+ ],
+ "file_count": 11,
+ "frontmatter": {
+  "license": "Apache-2.0",
+  "metadata": {
+   "category": "Storage",
+   "publisher": "google",
+   "support_tier": "primary",
+   "tags": "gcs, storage, cloud-storage, buckets, objects",
+   "version": "v1"
+  },
+  "name": "google-cloud-storage-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/google-cloud-storage-basics",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "0aef7ed8d519542b",
+ "heading_count": 5,
+ "id": "google--google-cloud-storage-basics",
+ "languages": [
+  "bash"
+ ],
+ "name": "google-cloud-storage-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-storage-basics/SKILL.md",
+ "score": 85,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/google-cloud-storage-basics",
+ "tags": [
+  "capability:build",
+  "capability:deploy",
+  "capability:optimize",
+  "domain:cloud-infra",
+  "domain:data",
+  "domain:security",
+  "format:cli",
+  "stack:firebase",
+  "stack:gcp",
+  "stack:mcp",
+  "stack:sql",
+  "stack:terraform",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 1073
+}

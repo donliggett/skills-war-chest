@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# Test Playable Web Games\n\nCombine deterministic tests with short real playthroughs. Do not treat a green build as gameplay proof.\n\n## Start with a test matrix\n\nMap the player journey: launch, new game, controls, core action, enemy encounter, reward, inventory/progression, save/continue, loss/retry, pause, settings, and completion. Add device variants for desktop keyboard/mouse, touch portrait, touch landscape, and reduced motion.\n\n## Prefer deterministic review states\n\nCreate seedable fixtures, debug routes, or query parameters for combat phase, inventory loadout, boss phase, tutorial step, save migration, low health, and error states. Test important transitions directly rather than grinding through the campaign.\n\n## Verify the player experience\n\nUse the repository-approved browser surface and honor local browser restrictions. Confirm screen-visible feedback after each meaningful action: control response, target state, damage/resource state, UI update, and navigation. Inspect console warnings/errors and sample performance only on a representative live scene.\n\n## Report actionable evidence\n\nRecord reproduction steps, expected versus actual result, severity, device/viewport, and the shortest useful proof. Separate new regressions from pre-existing baseline issues. After testing, close idle browser pages, dev servers, and benchmarks while leaving active task resources alone.\n",
+ "body_lines": 20,
+ "bytes": 1715,
+ "code_blocks": 0,
+ "description": "Test a playable browser game end to end with deterministic fixtures and real browser evidence. Use for gameplay QA, regression testing, controls, accessibility, responsive/mobile testing, save flows, console checks, performance smoke tests, and release verification.",
+ "dir_name": "test-playable-web-games",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "test-playable-web-games"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/game-development/test-playable-web-games",
+ "grade": "B",
+ "group": "game-development",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "4e22866b1eae2384",
+ "heading_count": 5,
+ "id": "mengto--test-playable-web-games",
+ "languages": [],
+ "name": "test-playable-web-games",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/test-playable-web-games/SKILL.md",
+ "score": 66,
+ "score_breakdown": {
+  "body": 13,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/game-development/test-playable-web-games",
+ "tags": [
+  "capability:deploy",
+  "capability:optimize",
+  "domain:game-dev",
+  "domain:testing",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 184
+}

@@ -1,0 +1,62 @@
+{
+ "also_at": [],
+ "body": "# GKE Cost Analysis\n\nThis skill provides guidance on answering natural language questions about\nGKE-related costs, billing reports, and utilization analysis.\n\n## Overview\n\nWhen users ask about GKE costs (e.g., \"What are my costs across projects?\",\n\"What's my most expensive namespace?\", \"Why is my cluster cost spiking?\"), use\nthis skill to provide a structured and expert response using BigQuery billing\nexports, cost allocation metadata, and live cluster metrics.\n\n## Instructions\n\nWhen handling a cost-related question:\n\n1.  **Provide a Direct Answer**: Address the specific cost question or\n    analytical request clearly and concisely.\n2.  **Explain BigQuery Integration**: Explain how to query BigQuery for\n    historical cost breakdown. Note that GKE costs originate from the GCP\n    Billing Detailed BigQuery Export (`gcp_billing_export_resource_v1_*`).\n3.  **Check & Verify Cost Allocation**: Explain that GKE Cost Allocation must be\n    enabled on the cluster (`--enable-cost-allocation`) for namespace, label,\n    and workload-level billing granularity. If queries return empty labels,\n    provide the `gcloud` command to enable it.\n4.  **Analyze Pricing Drivers & Utilization**: When diagnosing cost drivers,\n    explain whether the cluster is in Autopilot (billed by requested pod\n    CPU/memory) or Standard mode (billed by underlying VM node size + control\n    plane fees), and compare live utilization (`kubectl top`) against\n    provisioned requests.\n5.  **Provide Actionable Commands/Queries**: Provide concrete BigQuery CLI (`bq\n    query`) commands or read-only `gcloud`/`kubectl` inspection commands. Prefer\n    `bq` over BigQuery Studio when available.\n\n## Key Points & Pricing Drivers\n\n-   **Data Source**: GKE costs come from GCP Billing Detailed BigQuery Export.\n    The user must provide the full path to their BigQuery table (dataset name\n    and table name containing the Billing Account ID).\n-   **Granularity Requirement**: GKE Cost Allocation\n    (`--enable-cost-allocation`) must be enabled on the cluster to populate\n    `goog-k8s-cluster-name`, `k8s-namespace`, `k8s-workload-name`, and\n    `k8s-workload-type` labels in BigQuery.\n-   **Autopilot vs. Standard Cost Drivers**:\n    -   **Autopilot Pricing**: Billed directly on pod resource requests\n        (`requests.cpu`, `requests.memory`, ephemeral storage). Over-requested\n        pods drive up billing regardless of whether the pod actively uses those\n        CPU cycles or memory.\n    -   **Standard Pricing**: Billed on provisioned node pool VMs (`e2`, `n4`,\n        `c3`, etc.). Idle nodes or multiple low-utilization dev clusters drive\n        excess infrastructure costs.\n    -   **Cluster Management Fee**: ~$0.10/hour per cluster applies to BOTH\n        Standard and Autopilot modes. The free tier waives it for one eligible\n        cluster per billing account.\n-   **Credits & Discounts Impact**: When analyzing `cost` versus\n    `cost_before_credits`, note that Committed Use Discounts (CUDs) and Spot VMs\n    appear as credits or reduced rate charges in the billing export.\n-   **Tools & Syntax**: BigQuery CLI (`bq`) is preferred. When writing Standard\n    SQL queries, use a dot (`.`) instead of a colon (`:`) to separate the\n    project ID and dataset name (`{project_id}.{dataset_name}.{table_name}`).\n-   **Defaults**: Assume last 30 days, row limit 10, ordering by cost descending\n    (`ORDER BY cost DESC`), unless specified otherwise.\n\n## Live Cluster & Cost Monitoring\n\nUse read-only CLI commands to inspect current cluster budgets, node utilization,\nand pod resource consumption vs. requests:\n\n```bash\n# View billing budgets for an account (requires Cost Management API)\ngcloud billing budgets list --billing-account={billing_account} --quiet\n\n# View live node resource utilization across the cluster\nkubectl top nodes\n\n# View pod resource usage across namespaces (compare against requested limits to diagnose waste)\nkubectl top pods --all-namespaces --containers\n```\n\n> **Warning — cluster mutation, not read-only:** Enabling GKE cost allocation\n> modifies the cluster. Get explicit user confirmation before running it, and\n> note that namespace/workload labels populate in the billing export only from\n> enablement onward (no historical backfill).\n>\n> ```bash\n> gcloud container clusters update {cluster_name} \\\n>     --enable-cost-allocation \\\n>     --region {region}\n> ```\n\n## Applying Cost Optimizations\n\nTo apply rightsizing changes based on analysis (such as setting up `VPA`\nrecommendation mode, adjusting CPU/memory to `P95 * 1.2`, configuring Spot VMs\nvia `nodeSelector` or `ComputeClass`, enforcing `ResourceQuotas`, or selecting\nmachine types and CUDs), use the **`gke-cost-optimization`** skill.\n\n## BigQuery Query Templates\n\nReady-to-adapt `bq query` templates — single workload cost, per-workload\nper-cluster breakdown, per-namespace breakdown — with the placeholder policy\nand defaults (30 days, `LIMIT 10`, `ORDER BY cost DESC`) are in\n[references/billing-queries.md](references/billing-queries.md). All parameters\n(dataset, table, project, cluster, etc.) must be replaced with user values.\n\nNote: Checking that the `goog-k8s-cluster-name` label exists scopes the total\nbilling data specifically to GKE costs.\n",
+ "body_lines": 108,
+ "bytes": 5950,
+ "code_blocks": 2,
+ "description": "Answer natural language questions and perform analysis on GKE cluster and workload costs using BigQuery billing exports, cost allocation data, and live cluster monitoring metrics. Use when querying GKE costs across projects, namespaces, or workloads, analyzing billing reports in BigQuery (`bq`), checking cluster cost budgets (`gcloud billing`), or diagnosing cost drivers like pod requests vs. actual utilization (`kubectl top`). Don't use for applying cost optimization changes, creating rightsizing manifests (VPA/MPA), or selecting ComputeClasses (use gke-cost-optimization instead).",
+ "dir_name": "gke-cost-analysis",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/billing-queries.md"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "metadata": {
+   "category": "CloudObservabilityAndMonitoring"
+  },
+  "name": "gke-cost-analysis"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-cost-analysis",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "0da1e702137b12d2",
+ "heading_count": 10,
+ "id": "google--gke-cost-analysis",
+ "languages": [
+  "bash"
+ ],
+ "name": "gke-cost-analysis",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-cost-analysis/SKILL.md",
+ "score": 87,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-cost-analysis",
+ "tags": [
+  "capability:analyze",
+  "capability:debug",
+  "capability:optimize",
+  "domain:cloud-infra",
+  "domain:data",
+  "domain:devops",
+  "stack:gcp",
+  "stack:kubernetes",
+  "stack:sql",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 690
+}

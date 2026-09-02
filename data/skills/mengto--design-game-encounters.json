@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# Design Game Encounters\n\nDesign encounters as decisions, not actor counts.\n\n## Compose\n\nDefine objective, available space, enemy roles, spawn timing, hazards, player resources, exits, failure recovery, and reward. Add one pressure source at a time; require each archetype to create a distinct response.\n\n## Keep it fair\n\nProtect readable paths, telegraphs, camera sight lines, and recovery windows. Cap simultaneous committed attackers and avoid offscreen damage, unavoidable chains, or encounter resets that duplicate rewards.\n\n## Validate\n\nCreate deterministic starts for low resources, each wave, boss phase, victory, and death/retry. Test desktop and mobile at the real camera distance, then adjust composition from observed decisions rather than raw completion time.\n",
+ "body_lines": 16,
+ "bytes": 1033,
+ "code_blocks": 0,
+ "description": "Design, implement, tune, or test Three.js action-game encounters. Use for arena layout, enemy composition, spawn pacing, objectives, boss phases, reward cadence, encounter fixtures, and difficulty validation.",
+ "dir_name": "design-game-encounters",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "design-game-encounters"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/game-development/design-game-encounters",
+ "grade": "B",
+ "group": "game-development",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "0cb2da5d4fbc2581",
+ "heading_count": 4,
+ "id": "mengto--design-game-encounters",
+ "languages": [],
+ "name": "design-game-encounters",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/design-game-encounters/SKILL.md",
+ "score": 66,
+ "score_breakdown": {
+  "body": 13,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/game-development/design-game-encounters",
+ "tags": [
+  "capability:audit",
+  "capability:build",
+  "domain:design",
+  "domain:game-dev",
+  "domain:testing",
+  "stack:threejs",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 109
+}

@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# Agent Platform Model Registry Management\n\n## Overview\n\nThis skill provides instructions for managing machine learning models in the\nAgent Platform Model Registry. It covers listing models, describing model\ndetails, uploading new models or versions, updating metadata, and deleting\nmodels.\n\n## Safety & Confirmation Tiers (CRITICAL)\n\nBefore executing any commands on behalf of the user, you MUST adhere to the\nfollowing safety tiers based on the action requested:\n\n1.  **Tier R: Read-only (`list`, `describe`, `get`)**\n    *   No confirmation needed. Execute immediately to gather information.\n2.  **Tier M: Mutating & Reversible (`upload`, `update`)**\n    *   Requires **interactive confirmation** with 'Yes'/'No' options. The\n        confirmation prompt MUST contain the exact, literal command string with\n        all required flags (e.g. `--region=us-central1`, `--display-name=\"...\"`)\n        — natural-language paraphrases are NOT sufficient.\n    *   **Same-turn restriction**: NEVER execute the command in the same turn as\n        presenting the confirmation prompt. Stop and wait for the user's reply;\n        only execute after explicit 'Yes' / approval.\n3.  **Tier D: Destructive & Irreversible (`delete`)**\n    *   Requires **explicit typed confirmation** (e.g. \"I confirm\" or \"Yes,\n        delete it\"). Ask for confirmation IMMEDIATELY — before any pre-flight\n        checks (don't check if the model is deployed to endpoints first).\n    *   **Same-turn restriction**: NEVER execute in the same turn as asking for\n        typed confirmation. Wait for the user to reply in a new turn.\n\n## Phase 0: Environment Setup\n\n**CRITICAL**: Before running any commands, you MUST ensure the environment is\ncorrectly initialized by following these steps:\n\n1.  **Google Cloud Authentication**: Authenticate with your Google Cloud\n    credentials and configure active Application Default Credentials (ADC) for\n    Agent Platform access:\n\n    ```bash\n    gcloud auth login\n    gcloud auth application-default login\n    ```\n\n2.  **Set Project**: Configure the active project for subsequent commands:\n\n    ```bash\n    gcloud config set project $PROJECT_ID\n    ```\n\n3.  **Region**: Always specify `--region=$LOCATION_ID` on each command below. Do\n    NOT use `global`.\n\n## 1. Listing Models (Tier R)\n\nUse this command to discover existing models in the registry and retrieve their\nnumeric IDs. No confirmation is required.\n\n```bash\ngcloud ai models list \\\n    --region=$LOCATION_ID\n```\n\n## 2. Describing a Model (Tier R)\n\nRetrieve the full metadata for a specific model or version. No confirmation is\nrequired.\n\n```bash\ngcloud ai models describe $MODEL_ID \\\n    --region=$LOCATION_ID\n```\n\nTo target a specific version:\n\n```bash\ngcloud ai models describe ${MODEL_ID}@${VERSION_ID} \\\n    --region=$LOCATION_ID\n```\n\n## 3. Uploading a Model (Tier M)\n\nRegister a new model or a new version of an existing model. This is a\nlong-running operation. **Action requires an inline confirmation card before\nproceeding.**\n\n### Example: Uploading a Custom Model\n\n```bash\ngcloud ai models upload \\\n    --region=$LOCATION_ID \\\n    --display-name=\"my-custom-model\" \\\n    --container-image-uri=\"gcr.io/my-project/my-model:latest\" \\\n    --artifact-uri=\"gs://my-bucket/path/to/artifacts\"\n```\n\n> [!IMPORTANT]\n>\n> This is a Tier M operation — see [Safety & Confirmation Tiers] above.\n\nTo upload a new version of an existing model, use the `--parent-model` flag or\nspecify the parent model ID.\n\n## 4. Updating a Model (Tier M)\n\nUpdate metadata fields like display name, description, or labels. **Action\nrequires an inline confirmation card before proceeding.**\n\n```bash\ngcloud ai models update $MODEL_ID \\\n    --region=$LOCATION_ID \\\n    --display-name=\"new-display-name\" \\\n    --description=\"Updated description\"\n```\n\n> [!IMPORTANT]\n>\n> This is a Tier M operation — see [Safety & Confirmation Tiers] above.\n\n## 5. Deleting a Model (Tier D)\n\nPermanently delete a Model and all its versions. **Action requires explicit\ntyped confirmation before proceeding.**\n\n```bash\ngcloud ai models delete $MODEL_ID \\\n    --region=$LOCATION_ID\n```\n\n> [!WARNING]\n>\n> This operation is irreversible. All model versions must be undeployed from all\n> Endpoints before deletion.\n\n## 6. Searching Publisher Models (Tier R)\n\nBefore generating interactive model details, you MUST verify the `model_id` by\nsearching Model Garden Publisher Models. No confirmation is required.\n\nUse the `gcloud ai` CLI to search for matching publisher models.\n\n```bash\ngcloud ai model-garden models list --model-filter=\"<model_name_or_query>\" --full-resource-name --format=json\n```\n\nThis will return a list of matching models. Extract the exact `name` field from\nthe result (e.g., `publishers/google/models/gemma2` or\n`publishers/qwen/models/qwen3-coder`) to use as the verified `model_id`.\n",
+ "body_lines": 150,
+ "bytes": 5226,
+ "code_blocks": 14,
+ "description": "Agent Platform Model Registry Management. Use when you need to upload, list, describe, update, or delete machine learning models (and their versions) in the Agent Platform Model Registry. Don't use for model training, model deployment to endpoints, or managing non-Agent Platform models.",
+ "dir_name": "agent-platform-model-registry",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "AiAndMachineLearning"
+  },
+  "name": "agent-platform-model-registry"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/agent-platform-model-registry",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "2077b6b45f91244f",
+ "heading_count": 11,
+ "id": "google--agent-platform-model-registry",
+ "languages": [
+  "bash"
+ ],
+ "name": "agent-platform-model-registry",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-model-registry/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/agent-platform-model-registry",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:ml-ai",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 641
+}

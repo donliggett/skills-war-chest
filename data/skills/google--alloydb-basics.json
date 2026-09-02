@@ -1,0 +1,61 @@
+{
+ "also_at": [],
+ "body": "# AlloyDB Basics\n\nAlloyDB for PostgreSQL is a managed, PostgreSQL-compatible database service\ndesigned for enterprise-grade performance and availability. It utilizes a\ndisaggregated compute and storage architecture to scale resources independently.\nIt also provides AlloyDB AI, a collection of features that includes AI-powered\nsearch (vector, hybrid search, and AI functions), natural language capabilities,\nconversational analytics, and inference features like forecasting and model\nendpoint management to help developers build AI apps faster.\n\n## Quick Start\n\nBefore you begin, ensure you have the [Google Cloud SDK installed](https://cloud.google.com/sdk/docs/install) and authenticated (`gcloud auth login`).\n\n1.  **Enable the AlloyDB API:**\n\n    ```bash\n    gcloud services enable alloydb.googleapis.com --quiet\n    ```\n\n2.  **Create a Cluster:**\n\n    ```bash\n    gcloud alloydb clusters create my-cluster --region=us-central1 \\\n        --password=my-password --network=my-vpc --quiet\n    ```\n\n    *For production environments, always use IAM database authentication instead\n    of passwords. If configuration constraint requires passwords, store them\n    securely using Secret Manager.*\n\n3.  **Create a Primary Instance:**\n\n    ```bash\n    gcloud alloydb instances create my-primary --cluster=my-cluster \\\n        --region=us-central1 --instance-type=PRIMARY --cpu-count=2 --quiet\n    ```\n\n## Reference Directory\n\nRead these supplementary files when specific context or detailed steps are\nrequired for a task:\n\n-   To understand architecture, regional availability, connectivity (Private IP,\n    Public IP, PSA, PSC), backups, point-in-time recovery, scaling (vertical and\n    horizontal), or Quota management: read\n    [Core Concepts](references/core-concepts.md).\n-   To manage clusters, instances, scaling, or backups via the CLI: read\n    [CLI Usage](references/cli-usage.md).\n-   To configure AlloyDB remote MCP tools: read\n    [MCP Usage](references/mcp-usage.md).\n-   To deploy AlloyDB using Terraform or Kubernetes Config Connector (KCC): read\n    [Infrastructure as Code](references/iac-usage.md).\n-   To configure IAM roles, service usage roles, service agents, database\n    users/privileges, or network security (public IP authorization, Auth Proxy\n    sidecar configuration): read [IAM & Security](references/iam-security.md).\n\n*If you need product information not found in these references, use the\n`developer_knowledge:search_documents` tool (see [Developer Knowledge MCP setup](https://developers.google.com/knowledge/mcp) for installation instructions).*\n\n## Directives for Agents\n\nAgents MUST adhere to the following directives when answering queries related to\nAlloyDB:\n\n-   **Provide Multiple Methods:** When explaining how to perform administrative\n    tasks (like backups, scaling, or database user creation), always provide\n    both the Google Cloud Console steps and the `gcloud` CLI commands if both\n    are available in the reference documents.\n-   **Prioritize Private IP:** Recommend Private IP (especially PSC) over Public\n    IP for connections to ensure traffic remains within the Google Cloud network\n    and reduces exposure.\n-   **Require Serverless Connectors:** Verify and state that Serverless VPC\n    Access or Direct VPC Egress is required when connecting from Cloud Run to\n    Private IP.\n-   **Enforce Connectors:** Always direct users to configure the AlloyDB Auth\n    Proxy (running as a sidecar or locally) or language connectors rather than\n    direct TCP connections.\n-   **Block Open Public Access:** If Public IP is configured, warn against and\n    reject designs with `0.0.0.0/0` in Authorized Networks as this exposes the\n    database to the entire internet.\n-   **Default to IAM Database Authentication:** Suggest IAM database\n    authentication and the `alloydbiamuser` database role instead of static\n    database passwords.\n-   **Enforce Least Privilege Connection:** When explaining connection roles,\n    explicitly state that `roles/alloydb.client` should be used to adhere to the\n    principle of least privilege, and warn against using broader roles like\n    `roles/alloydb.admin` for connections.\n-   **Mention All Creation Methods:** When describing how to create IAM database\n    users, explicitly state that they can be created using the Google Cloud\n    Console, the `gcloud` CLI, and the AlloyDB API.\n-   **Explain Private IP Options:** When explaining Private IP connectivity,\n    always explicitly mention and describe both **Private Services Access\n    (PSA)** and **Private Service Connect (PSC)** as the supported methods,\n    recommending PSC for new deployments.\n-   **Compare Direct Connections:** Explicitly explain that direct connections\n    (connecting directly to the private IP without connectors) are possible but\n    discouraged, and compare their security (lack of IAM/mTLS) to secure methods\n    like the AlloyDB Auth Proxy or language connectors.\n-   **Enforce SQL Alone Warning:** When explaining IAM user creation, you MUST\n    explicitly state that \"IAM database users cannot be created using standard\n    SQL alone\" and must be registered via the control plane first.\n-   **Enforce Roles and Privileges Terminology:** When explaining database\n    object access, you MUST explicitly state that \"standard PostgreSQL roles and\n    privileges\" apply, using both terms.\n-   **Explain Backup Lifecycle:** When explaining backups, always explicitly\n    state that discrete backups exist independently of the source cluster and\n    remain active even if the source cluster is deleted.\n-   **Recommend Connectors for Public IP:** Explicitly state that secure\n    connection methods (AlloyDB Auth Proxy, Language Connectors) are\n    **especially recommended** for connections over Public IP.\n-   **Mention Autoscaling:** When explaining read pool scaling, always\n    explicitly mention the option of using **read pool autoscaling** and state\n    that it is in **Preview**.\n\n## Supporting Links\n\n-   [AlloyDB for PostgreSQL Documentation](https://docs.cloud.google.com/alloydb/docs/overview.md.txt)\n-   [AlloyDB Auth Proxy GitHub Repository](https://github.com/GoogleCloudPlatform/alloydb-auth-proxy)\n-   [AlloyDB Java Connector GitHub Repository](https://github.com/GoogleCloudPlatform/alloydb-java-connector)\n-   [AlloyDB Python Connector GitHub Repository](https://github.com/GoogleCloudPlatform/alloydb-python-connector)\n-   [AlloyDB Go Connector GitHub Repository](https://github.com/GoogleCloudPlatform/alloydb-go-connector)\n",
+ "body_lines": 123,
+ "bytes": 6920,
+ "code_blocks": 0,
+ "description": "Manages clusters, instances, and backups for AlloyDB for PostgreSQL, and integrates with AlloyDB Model Context Protocol (MCP) tools for automated database operations. Use when creating, configuring, or administering AlloyDB databases. Do NOT use for general PostgreSQL instances (e.g. Cloud SQL) or other GCP databases.",
+ "dir_name": "alloydb-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/cli-usage.md",
+  "references/core-concepts.md",
+  "references/iac-usage.md",
+  "references/iam-security.md",
+  "references/mcp-usage.md"
+ ],
+ "file_count": 6,
+ "frontmatter": {
+  "metadata": {
+   "category": "Databases"
+  },
+  "name": "alloydb-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/alloydb-basics",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "5bcda6408256efb4",
+ "heading_count": 5,
+ "id": "google--alloydb-basics",
+ "languages": [],
+ "name": "alloydb-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/alloydb-basics/SKILL.md",
+ "score": 80,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/alloydb-basics",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:data",
+  "domain:ml-ai",
+  "stack:gcp",
+  "stack:mcp",
+  "stack:sql",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 779
+}

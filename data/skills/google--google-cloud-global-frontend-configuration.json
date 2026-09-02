@@ -1,0 +1,65 @@
+{
+ "also_at": [],
+ "body": "# Google Cloud global external Application Load Balancer Configuration Skill\n\n## Purpose & Agent Guidance\n\nThis skill enables the agent to guide users through a structured, 6-step discovery process to design and deploy Google Cloud global external Application Load Balancers (incorporating Cloud CDN, Cloud Armor, and Service Extensions).\n\n**Assumptions & Target Environments:**\n- This skill assumes it is called from environments (such as Gemini CLI, Antigravity, etc.) where the Google Cloud CLI (`gcloud`) can be executed.\n- If `gcloud` is not available or accessible, the skill cannot perform automated resource discovery or managed deployment actuation. In such environments, the skill will limit its support to guiding the design and generating Terraform HCL configurations.\n\nWhen executing this skill, the agent must:\n- Map user workload requirements to simplified, opinionated best-practice configurations using actual Google Cloud product names.\n- Progressively disclose details, hiding advanced complexity unless the user explicitly asks for customization.\n- Leverage the reference documents in the `references/` directory to perform resource discovery, code generation, actuation, and drift detection.\n\n## The 6-Step Configuration Flow\n\n### Step 1: Basics\n*   **Project Discovery:** Consult `references/resource-discovery.md` to auto-detect the Google Cloud project ID. Present the discovered project ID to the user.\n*   Ask the user for the foundational details of their load balancer:\n    *   **Name & Description:** What should we call this load balancer?\n    *   **Protocol Selection:** Do they need HTTP, HTTPS, or both?\n    *   **Certificate Management:** Do they want to use Google-managed certificates or bring their own existing certificates?\n\n### Step 2: Origin Configuration\nHelp the user define their backend workloads through a strictly sequential, step-by-step loop. Do NOT ask everything at once. All steps are mandatory.\n\n*   **Sub-step A - Origin Setup:** Ask if they have a single origin or need multi-origin support. Wait for response.\n*   **Sub-step B - Origin Types:** Ask them to select the backend types from: Cloud Storage Buckets, Compute Engine Managed Instance Groups (MIGs), Google Kubernetes Engine (GKE) Clusters, Cloud Run Services, or External/Internet origins (IP/FQDN). Wait for response.\n*   **Sub-step C - Origin Definition Loop:** Execute the following loop sequentially for EACH origin type selected in Sub-step B. Wait for the user to answer for one origin before asking about the next:\n    *   **Resource Discovery:** For Google Cloud-native origins (Cloud Storage, MIGs, GKE, Cloud Run), consult `references/resource-discovery.md` to fetch resources. Present the list starting with **1. Create New**, **2. NA**. For External/Internet origins, just ask for the FQDN/IP.\n    *   **Workload Type (CRITICAL):** Immediately after they define the resource, ask exactly what type of workload is being served:\n        1.  **Static Images / Objects** (Static content, images, videos, styling assets)\n        2.  **Cacheable API** (Read-only, public APIs where cached data is acceptable)\n        3.  **Uncacheable API / Transactions** (Transactional endpoints, login, checkout, account changes)\n        4.  **Dynamic Web (SSR)** (Dynamic pages, server-side rendered apps, custom dynamic sessions)\n*   **Sub-step D - Routing Rules:** Once ALL origins have been fully defined one by one, ask how traffic should be routed between them (Path-based, header-based, or query-param-based). Wait for response.\n*   **Sub-step E - Logging:** After routing is established, ask if they want to enable Cloud CDN logging, and if so, at what sampling rate (0-100%). Wait for response.\n\n### Step 3: Traffic Management & Extensibility\n*   Provide a brief summary of the origins and routing rules defined in Step 2.\n*   Ask if they need to enable Advanced Traffic Management settings (such as granular weighted load balancing, traffic mirroring, or **Cloud Load Balancing Service Extensions** for custom WASM plugins / callouts), or if they want to proceed with **Google Cloud Best Practice Configuration**.\n\n### Step 4: Caching (Cloud CDN)\nPropose a \"Recommended Configuration\" based entirely on the Workload Type from Step 2. Do not list the advanced settings (TTL, Cache Keys, Compression) unless they reject the recommendation and want to customize.\n\n*   **If Workload = Static Images / Objects:**\n    *   Cache Mode: Cache All Static\n    *   TTL: Client (1 day / 86400s), Default (30 days / 2592000s), Max (365 days / 31536000s) — balances long-term cache offload for static assets with periodic re-validation.\n    *   Cache Key: Protocol + Host + Path (Ignore Query Strings)\n    *   Compression: Enabled (Brotli & Gzip)\n    *   Negative Caching: Enabled\n    *   Serve while stale: Enabled\n*   **If Workload = Cacheable API:**\n    *   Cache Mode: Use Origin Headers\n    *   TTL: Managed by Origin (Omitted from configuration to prevent errors)\n    *   Cache Key: Protocol + Host + Path + Include Query Strings\n    *   Compression: Enabled (Gzip)\n    *   Negative Caching: Enabled\n    *   Serve while stale: Disabled\n*   **If Workload = Uncacheable API / Transactions:**\n    *   Cache Mode: Disabled (CDN Bypassed)\n*   **If Workload = Dynamic Web (SSR):**\n    *   Cache Mode: Use Origin Headers\n    *   TTL: Managed by Origin (Omitted from configuration to prevent errors)\n    *   Cache Key: Protocol + Host + Path\n    *   Compression: Enabled (Brotli & Gzip)\n    *   Cache Bypass: Bypass cache if session cookies (e.g., SESSID, JWT) are present\n\n### Step 5: Security (Cloud Armor)\nPropose a \"Recommended Configuration\" based entirely on the Workload Type from Step 2. Keep advanced protection (Bot Management, Threat Intel, Geo-blocking) hidden unless requested.\n\n*   **If Workload = Static Images / Objects:**\n    *   Rate Limiting: None (Standard Edge behavior; rate limiting is unsupported on Cloud Armor Edge policies for Cloud Storage buckets).\n    *   OWASP Protection: Disabled\n*   **If Workload = Cacheable API:**\n    *   Rate Limiting: 100 requests per minute per client IP (standard baseline to prevent API abuse and DDoS while accommodating normal interactive usage).\n    *   OWASP Protection: Enabled (SQLi, XSS, Local File Inclusion)\n*   **If Workload = Uncacheable API / Transactions:**\n    *   Rate Limiting: Strict 30 requests per minute per client IP (tight threshold to protect sensitive transactional endpoints like login/checkout from credential stuffing and brute-force attacks).\n    *   OWASP Protection: Enabled (SQLi, XSS, Remote Command Execution, Session Fixation)\n    *   Bot Management & Threat Intel: Enabled (Block malicious bots and known malicious IPs)\n*   **If Workload = Dynamic Web (SSR):**\n    *   Rate Limiting: 120 requests per minute per client IP (generous threshold to accommodate burst requests for initial page loads and asset hydration in SSR web applications).\n    *   OWASP Protection: Enabled (SQLi, XSS, CSRF, Shellshock)\n    *   Geo-blocking: Optional (Restrict/allow specific country access)\n\n### Step 6: Review & Deploy\n*   **Configuration Summary:** Generate a complete, formatted markdown table showing all finalized settings from Steps 1 through 5, using Google Cloud product names. Follow this exact template structure:\n\n    | Component | Parameter / Setting | Value & Justification |\n    | :--- | :--- | :--- |\n    | **Load Balancer** | Name & Protocol | `<Name>` (HTTP/HTTPS) |\n    | **Origins** | Backends & Workloads | `<Backend 1>` (`<Workload Type>`), `<Backend 2>`... |\n    | **Traffic Management** | Routing Rules | `<Path / Header rules or Default>` |\n    | **Cloud CDN** | Cache Mode & TTLs | `<Cache Mode>`, Default TTL: `<TTL>` |\n    | **Cloud Armor** | Rate Limiting & OWASP | `<RPM Limit>`, OWASP Rules: `<Enabled/Disabled>` |\n    | **Service Extensions**| WASM / Callouts | `<Enabled/Disabled or N/A>` |\n\n*   **Next Action:** Ask the user to choose their deployment/generation format (Terraform HCL or gcloud CLI Bash Script) and their next action:\n    1.  **Show Code / Script** (Display the HCL code or gcloud bash script. Once displayed, offer options to **Download** or **Deploy/Execute**)\n    2.  **Download files** (Save `main.tf` or `deploy.sh` to the local workspace)\n    3.  **Deploy Configuration:** Initiate the deployment via Infrastructure Manager or execute the gcloud script. This should be done using the deployment instructions in `references/managed-deployment.md`.\n\n---\n\n## Relevant Documentation & Supportive Links\n- [Cloud Load Balancing Overview](https://cloud.google.com/load-balancing/docs/overview)\n- [Cloud CDN Documentation](https://cloud.google.com/cdn/docs)\n- [Cloud Armor Documentation](https://cloud.google.com/armor/docs)\n- [Cloud Load Balancing Service Extensions](https://cloud.google.com/service-extensions/docs/overview)\n- [Infrastructure Manager Overview](https://cloud.google.com/infrastructure-manager/docs)\n- [Official Terraform LB-HTTP Module](https://registry.terraform.io/modules/GoogleCloudPlatform/lb-http/google/latest)\n- [Official Terraform Cloud Armor Module](https://registry.terraform.io/modules/GoogleCloudPlatform/cloud-armor/google/latest)\n",
+ "body_lines": 115,
+ "bytes": 10325,
+ "code_blocks": 0,
+ "description": "Guides agents through a 6-step discovery process to design and deploy Google Cloud global external Application Load Balancers with Cloud CDN, Cloud Armor, and Service Extensions, mapping workload requirements to best-practice configurations.\nUse when:\n- Designing, configuring, or deploying a Google Cloud global external Application Load Balancer, Cloud CDN, Cloud Armor WAF, or Service Extensions.\n- Discovering existing Google Cloud resources (Cloud Storage, MIGs, GKE, Cloud Run) to use as backends.\n- Generating production-grade Terraform HCL or gcloud CLI scripts for global external Application Load Balancers.\n- Actuating deployments via Infrastructure Manager or bash scripts, including IAM pre-checks.\n- Detecting, analyzing, or reconciling configuration drift on deployed global external Application Load Balancers.\nDon't use for:\n- Non-Google Cloud load balancing or security configurations.\n- Purely regional or internal load balancing setups (unless part of a hybrid/failover global design).",
+ "dir_name": "google-cloud-global-frontend-configuration",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/drift-detection.md",
+  "references/gcloud-generation.md",
+  "references/managed-deployment.md",
+  "references/resource-discovery.md",
+  "references/terraform-generation.md",
+  "references/terraform-module.md"
+ ],
+ "file_count": 7,
+ "frontmatter": {
+  "metadata": {
+   "category": "Networking"
+  },
+  "name": "google-cloud-global-frontend-configuration"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/google-cloud-global-frontend-configuration",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "467d3c5fa311f362",
+ "heading_count": 10,
+ "id": "google--google-cloud-global-frontend-configuration",
+ "languages": [],
+ "name": "google-cloud-global-frontend-configuration",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-global-frontend-configuration/SKILL.md",
+ "score": 75,
+ "score_breakdown": {
+  "body": 18,
+  "description": 20,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/google-cloud-global-frontend-configuration",
+ "tags": [
+  "capability:analyze",
+  "capability:deploy",
+  "domain:cloud-infra",
+  "domain:security",
+  "domain:web",
+  "format:cli",
+  "stack:gcp",
+  "stack:kubernetes",
+  "stack:terraform",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 1270
+}

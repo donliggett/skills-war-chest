@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# Handle Disruption on GPUs and TPUs Troubleshooting\n\n## 🔍 Diagnostic Workflow\n\n### Step 0: Context Acquisition\n\n-   **Mandatory**: When a user asks to debug or investigate an actual workload\n    disruption, node crash, or unexpected restart without providing complete\n    cluster details, you MUST immediately halt and request all missing mandatory\n    parameters (`project_id`, `location`, `cluster_name`, `timestamp`) BEFORE\n    delivering theories or general diagnostic commands. Only skip context\n    acquisition if the user explicitly requests a generic reusable runbook or\n    provides a complete static telemetry/log dump for offline analysis.\n-   **Optional**: `node_name`, `workload_name`, `workload_namespace`,\n    `nodepool_name`.\n\n### Step 1: [Low Risk] Check for Upcoming Scheduled Maintenance\n\n-   **Action**: Propose running `kubectl` to check if nodes have the scheduled\n    maintenance label indicating an upcoming disruption.\n-   **Example Command**:\n\n    ```bash\n    kubectl get nodes -l cloud.google.com/scheduled-maintenance-time -L cloud.google.com/scheduled-maintenance-time\n    ```\n\n-   **Interpretation**: The `SCHEDULED-MAINTENANCE-TIME` column shows the Unix\n    epoch time when the VM is scheduled for maintenance. If this label exists, a\n    disruption is guaranteed to occur.\n\n### Step 2: [Low Risk] Investigation via Cloud Monitoring (PromQL)\n\n-   **Action**: Call any available monitoring tool or provide PromQL for manual\n    verification.\n-   **Mandatory Monitoring Rule**: Whenever recommending follow-up monitoring or\n    interruption tracking over time, you MUST explicitly present a **PromQL**\n    query using the metric `kubernetes_io:node_interruption_count` filtered by\n    `interruption_reason=\"HW/SW Maintenance\"`. Do not suggest general Cloud\n    Monitoring dashboards or Metrics Explorer without providing this specific\n    PromQL metric expression.\n-   **Example Query**:\n\n    ```promql\n    # Fetch host maintenance events for nodes\n    sum by (interruption_type,interruption_reason)( sum_over_time( kubernetes_io:node_interruption_count{monitored_resource=\"k8s_node\", interruption_reason=\"HW/SW Maintenance\"}[${__interval}]))\n    ```\n\n    ```promql\n    # See the interruption count aggregated by node pool\n    sum by (node_pool_name,interruption_type,interruption_reason)( sum_over_time( kubernetes_io:node_pool_interruption_count{monitored_resource=\"k8s_node_pool\", interruption_reason=\"HW/SW Maintenance\", node_pool_name=\"{nodepool_name}\" }[${__interval}]))\n    ```\n\n-   **Interpretation**: If `kubernetes_io:node_interruption_count` shows\n    values > 0 for `interruption_reason=\"HW/SW Maintenance\"`, it indicates the\n    underlying Compute Engine VM was interrupted due to scheduled host\n    maintenance.\n\n### Step 3: [Low Risk] Investigation via Cloud Logging & Node Taints\n\n-   **Action**: Call `query_logs` or instruct the user to filter their GKE logs\n    for active host maintenance events, and check node taints.\n-   **Guidance**: Look for occurrences in Cloud Logging where\n    `cloud.google.com/active-node-maintenance` is set to `ONGOING`. To check if\n    GKE has cordoned the terminating node to prevent new workloads from being\n    scheduled, verify whether the\n    `cloud.google.com/impending-node-termination:NoSchedule` taint is present\n    (either in GKE event logs or directly via `kubectl describe node`).\n-   **Interpretation**:\n    -   `cloud.google.com/active-node-maintenance` set to `ONGOING` means\n        workloads are actively being stopped by GKE due to host maintenance.\n    -   `cloud.google.com/impending-node-termination:NoSchedule` taint means GKE\n        has cordoned the node to prevent new Pods from being scheduled on the\n        terminating node. DO NOT recommend tolerating this taint.\n\n### Step 4: Conclusion and Resolution\n\n-   **Action**: Provide a summary of findings to the user and suggest\n    appropriate mitigation strategies if host maintenance events were confirmed\n    or scheduled.\n-   **Reporting Rule**: Signal Only. Report high-signal information indicating\n    that the disruption was caused by Compute Engine host maintenance,\n    specifically affecting the underlying GPU/TPU nodes. DO NOT dump raw logs.\n-   **Negative Findings Rule-Out**: If node scheduled-maintenance labels, PromQL\n    interruption counts, and active maintenance logs all return negative/empty\n    results, definitively conclude that Compute Engine host maintenance did NOT\n    cause the disruption. Direct the user to investigate application-level\n    causes (such as OOMKill events, CUDA runtime errors, or resource limits) and\n    do not propose host maintenance mitigations as the primary resolution.\n-   **Mandatory Workload Protection Triad**: Whenever host maintenance is\n    identified or anticipated on GPU/TPU nodes, consistently recommend all three\n    complementary mitigations together:\n    1.  **Configure Graceful Termination**: For workloads that need time to save\n        state (e.g., ML frameworks checkpointing via Orbax), follow the guide to\n        [Enable disruption handling](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/handle-disruption-gpu-tpu#enabling-handling)\n        and set `spec.terminationGracePeriodSeconds` (up to 60 minutes) to\n        handle the `SIGTERM` signal before node shutdown.\n    2.  **Enable Opportunistic Maintenance**: To automatically trigger\n        maintenance when GKE detects that GPU/TPU nodes are idle, configure\n        [Opportunistic Maintenance](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/handle-disruption-gpu-tpu#opportunistic-maintenance).\n    3.  **Configure PodDisruptionBudgets (PDBs)**: Ensure your workload uses a\n        `PodDisruptionBudget` to maintain `minAvailable` replicas during\n        evictions and disruptions.\n",
+ "body_lines": 103,
+ "bytes": 6505,
+ "code_blocks": 0,
+ "description": "Diagnoses, predicts, and mitigates node disruptions during Compute Engine host maintenance and hardware or software maintenance events for GPU and TPU workloads on GKE. Use when diagnosing node disruptions, predicting host maintenance events on GPU/TPU nodepools, inspecting node interruption PromQL metrics, auditing node taints, or configuring workload protection strategies (graceful termination, opportunistic maintenance, PodDisruptionBudgets). Don't use for general GKE cluster creation, network policy configuration, or non-disruption workload deployment.",
+ "dir_name": "gke-ai-troubleshooting-handle-disruption-gpu-tpu",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "CloudObservabilityAndMonitoring"
+  },
+  "name": "gke-ai-troubleshooting-handle-disruption-gpu-tpu"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-ai-troubleshooting-handle-disruption-gpu-tpu",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "706f73fa33d18d53",
+ "heading_count": 7,
+ "id": "google--gke-ai-troubleshooting-handle-disruption-gpu-tpu",
+ "languages": [],
+ "name": "gke-ai-troubleshooting-handle-disruption-gpu-tpu",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-ai-troubleshooting-handle-disruption-gpu-tpu/SKILL.md",
+ "score": 76,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-ai-troubleshooting-handle-disruption-gpu-tpu",
+ "tags": [
+  "capability:analyze",
+  "capability:debug",
+  "capability:deploy",
+  "domain:cloud-infra",
+  "stack:kubernetes",
+  "trait:spec-clean"
+ ],
+ "words": 634
+}

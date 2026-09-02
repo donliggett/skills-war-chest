@@ -1,0 +1,62 @@
+{
+ "also_at": [],
+ "body": "# Google Cloud Database Onboarding Skill\n\nThis skill provides domain instructions, decision matrices, and\nInfrastructure-as-Code workflows to guide users through discovering their exact\ndatabase requirements, selecting an optimal Google Cloud database service, and\ndrafting starter resource provisioning code for user review.\n\n## Validation & Progressive Disclosure\n\nA validation script is provided to verify the skill's reference files and\nformatting:\n\n```bash\npython3 scripts/database_onboarding_skill.py --verify\n```\n\n*   **Reading / Progressive Disclosure:** When interacting with a user during a\n    conversation, load reference files progressively. Follow the Just-in-Time\n    (JiT) loading instructions outlined in the phases below.\n\n--------------------------------------------------------------------------------\n\n## Workflow & Just-in-Time (JiT) Instructions\n\nThis workflow operates in three distinct sequential phases. Evaluate the active\nconversation history to determine the current phase and follow the corresponding\ninstructions:\n\n### Phase 1: Requirement Discovery & Information Gathering\n\nWhen a user asks `\"What database should I use?\"` or requires guidance on Google\nCloud database selection, you must initiate the Discovery phase.\n\n1.  **Load Discovery Instructions (JiT):** Read the complete contents of\n    `references/onboarding_prompts.md` using `view_file`.\n2.  **Execute Discovery:** Follow the detailed Phase 1 instructions in\n    `onboarding_prompts.md` to gather core requirements (data model, workload,\n    scale, and migration context) using user-friendly phrasing and enforcing\n    constraints (such as the 90% confidence rule) before proposing any\n    recommendation.\n\n### Phase 2: Recommendation Analysis & Matrix Consultation\n\nOnce you have gathered sufficient explicit discovery context, you must determine\nthe optimal Google Cloud database recommendation.\n\n1.  **Consult Matrix & Formulate Recommendation (JiT):** Follow the Phase 2\n    instructions in `references/onboarding_prompts.md`. This involves distilling\n    requirements, calling the database selection tool (or consulting\n    `references/recommendation_matrix.txt` directly if the tool is unavailable),\n    and formulating a single recommendation.\n2.  **Deliver Recommendation:** Deliver the recommendation to the user, mapping\n    destination codes to plain English, explaining the reasoning, and offering\n    to help with provisioning as detailed in `onboarding_prompts.md`.\n\n### Phase 3: Implementation & Provisioning (Plan-Validate-Execute Pattern)\n\nWhen the user accepts the recommendation and requests to provision or modify\ncloud resources, follow the Phase 3 instructions in\n`references/onboarding_prompts.md` using a strict **Plan-Validate-Execute** pattern.\nLimit your actions to creating and validating draft artifacts for user review.\n\n1.  **Analyze the Workspace:** Scan the user's workspace/open files/related\n    directories with database resources scripts.\n2.  **Obtain User Confirmation:** If the target infrastructure files are not\n    clear, ask the user explicitly to confirm the file paths or target directory\n    before modifying anything.\n3.  **Draft Infrastructure Plan (Plan):** Create or edit the necessary Terraform\n    configuration files or any other relevant scripts necessary to provision the\n    resources. When creating or editing Terraform files or any other database\n    resource provisioning script, you MUST:\n\n    *   Add a stamped header comment at the top of every generated Terraform\n        file/ shell script or any other resource provisioning script. (e.g., `#\n        Generated with cloud onboarding skills selector @date`, replacing\n        `@date` with the current date/timestamp).\n    *   Add a custom default tag like `resource_generated_by = \"cloud db\n        onboarding skill\"` under the `default_tags` block or as a resource\n        label/tag.\n\n4.  **Validate Infrastructure Code (Validate):** Before finalizing, you must\n    validate the drafted infrastructure code to verify syntax and configuration\n    correctness. *Why this matters:* Validating Terraform code ensures that\n    configuration blocks, IAM bindings, and instance sizing are\n    syntax-error-free and strictly enforceable before code review.\n\n5.  **Create Pull Request (Execute):** Once validation succeeds with zero\n    errors, automatically create a Pull request containing the validated\n    Terraform/shell/scripts updates for user review. Leave live infrastructure\n    changes (`terraform apply` or `gcloud` commands) to human review or\n    automated CI/CD pipelines.\n\n--------------------------------------------------------------------------------\n\n## Supporting Resources & Documentation\n\n- [Google Cloud Databases Overview](https://cloud.google.com/products/databases.md.txt)\n",
+ "body_lines": 98,
+ "bytes": 5316,
+ "code_blocks": 2,
+ "description": "Guides users through discovering their database requirements, recommends a Google Cloud database based on a recommendation matrix, and assists in database creation. Use when a user asks 'What database service should I use?', 'Help me pick a database', or when a user wants to create a new database on Google Cloud. Don't use for general Google Cloud maintenance, managing existing databases, or database migrations.",
+ "dir_name": "cloud-databases-onboarding",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/onboarding_prompts.md",
+  "references/recommendation_matrix.txt",
+  "references/selection_prompts.md",
+  "scripts/database_onboarding_skill.py"
+ ],
+ "file_count": 5,
+ "frontmatter": {
+  "metadata": {
+   "category": "Databases"
+  },
+  "name": "cloud-databases-onboarding"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/cloud-databases-onboarding",
+ "grade": "S",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": true,
+ "hash": "633b2d2e2901310e",
+ "heading_count": 7,
+ "id": "google--cloud-databases-onboarding",
+ "languages": [
+  "bash"
+ ],
+ "name": "cloud-databases-onboarding",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-databases-onboarding/SKILL.md",
+ "score": 92,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 12,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/cloud-databases-onboarding",
+ "tags": [
+  "capability:build",
+  "capability:migrate",
+  "domain:cloud-infra",
+  "domain:data",
+  "stack:gcp",
+  "trait:has-references",
+  "trait:has-scripts",
+  "trait:spec-clean"
+ ],
+ "words": 572
+}

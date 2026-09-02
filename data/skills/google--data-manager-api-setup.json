@@ -1,0 +1,61 @@
+{
+ "also_at": [],
+ "body": "# Data Manager API Setup\n\n## Setup Authentication\n\nRefer to [Set up API access](https://developers.google.com/data-manager/api/devguides/quickstart/set-up-access.md.txt)\nfor more details.\n\n1.  **Enable API (Prerequisite)**: Check that the user has enabled the Data\n    Manager API in their Google Cloud project.\n2.  **Generate ADC**: Authenticate the local workspace using Application\n    Default Credentials (ADC) via `gcloud auth application-default login`.\n    *   **Required Scopes**: Include scopes\n        `https://www.googleapis.com/auth/datamanager` and\n        `https://www.googleapis.com/auth/cloud-platform`.\n    *   **Multi-API Scopes**: If using the same credentials for other APIs,\n        append their scopes (e.g.,\n        `https://www.googleapis.com/auth/adwords`).\n    *   **Service Accounts**: Ensure the Service Account has the\n        `Service Usage Consumer` IAM role, and the user executing `gcloud`\n        has the Token Creator role\n        (`roles/iam.serviceAccountTokenCreator`) on that Service Account\n        for impersonation.\n\n## Install Client & Utility Libraries\n\nRefer to [Install a client library](https://developers.google.com/data-manager/api/devguides/quickstart/install-library.md.txt)\nfor more details.\n\nThe companion utility libraries provide pre-built helper classes\nand functions to correctly format, hash, and encrypt user identifiers (such as\nemails, phone numbers, and physical addresses) prior to API ingestion. Use of\nthese libraries is highly recommended to ensure that user identifier formatting\nmatches the API's specifications.\n\nSelect the language-specific installation guide below:\n\n*   [Python Setup Reference](references/python.md) (packages: `google-ads-datamanager` and `google-ads-datamanager-util`)\n*   [Java Setup Reference](references/java.md) (packages: `com.google.api-ads:data-manager` and `data-manager-util`)\n*   [Node Setup Reference](references/node.md) (packages: `@google-ads/datamanager` and `@google-ads/data-manager-util`)\n*   [PHP Setup Reference](references/php.md) (packages: `googleads/data-manager` and `googleads/data-manager-util`)\n*   [.NET Setup Reference](references/dotnet.md) (packages: `Google.Ads.DataManager.V1` and `Google.Ads.DataManager.Util.csproj`)\n",
+ "body_lines": 42,
+ "bytes": 2798,
+ "code_blocks": 0,
+ "description": "Guides developers through client library installation and authentication setup steps for the Data Manager API. Use this skill when a user is getting started with the Data Manager API and needs to setup their local environment, install the client library, or setup access to the API. Don't use for implementing audience or event ingestion logic (use the data-manager-api-audience-ingestion or data-manager-api-event-ingestion skills instead).",
+ "dir_name": "data-manager-api-setup",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/dotnet.md",
+  "references/java.md",
+  "references/node.md",
+  "references/php.md",
+  "references/python.md"
+ ],
+ "file_count": 6,
+ "frontmatter": {
+  "metadata": {
+   "category": "GoogleAds",
+   "version": 1.0
+  },
+  "name": "data-manager-api-setup"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/ads/data-manager-api-setup",
+ "grade": "A",
+ "group": "ads",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "185ad939b83c2175",
+ "heading_count": 3,
+ "id": "google--data-manager-api-setup",
+ "languages": [],
+ "name": "data-manager-api-setup",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/data-manager-api-setup/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/ads/data-manager-api-setup",
+ "tags": [
+  "domain:backend",
+  "domain:data",
+  "domain:security",
+  "stack:google-ads",
+  "trait:has-references",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 216
+}

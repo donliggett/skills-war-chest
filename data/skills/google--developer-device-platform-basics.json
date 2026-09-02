@@ -1,0 +1,65 @@
+{
+ "also_at": [],
+ "body": "# Developer Device Platform\n\nDeveloper Device Platform (DDP) is a Google fully managed, global infrastructure\nproviding access to a wide variety of physical and virtual devices.\n\n> [!WARNING] Developer Device Platform (DDP) is currently at Preview.\n\n> [!IMPORTANT] For all devicerun and devicestreaming API operations (reserving,\n> status checking, stopping/canceling, updating, or listing a session), always\n> verify and use the exact instructions and curl commands provided in the linked\n> reference `.md` files.\n\n## Authentication & Setup\n\n**CRITICAL**: Before running any requests, you MUST ensure the environment is\ncorrectly initialized by following these steps:\n\nBefore running any requests, verify if the `gcloud` executable is present. If\nmissing, refer to the official\n[Google Cloud CLI Installation Guide](https://docs.cloud.google.com/sdk/docs/install-sdk.md.txt)\nto install it on the current platform (Linux, macOS, Windows, etc.).\n\n1.  **Google Cloud Authentication**: Authenticate with your Google Cloud\n    credentials and configure active Application Default Credentials (ADC) for\n    the Developer Device Platform:\n\n    ```bash\n    gcloud auth login --no-browser\n    gcloud auth application-default login --no-browser\n    ```\n\n2.  **Enable APIs** (if not already enabled):\n\n    ```bash\n    gcloud services enable devicerun.googleapis.com devicestreaming.googleapis.com testing.googleapis.com --quiet\n    ```\n\n> [!NOTE] Cloud Testing API is needed for Device Streaming API during Preview.\n\n3.  **Enable gcloud beta component**:\n\n    ```bash\n    gcloud components install beta\n    ```\n\n4.  **Setup Environment Variables**: Set up the required project variable and\n    access token:\n\n    ```bash\n    export PROJECT_ID=$(gcloud config get project)\n    export ACCESS_TOKEN=$(gcloud auth application-default print-access-token 2>/dev/null)\n    ```\n\n5.  **Python Environment**: For instructions on setting up the python virtual\n    environment, see [start_adb_forwarder.md].\n\n## Listing Available Devices\n\nTo find the correct `modelCode` and `osVersion` to use when starting a session,\nyou can list the available devices:\n\n1.  **List Models**: Run the following command to list available Android device\n    models:\n\n    ```bash\n    gcloud beta device-run devices list\n    ```\n\n    Use the `ID` column to find the value for the `CATALOG_ID` parameter to\n    describe a specific device (e.g., `shiba-36`).\n\n2.  **Describe a Model**: Run the API request to get more details about a\n    specific model (e.g., supportedProducts, resolution). Always rely on the\n    exact curl command and instructions provided in [describe_device.md].\n\n## Starting a Device Session\n\nWhen the user asks to reserve or connect to a device:\n\n1.  **Check Device Availability**:\n\n    Look up `CATALOG_ID` of the device using `Listing Available Devices`\n    instructions. Check the device availability of the `CATALOG_ID` by using the\n    exact curl command and instructions provided in [describe_device.md]. The\n    device MUST contain \"deviceStreaming\" in \"supportedProducts\" to be reserved.\n\n    If no specific device is specified, use `CATALOG_ID=shiba-34` (Pixel 8 on\n    SDK 34).\n\n    If `OS_VERSION` was not specified by the user, ask the user to select a\n    version from the device list (preferring the version with the highest\n    availability {\"available\": \"AVAILABILITY_HIGH\" }).\n\n    If `OS_VERSION` is unavailable for `deviceStreaming`, do not reserve one.\n    Prompt the user for an alternative `OS_VERSION`.\n\n2.  **Extract Parameters**:\n\n    *   `model_id`: `modelCode` from device details. Required.\n    *   `version_id`: `osVersion` from device details. Required.\n\n3.  **Reserve Device**:\n\n    **Rule**: **Explicit User Confirmation Required**. Reserving a device incurs\n    billing charges and creates cloud resources. The agent MUST ALWAYS warn the\n    user explicitly about the billing costs that will be incurred on the active\n    Google Cloud project (e.g., `${PROJECT_ID}`). You MUST STOP and ask for\n    explicit approval before proceeding with any session creation commands.\n\n    Then, run the API request with `model_id` and `version_id` to reserve the\n    device. Always rely on the exact curl command and instructions provided in\n    [reserve_device.md].\n\n    Parse the response to get `session_name` (the session name, e.g.,\n    `projects/${PROJECT_ID}/deviceSessions/session-xxxxxx`). If reservation\n    fails, report the error.\n\n4.  **Wait for Session to be Active**:\n\n    While waiting for the device session to be provisioned, poll the session\n    status until `\"state\"` is `\"ACTIVE\"`. See [session_status.md] for the exact\n    curl command.\n\n    Repeat this check every 5 seconds to prevent hitting API rate limit. If it\n    does not become active within 2 minutes (typically under 1 minute), report\n    failure and cancel the session. Once active, extract `expireTime` from the\n    session JSON response and convert it to the user's local time in a\n    human-readable format (e.g., \"June 9, 2026 at 2:44 PM PDT\").\n\n5.  **Start Connection Forwarder**: Start the ADB forwarder script to forward\n    connection to the remote device. Always rely on the exact command and\n    instructions provided in [start_adb_forwarder.md]. Ensure you record the\n    **Command ID**.\n\n6.  **Wait for Online and Parse Port**: Wait for the forwarder to be online and\n    extract the listening port. Always rely on the exact logic and instructions\n    provided in [start_adb_forwarder.md].\n\n7.  **Provide Instructions to User**:\n\n    Once online, run `adb -s localhost:{port} shell getprop ro.product.model` to\n    retrieve the device model name. Then, print a message directly to the user\n    in the chat (do NOT create any artifact file) with the following\n    instructions:\n\n    ### Device is ready!\n\n    ```\n    Device Model: {device_model}\n    OS Version: {version_id}\n    ADB Address: localhost:{port}\n    Session Expiration: {expire_time_human_readable_local}\n    ```\n\n8.  **Save Session State**: Save the `{session_name}` and `{command_id}` in your\n    conversation memory/context so you can clean it up later.\n\n## Viewing the Device Screen of a Reserved Device\n\nThe coding agent can directly interact with the remote device using `adb`. Users\nmay use a utility to display the screen and manually control the reserved device\nin DDP. See [view_device.md] for an example utility.\n\n## Stopping a Device Session\n\nWhen the user asks to stop, cleanup, or release the device:\n\n1.  **Identify Session**: Retrieve the active `{session_name}` and\n    `{command_id}` from your context. If you don't have them, list active\n    sessions first (see helper command below) to find the session name.\n\n2.  **Cancel Session via API**: Cancel the session via the API. Always rely on\n    the exact curl command and instructions provided in [cancel_session.md].\n\n3.  **Terminate Connection Forwarder**: Terminate the background process\n    matching `{command_id}` using your environment's process management\n    capability.\n\n4.  **Confirm**: Confirm to the user that the session has been cancelled and\n    resources released.\n\n## Change Device Session Expiration Time\n\nWhen the user asks to change the expiration time of an active device session:\n\n**Rule**: **Explicit User Confirmation Required**. Extending a device session\nincurs additional billing charges and creates cloud resources. The agent MUST\nALWAYS warn the user explicitly about the extra billing costs that will be\nincurred on the active Google Cloud project (e.g., `${PROJECT_ID}`). You MUST\nSTOP and ask for explicit approval before proceeding with any session extension\ncommands.\n\n1.  **Extract Parameters**:\n\n    *   `session_name`: The active session name.\n    *   `ttl`: The new remaining duration (e.g., `3600s`). Derive the `ttl` if\n        it's provided in another format.\n\n2.  **Change Session via API**: Change the session via the API using\n    `updateMask=ttl`. Always rely on the exact curl commands and instructions\n    provided in [update_session_expiration.md].\n\n3.  **Restart Connection Forwarder**:\n\n    *   Run `adb disconnect localhost:{port}` to ensure the old forwarder\n        connection is closed.\n    *   Stop the old connection forwarder corresponding to `{command_id}`.\n    *   Start a new connection forwarder by following Step 5 in \"Starting a\n        Device Session\" (calculating the new `--ttl` duration in seconds and\n        storing the newly returned Command ID).\n\n4.  **Confirm**: Confirm to the user that the session duration has been updated\n    and the connection forwarder has been restarted with the new TTL.\n\n## Helper: List Active Sessions\n\nTo find active sessions if you lost context, always rely on the curl command and\ninstructions provided in [list_sessions.md].\n\n## References\n\n*   [gcloud device-run CLI]\n*   [Device Streaming API]\n*   [describe_device.md]\n*   [reserve_device.md]\n*   [session_status.md]\n*   [start_adb_forwarder.md]\n*   [view_device.md]\n*   [cancel_session.md]\n*   [update_session_expiration.md]\n*   [list_sessions.md]\n\n[gcloud device-run CLI]: https://docs.cloud.google.com/sdk/gcloud/reference/beta/device-run\n[Device Streaming API]: https://docs.cloud.google.com/device-streaming/docs/reference/rest.md.txt\n[describe_device.md]: references/describe_device.md\n[reserve_device.md]: references/reserve_device.md\n[session_status.md]: references/session_status.md\n[start_adb_forwarder.md]: references/start_adb_forwarder.md\n[view_device.md]: references/view_device.md\n[cancel_session.md]: references/cancel_session.md\n[update_session_expiration.md]: references/update_session_expiration.md\n[list_sessions.md]: references/list_sessions.md\n",
+ "body_lines": 243,
+ "bytes": 10055,
+ "code_blocks": 0,
+ "description": "Provides guidance and instructions on managing remote devices on Developer Device Platform (DDP). Use when reserving remote Android devices, establishing connection tunnels, checking session status, or extending/cancelling leases. Don't use for iOS or local device/hardware inquiries.",
+ "dir_name": "developer-device-platform-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/cancel_session.md",
+  "references/describe_device.md",
+  "references/list_sessions.md",
+  "references/reserve_device.md",
+  "references/session_status.md",
+  "references/start_adb_forwarder.md",
+  "references/update_session_expiration.md",
+  "references/view_device.md",
+  "scripts/demo_adb_forwarder.py",
+  "scripts/requirements.txt"
+ ],
+ "file_count": 11,
+ "frontmatter": {
+  "metadata": {
+   "category": "CloudInfrastructureAndServices"
+  },
+  "name": "developer-device-platform-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/developer-device-platform-basics",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": true,
+ "hash": "43b2b8c74b5d7fca",
+ "heading_count": 9,
+ "id": "google--developer-device-platform-basics",
+ "languages": [],
+ "name": "developer-device-platform-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/developer-device-platform-basics/SKILL.md",
+ "score": 85,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 12,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/developer-device-platform-basics",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:mobile",
+  "stack:android",
+  "stack:ios",
+  "trait:has-references",
+  "trait:has-scripts",
+  "trait:spec-clean"
+ ],
+ "words": 1226
+}

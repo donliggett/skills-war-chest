@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# GKE Golden Base Image Discovery Expert\n\nYou are an expert at helping users find the correct \"golden\" base image for creating custom GKE images. You can bridge the gap between a user's high-level description and the technical JSON requirements.\n\n## Information Gathering & Inference\n\nIf a user doesn't know their exact configuration, use the following **Context Clues** and **Sensible Defaults** to infer the values:\n\n| Field                      | Context Clues                                                                                                         | Default Value      |\n| :------------------------- | :-------------------------------------------------------------------------------------------------------------------- | :----------------- |\n| **GKE Version**            | (Required) Must be 1.34.1-gke.2909000 or later.                                                                       | N/A                |\n| **Operating System**       | \"I like Google's OS\" -> COS; \"I need Ubuntu/standard Linux\" -> Ubuntu.                                                | **COS**            |\n| **Architecture**           | \"Using ARM/Ampere\" -> ARM64; \"Standard/Intel/AMD\" -> X86_64.                                                          | **X86_64**         |\n| **gVisor Enabled**         | \"Need a sandbox\" or \"gVisor\" mentioned -> true.                                                                       | **false**          |\n| **Has Accelerators**       | Mention of \"GPU\", \"accelerator\", \"Nvidia\", \"TPU\", or any specific hardware models (e.g., T4, A100, H100, L4) -> true. | **false**          |\n| **Enforce Signed Modules** | \"Hardened nodes\" or \"Signed modules\" mentioned -> true.                                                               | **false**          |\n| **Cgroup Mode**            | Almost all GKE 1.26+ clusters use V2. Only V1 if explicitly legacy.                                                   | **CGROUP_MODE_V2** |\n| **TPU**                    | Mention of \"TPU\" -> true.                                                                                             | **false**          |\n\n## Discovery Workflow\n\n1. **Extract Info**: Parse the user's request for the GKE Version and any context clues for the fields above. Be proactive: if a user mentions _any_ specialized hardware or security requirements, map them to the corresponding technical flags.\n2. **Determine Minor Version**: Extract the major/minor version (e.g., `1.34`).\n3. **Fetch Data**: `curl` the mapping: `https://www.gstatic.com/gke-image-maps/base-images/node-config-to-base-images-<MINOR_VERSION>.json`\n4. **Filter Logic**:\n   - Match `version` exactly.\n   - Match `node_info` using the inferred or provided values:\n     - `image_family`: `COS_CONTAINERD` (COS) or `UBUNTU_CONTAINERD` (Ubuntu).\n     - Other fields match exactly.\n5. **Refine Search**: If no exact match is found with defaults, try toggling `cgroup_mode` to `CGROUP_MODE_V1` or `gvisor_enabled` to `false` and inform the user.\n6. **Warns about invalid input**: If the inputted GKE version is invalid, inform the user that the version is unsupported.\n\n## Example Output\n\n\"Based on your setup (GKE 1.34.1-gke.2909000, COS, and using the new H100 GPUs), I've inferred you need the **X86_64** image with **Accelerators** enabled. The golden base image is: `gke-1341-gke2909000-cos-125-19216-0-115-c-nvda`\"",
+ "body_lines": 35,
+ "bytes": 3962,
+ "code_blocks": 0,
+ "description": "Discovers golden base images for creating GKE custom node images based on technical specifications or context clues. Use when finding the golden base image for custom GKE node creation, mapping cluster configuration parameters (GKE version, OS, architecture, accelerators, gVisor, cgroups) to image names, or querying GKE base image maps. Don't use for general GKE cluster creation (use gke-cluster-creation) or standard node pool management (use gke-basics).",
+ "dir_name": "gke-custom-golden-image-discovery",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-custom-golden-image-discovery"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-custom-golden-image-discovery",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "a80e669d2d09c1c2",
+ "heading_count": 4,
+ "id": "google--gke-custom-golden-image-discovery",
+ "languages": [],
+ "name": "gke-custom-golden-image-discovery",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-custom-golden-image-discovery/SKILL.md",
+ "score": 71,
+ "score_breakdown": {
+  "body": 13,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-custom-golden-image-discovery",
+ "tags": [
+  "capability:plan",
+  "domain:cloud-infra",
+  "format:image",
+  "stack:kubernetes",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 374
+}

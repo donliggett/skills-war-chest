@@ -1,0 +1,76 @@
+{
+ "also_at": [],
+ "body": "# Genkit Dart\n\nGenkit Dart is an AI SDK for Dart that provides a unified interface for code generation, structured outputs, tools, flows, and AI agents.\n\n## Core Features and Usage\nIf you need help with initializing Genkit (`Genkit()`), Generation (`ai.generate`), Tooling (`ai.defineTool`), Flows (`ai.defineFlow`), Embeddings (`ai.embedMany`), streaming, or calling remote flow endpoints, please load the core framework reference: \n[references/genkit.md](references/genkit.md)\n\n## Prompts (Dotprompt)\n\n`.prompt` files keep prompt content out of Dart code with YAML frontmatter plus a\nHandlebars template. See [references/dotprompt.md](references/dotprompt.md):\n`promptDir`, `ai.prompt()` (call/stream/render), variants, partials, named\nschemas via `defineSchema`, and the `tools`/`maxTurns`/`returnToolRequests`/`use`\n(middleware) frontmatter fields. A `.prompt` file can also back an agent directly\nvia `definePromptAgent`.\n\n## Agents\n\nGenkit Dart has an **agent** API for persistent, multi-turn conversations\n(sessions, snapshots, interrupts, branching, background execution, custom state,\nartifacts, and multi-agent delegation). Server APIs come from\n`package:genkit/genkit.dart` and the browser/HTTP client from\n`package:genkit/client.dart`. The `remoteAgent` client works from any Dart app,\nincluding **Flutter**, and the backend is fully interchangeable — it can talk to\na Genkit agent implemented in Dart, JS/TypeScript, or Go over the same HTTP\nprotocol. A few Dart specifics: interrupts are modeled as tools that call\n`ctx.interrupt(...)` (there is no `defineInterrupt`), sub-agent delegation uses\nthe `agents()` middleware from `package:genkit_middleware`, and there is no\n`artifacts()` middleware yet (define artifact tools directly).\n\nFor more details see:\n\n-   [Agents](references/agents.md): defining/serving an agent and client-managed state (start here).\n-   [Sessions & persistence](references/agents-sessions.md): session stores (`InMemorySessionStore`/`FileSessionStore`/`FirestoreSessionStore`).\n-   [Human-in-the-loop / interrupts](references/agents-human-in-the-loop.md): pausing for approval/input via `ctx.interrupt` and resuming.\n-   [Branching](references/agents-branching.md): forking a conversation from a snapshot.\n-   [Background agents](references/agents-background.md): detaching long-running turns and polling.\n-   [Working with state](references/agents-state.md): typed custom session state, auto-synced to the client.\n-   [Artifacts](references/agents-artifacts.md): producing and reading named deliverables.\n-   [Multi-agent orchestration](references/agents-multi-agent.md): delegating to sub-agents with the `agents()` middleware.\n-   [Advanced custom agents](references/agents-custom.md): `defineCustomAgent` for full turn control.\n-   [Deploying agents](references/agents-deployment.md): serving agents over HTTP with `genkit_shelf` (multiple agents, CORS).\n\n## Genkit CLI (recommended)\n\n`genkit start` unintrusively wraps any Dart program that uses the Genkit library, running it unchanged while capturing traces from every Genkit action so you can prove tools were actually called and inspect model I/O from the terminal, even for headless checks. It forwards stdio, so interactive CLI tools that rely on stdin/stdout work without issues. Running the app directly (`dart run`) skips trace capture, so you're debugging blind. Check install with `genkit --version`.\n\n**Installation:**\n```bash\ncurl -sL cli.genkit.dev | bash # Native CLI\n# OR\nnpm install -g genkit-cli # Via npm\n# OR run commands directly with npx without a global install (prefix every genkit command):\n# npx genkit-cli start -- dart run main.dart\n```\n\n**Primary pattern (default):** prefix `genkit start --` to your normal run command. This collects telemetry from any Genkit code your program runs, whether triggered from the dev UI, your own web server/web UI, or a plain script. Starts the Developer UI (usually http://localhost:4000) for running flows, model and agent playground, and browsing traces:\n\n```bash\ngenkit start -- dart run main.dart\ngenkit start --noui -- dart run main.dart   # same, without the Dev UI (still a persistent server)\n```\n`genkit start` runs until you stop it with Ctrl+C. That is expected and correct for the common cases: a server your web/mobile app calls, or an interactive CLI you exit yourself. `--noui` only drops the Dev UI; it is **not** a one-shot command and will not exit on its own. Do **not** use `genkit start` as a blocking step in automated/non-interactive contexts; use `flow:run` (below) for that.\n\n**Non-interactive use (agents/CI):** add the global `--non-interactive` flag before `--` so the CLI uses defaults and never blocks on a prompt (e.g. the first-run analytics notice): `genkit start --non-interactive -- dart run main.dart` (works with `flow:run` too).\n\n**Run a flow (`flow:run`):** invoke a specific flow by name from the CLI. Append your run command after `--` to spin up the runtime just for this run (the command runs as-is to register your flows):\n```bash\ngenkit flow:run myFlow '{\"data\": \"input\"}' -- dart run main.dart\n```\nThis is **self-terminating**: it runs the flow once, prints a `Trace ID`, then exits, so it's the right choice for a quick, non-interactive check (unlike `genkit start`). Note: `flow:run` runs **flows** (`ai.defineFlow`), not agents; you can't `flow:run` an agent (`ai.defineAgent`) directly. To exercise an agent from the CLI, wrap one turn in a throwaway flow and run that (see [Agents](references/agents.md)). Traces for this run can be inspected using the trace commands below.\n\n**Debugging with traces:** the fastest way to see prompts, model inputs/outputs, tool calls, latencies, and errors. Inspect from the terminal after any run under `genkit start`:\n```bash\ngenkit trace:list                        # find recent trace IDs\ngenkit trace:get <traceId>               # full trace details (inputs, outputs, tool calls, errors)\ngenkit trace:get <traceId> --format json # machine-readable JSON, safe to pipe into jq or other parsers\n```\n\nFor machine-readable output, pass `--format json` to get clean JSON you can pipe into `jq` or other parsers. The **default** output is human-oriented (banner/log lines, possible truncation on large traces), so don't pipe that form directly; use `--format json`, grep, or the Dev UI trace viewer.\n\n\n**Documentation:**\n```bash\ngenkit docs:search \"streaming\" dart\ngenkit docs:list dart\ngenkit docs:read dart/flows.md\n```\n\n## Plugin Ecosystem\nGenkit relies on a large suite of plugins to perform generative AI actions, interface with external LLMs, or host web servers.\n\nWhen asked to use any given plugin, always verify usage by referring to its corresponding reference below. You should load the reference when you need to know the specific initialization arguments, tools, models, and usage patterns for the plugin:\n\n| Plugin Name | Reference Link | Description |\n| ---- | ---- | ---- |\n| `genkit_google_genai` | [references/genkit_google_genai.md](references/genkit_google_genai.md) | Load for Google Gemini plugin interface usage. |\n| `genkit_anthropic` | [references/genkit_anthropic.md](references/genkit_anthropic.md) | Load for Anthropic plugin interface for Claude models. |\n| `genkit_openai` | [references/genkit_openai.md](references/genkit_openai.md) | Load for OpenAI plugin interface for GPT models, Groq, and custom compatible endpoints. |\n| `genkit_middleware` | [references/genkit_middleware.md](references/genkit_middleware.md) | Load for Tooling for specific agentic behavior: `filesystem`, `skills`, and `toolApproval` interrupts. |\n| `genkit_mcp` | [references/genkit_mcp.md](references/genkit_mcp.md) | Load for Model Context Protocol integration (Server, Host, and Client capabilities). |\n| `genkit_chrome` | [references/genkit_chrome.md](references/genkit_chrome.md) | Load for Running Gemini Nano locally inside the Chrome browser using the Prompt API. |\n| `genkit_shelf` | [references/genkit_shelf.md](references/genkit_shelf.md) | Load for Integrating Genkit Flow actions over HTTP using Dart Shelf. |\n| `genkit_firebase_ai` | [references/genkit_firebase_ai.md](references/genkit_firebase_ai.md) | Load for Firebase AI plugin interface (Gemini API via Vertex AI). |\n\n## External Dependencies\nWhenever you define schemas mapping inside of Tools, Flows, and Prompts, you must use the [schemantic](https://pub.dev/packages/schemantic) library. \nTo learn how to use schemantic, ensure you read [references/schemantic.md](references/schemantic.md) for how to implement type safe generated Dart code. This is particularly relevant when you encounter symbols like `@Schema()`, `SchemanticType`, or classes with the `$` prefix. Genkit Dart uses schemantic for all of its data models so it's a CRITICAL skill to understand for using Genkit Dart.\n\n## Best Practices\n- **Agent or flow?** If the task is conversational, multi-turn, or described as \"an agent\", \"assistant\", or \"chatbot\", build it with `ai.defineAgent` (see [Agents](references/agents.md)) rather than hand-rolling a `generate` + tools loop inside a flow. Reach for a plain flow only for single-shot, stateless generation.\n- Always check that code cleanly compiles using `dart analyze` before generating the final response.\n- Always use the Genkit CLI for local development and debugging.\n- Verify with traces, not a blind run. Running the app directly (`dart run`) does not capture dev traces. See the [Genkit CLI](#genkit-cli-recommended) section for how to run your app and capture traces.\n",
+ "body_lines": 116,
+ "bytes": 9796,
+ "code_blocks": 10,
+ "description": "Generates code and provides documentation for the Genkit Dart SDK. Use when the user asks to build AI agents in Dart, use Genkit flows, or integrate LLMs into Dart/Flutter applications.",
+ "dir_name": "genkit-dart",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/agents-artifacts.md",
+  "references/agents-background.md",
+  "references/agents-branching.md",
+  "references/agents-custom.md",
+  "references/agents-deployment.md",
+  "references/agents-human-in-the-loop.md",
+  "references/agents-multi-agent.md",
+  "references/agents-sessions.md",
+  "references/agents-state.md",
+  "references/agents.md",
+  "references/dotprompt.md",
+  "references/genkit.md",
+  "references/genkit_anthropic.md",
+  "references/genkit_chrome.md",
+  "references/genkit_firebase_ai.md",
+  "references/genkit_google_genai.md",
+  "references/genkit_mcp.md",
+  "references/genkit_middleware.md",
+  "references/genkit_openai.md",
+  "references/genkit_shelf.md",
+  "references/schemantic.md"
+ ],
+ "file_count": 22,
+ "frontmatter": {
+  "metadata": {
+   "category": "AiAndMachineLearning"
+  },
+  "name": "developing-genkit-dart"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/genkit-dart",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "4e9af104aecebb0f",
+ "heading_count": 11,
+ "id": "google--genkit-dart",
+ "languages": [
+  "bash"
+ ],
+ "name": "developing-genkit-dart",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/genkit-dart/SKILL.md",
+ "score": 76,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 7,
+  "spec": 24
+ },
+ "source_path": "skills/cloud/genkit-dart",
+ "tags": [
+  "capability:build",
+  "domain:cloud-infra",
+  "domain:docs-writing",
+  "trait:code-heavy",
+  "trait:has-references"
+ ],
+ "words": 1251
+}

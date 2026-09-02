@@ -1,0 +1,59 @@
+{
+ "also_at": [],
+ "body": "# Data Lineage Summary\n\nThis skill guides the agent in investigating and summarizing the Data Lineage\ngraph for a specific focal asset (Table-Level Lineage) or specific fields\n(Column-Level Lineage). It provides an intuitive left-to-right walkthrough of\nhow data enters and leaves the asset, abstracting away complex node and link\ndetails into plain English.\n\n## Prerequisites\n\nThis skill relies on the **Google Cloud Data Lineage (Knowledge Catalog) MCP\nServer** for graph traversal. Ensure you can run `search_lineage` queries in\nboth upstream and downstream directions. For detailed connection configurations\nand tool schemas, refer to [MCP Usage](references/mcp-usage.md).\n\n## Workflow Logic\n\n### 1. Get Lineage\n\nFetch the lineage graph in both directions from the focal point (both upstream\nand downstream) by making *two separate calls* to the MCP tool: one with\n`\"direction\": \"UPSTREAM\"` and another with `\"direction\": \"DOWNSTREAM\"`.\n\n*   **Location Strategy**: You **MUST** use the `read_url` tool to fetch the\n    comprehensive list of locations dynamically from the provided\n    [Knowledge Catalog Locations](https://docs.cloud.google.com/dataplex/docs/locations.md.txt)\n    link. To ensure cross-regional lineage is not missed, always verify the\n    current list of GCP regions using this link before populating the\n    `locations` array. You **MUST** populate the `locations` array with all\n    supported physical regions fetched from this link. You may optionally\n    additionally determine the asset's specific active region (using `bq show`\n    or `gcloud storage ls`).\n*   **Search Parameters**: Use `maxDepth = 10`, `maxResults = 5000` and\n    `maxProcessPerLink = 10` as robust defaults when calling `search_lineage`.\n    For example, a DOWNSTREAM call should be formatted like this (expanding the\n    `locations` array as needed):\n\n    ```json\n    {\n      \"parent\": \"projects/project_id/locations/us\",\n      \"locations\": [\n        \"us\",\n        \"us-central1\",\n        \"us-east1\",\n        \"us-west1\",\n        \"europe-west1\",\n        \"asia-northeast1\"\n      ],\n      \"rootCriteria\": {\n        \"entities\": {\n          \"entities\": [\n            {\n              \"fullyQualifiedName\": \"bigquery:project.dataset.table\"\n            }\n          ]\n        }\n      },\n      \"direction\": \"DOWNSTREAM\",\n      \"limits\": {\n        \"maxDepth\": 10,\n        \"maxResults\": 5000,\n        \"maxProcessPerLink\": 10\n      }\n    }\n    ```\n\n    Ensure you make a similar call with `\"direction\": \"UPSTREAM\"` to fetch the\n    upstream lineage.\n\n*   **Column-Level Lineage (CLL)**: The `search_lineage` tool can find all\n    Column-Level Lineage (CLL) by configuring the `field` array. If Table-Level\n    Lineage (TLL) is requested, configure the call to get CLL links along with\n    the TLL links by exploiting the `\"*\"` wildcard. For example:\n\n    ```json\n    \"rootCriteria\": {\n      \"entities\": {\n        \"entities\": [\n          {\n            \"fullyQualifiedName\": \"bigquery:project.dataset.table\",\n            \"field\": [\n              \"*\"\n            ]\n          }\n        ]\n      }\n    }\n    ```\n\n    If evaluating a specific column, replace `\"*\"` with the specific column name\n    (e.g., `\"efficiency_score\"`).\n\n### 2. Summarize\n\nGenerate the summary using the prompt guidelines below.\n\n*   **Persona**: Act as an expert Data Lineage Analyst generating a concise,\n    easy-to-understand left-to-right walkthrough of the data flow.\n*   **Structure & Flow**: Start immediately with the summary text, structured as\n    follows:\n    *   **Overall Flow Type**: State the inferred workflow type and data domain\n        (e.g., \"This appears to be a Feature Engineering workflow...\").\n    *   **Systems Overview**: List the primary systems involved up front. If the\n        request is for Column-Level Lineage, you MUST explicitly declare that\n        the scope of the analysis is limited to the specified field up front.\n    *   **Upstream Lineage**: Use the exact bold header `**Upstream Lineage:**`.\n        Narrative must detail how data arrives at the focal asset, mentioning\n        key source systems, projects, and processing tasks (e.g., Spark on\n        Dataproc).\n    *   **Downstream Lineage**: Use the exact bold header `**Downstream\n        Lineage:**`. Detail where data goes from the focal asset to final\n        consumer systems.\n    *   **Analysis Metadata**: Display the parameters used for the API call to\n        provide transparency on the boundaries of the summary. The output must\n        contain:\n        *   **Locations Searched**: `{list_of_locations_queried}`\n        *   **Parent Location**: `{parent_path}`\n        *   **Depth Limit**: `{maxDepth}`\n        *   **Process per Link Limit**: `{maxProcessPerLink}`\n        *   **Tip for User**: A prompt suggesting they can ask to rerun with\n            expanded locations (if not all were used) or depth.\n*   **Granularity Constraints**:\n    *   Prioritize flows between Systems, Projects, and Datasets over individual\n        files/tables.\n    *   You MUST explicitly list specific asset names (e.g., source tables,\n        intermediate views, consumer tables) if there are fewer than 5. Do not\n        just summarize counts if there are fewer than 5; name them explicitly.\n        Otherwise, if 5 or more, aggregate them by count (e.g., \"5 GCS\n        buckets\").\n    *   Only mention counts for *ultimate sources*, *final consumers*, and\n        *total assets*.\n    *   Do not repeat project names redundantly for every dataset if only one\n        project is involved.\n*   **Tone**: Avoid jargon and generic phrases like \"There are distinct factual\n    points.\" Be direct and clear. The final output is Markdown.\n\n### 3. Return the Summary\n\nReturn the final summarized output back to the user.\n\n## External Documentation\n\n-   [Google Cloud Knowledge Catalog Data Lineage Documentation](https://docs.cloud.google.com/dataplex/docs/about-data-lineage.md.txt)\n-   [Use the Data Lineage MCP server](https://docs.cloud.google.com/dataplex/docs/use-lineage-mcp.md.txt)\n-   [Knowledge Catalog Data Lineage API Reference](https://docs.cloud.google.com/dataplex/docs/reference/data-lineage/rest.md.txt)\n",
+ "body_lines": 146,
+ "bytes": 6731,
+ "code_blocks": 0,
+ "description": "Summarizes Google Cloud Data Lineage graphs to help users debug data quality issues and understand data provenance for BQ/GCS. Use when summarizing upstream and downstream data flows, and presenting complex lineage data as an intuitive Markdown report. Don't use for generic BigQuery queries, editing lineage relationships, or downstream deprecation. Don't use for downstream blast-radius impact analysis (use datalineage-bigquery-asset-impact-analysis skill instead).",
+ "dir_name": "datalineage-summary",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/mcp-usage.md"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "metadata": {
+   "category": "BigDataAndAnalytics"
+  },
+  "name": "datalineage-summary"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/datalineage-summary",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "f8a8bcb0d3b91b68",
+ "heading_count": 7,
+ "id": "google--datalineage-summary",
+ "languages": [],
+ "name": "datalineage-summary",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/datalineage-summary/SKILL.md",
+ "score": 80,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/datalineage-summary",
+ "tags": [
+  "capability:analyze",
+  "capability:debug",
+  "capability:document",
+  "domain:cloud-infra",
+  "domain:data",
+  "format:markdown",
+  "stack:gcp",
+  "stack:sql",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 746
+}

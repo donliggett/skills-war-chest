@@ -1,0 +1,56 @@
+{
+ "also_at": [],
+ "body": "# BigQuery Asset Impact Analysis\n\nThis skill guides the agent in performing a downstream impact analysis (blast\nradius assessment) when a BigQuery table or view is reported as broken, stale,\nmissing, or when a user is planning maintenance and wants to know the\nconsequences of modifying or pausing updates to an asset.\n\nIt relies primarily on the **Google Cloud Data Lineage (Knowledge Catalog) MCP Server**\nto discover relationships between assets.\n\n## Prerequisites\n\nThis skill requires access to the Google Cloud Data Lineage API and an active\nclient connection to the Data Lineage MCP Server. For detailed connection\nconfigurations and tool schemas, refer to [MCP Usage](references/mcp-usage.md).\n\n## Analysis Workflow\n\n### 1. Resolve the Asset's Fully Qualified Name (FQN)\n\n*   Ensure you have the correct FQN format for the BigQuery asset:\n    *   *Format:* `bigquery:{project_id}.{dataset_id}.{table_or_view_id}`\n    *   *Example:* `bigquery:my-prod-project.analytics.orders`\n\n\n### 2. Determine Locations and Parent Path\n\nIdentify the locations to search and construct the Data Lineage API request:\n\n*   **Discover Asset Location**: Run the command `bq show --format=json\n    {project_id}:{dataset_id}` and extract the `location` field (e.g.,\n    `us-central1` or `us`). If location discovery fails due to permissions or\n    missing tools, prompt the user for the dataset's location.\n*   **Set Parent Path**: Set the `parent` path using the project ID and the\n    MCP server's location. Consult the `DataLineageServer` tool definition\n    to find the configured region or location (e.g., `us`). The format is:\n    `projects/{project_id}/locations/{mcp_server_location}`.\n*   **Configure Search Scope**: Include the discovered asset location in the\n    `locations` array of the payload (e.g., `[\"us-central1\"]` or `[\"us\",\n    \"us-central1\"]`).\n\n### 3. Retrieve the Downstream Lineage Graph\n\nCall the `DataLineageServer:search_lineage` tool to fetch downstream\nrelationships.\n\n*   **Direction**: Set to `DOWNSTREAM`.\n*   **Search Parameters**: Use `max_depth = 10` and `max_process_per_link = 5`\n    as robust defaults.\n\n### 4. Identify the Blast Radius\n\nTraverse the returned lineage links to build the impact graph:\n\n*   **Affected Assets**: The `target` of each link represents a downstream asset\n    that depends on your source asset.\n*   **Transform Processes**: Inspect the `processes` field on each link. This\n    identifies the ETL pipelines, BigQuery Views, or Scheduled Queries that\n    propagate the data.\n*   **Direct vs. Indirect Impact**:\n    *   **Direct Impact (Depth 1)**: Assets directly consuming the source asset.\n        If a link has `dependency_type: EXACT_COPY`, mark the target as\n        \"Directly Stale / Identical Copy\".\n    *   **Indirect Impact (Depth > 1)**: Assets further down the stream that\n        will experience cascading stale data or failures.\n\n### 5. Summarize and Format the Output\n\nPresent your findings clearly to the user using the following structure:\n\n1.  **Executive Summary**: State the total number of downstream assets affected\n    and the maximum depth of the impact.\n2.  **Critical Path**: Highlight high-priority downstream assets (e.g., assets\n    containing \"prod\", \"dashboard\", \"reporting\", or \"master\" in their names).\n3.  **Blast Radius Table**: A clean Markdown table listing the dependencies. You\n    MUST include all columns:\n\n    | Downstream Asset                 | Transform Process                     | Depth | Impact Type |\n    | :------------------------------- | :------------------------------------ | :---- | :---------- |\n    | `bigquery:project.dataset.table` | `projects/p/locations/l/processes/proc` | 1     | Direct      |\n    | `bigquery:project.dataset.view`  | `projects/p/locations/l/processes/view` | 2     | Indirect    |\n4.  **Analysis Metadata**: Provide transparency on the parameters and boundaries\n    of your search so the user can choose to expand them:\n    *   **Locations Searched**: `{list_of_locations_queried}`\n    *   **Parent Location**: `{parent_path}`\n    *   **Depth Limit**: `{max_depth}`\n    *   **Process per Link Limit**: `{max_process_per_link}`\n    *   *Tip for User*: Let the user know they can request to rerun the analysis\n        with expanded locations or larger depth limits.\n\n## Crucial Constraints & Guardrails\n\n1.  **Interpret Empty Responses Correctly**:\n    *   If the lineage response is empty, immediately assume that no\n        dependencies exist in the queried locations and report this to the\n        user.\n2.  **Strictly Banned Bypasses**:\n    *   Exclusively retrieve downstream relationships using the\n        `DataLineageServer:search_lineage` tool.\n3.  **Verify Asset Existence First**:\n    *   If `bq show` indicates the source table does not exist, stop and report\n        this directly to the user. Do not attempt to guess alternative table\n        names unless the user explicitly instructs you to do so.\n4.  **No Output Shortcutting or Hallucinated Artifacts**:\n    *   Present the complete downstream blast radius table directly in your\n        final response. Avoid telling the user you have created a separate\n        Markdown file or artifact containing the details unless you have\n        explicitly executed file-writing tools to create it.\n\n## Reference Directory\n\n-   [MCP Usage](references/mcp-usage.md): Using the Google Cloud Data Lineage\n    remote MCP server and tool preferences.\n\n## External Documentation\n\n-   [Google Cloud Knowledge Catalog Data Lineage Documentation](https://cloud.google.com/dataplex/docs/about-data-lineage)\n-   [Use the Data Lineage MCP server](https://docs.cloud.google.com/dataplex/docs/use-lineage-mcp)\n-   [Knowledge Catalog Data Lineage API Reference](https://cloud.google.com/dataplex/docs/reference/data-lineage/rest)\n",
+ "body_lines": 120,
+ "bytes": 6639,
+ "code_blocks": 0,
+ "description": "Analyzes the downstream impact (blast radius) when a BigQuery table or view is broken, stale, or modified. Identifies all downstream tables, dashboards, and processes that will be affected. Use when: - Performing a blast radius or impact analysis for a BigQuery table or view. - Assessing the consequences of modifying, deleting, or pausing updates to a BigQuery asset. - Identifying downstream dependencies (tables, dashboards, processes) of a BigQuery asset. Don't use for: - General BigQuery querying or data analysis (use BigQuery-related tools instead). - Non-BigQuery assets (e.g., Cloud Storage files) unless they are part of the BigQuery lineage. - Creating or modifying lineage links directly.",
+ "dir_name": "datalineage-bigquery-asset-impact-analysis",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/mcp-usage.md"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "metadata": {
+   "category": "BigDataAndAnalytics"
+  },
+  "name": "datalineage-bigquery-asset-impact-analysis"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/datalineage-bigquery-asset-impact-analysis",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "c68617bcc90e3b13",
+ "heading_count": 11,
+ "id": "google--datalineage-bigquery-asset-impact-analysis",
+ "languages": [],
+ "name": "datalineage-bigquery-asset-impact-analysis",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/datalineage-bigquery-asset-impact-analysis/SKILL.md",
+ "score": 75,
+ "score_breakdown": {
+  "body": 18,
+  "description": 20,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/datalineage-bigquery-asset-impact-analysis",
+ "tags": [
+  "capability:analyze",
+  "domain:cloud-infra",
+  "domain:data",
+  "stack:gcp",
+  "stack:sql",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 735
+}

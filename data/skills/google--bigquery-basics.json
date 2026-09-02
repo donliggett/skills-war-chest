@@ -1,0 +1,63 @@
+{
+ "also_at": [],
+ "body": "# BigQuery Basics\n\nBigQuery is a serverless, AI-ready data platform that enables high-speed\nanalysis of large datasets using SQL and Python. Its disaggregated architecture\nseparates compute and storage, allowing them to scale independently while\nproviding built-in machine learning, geospatial analysis, and business\nintelligence capabilities.\n\n## Setup and Basic Usage\n\n1.  **Enable the BigQuery API:**\n\n    ```bash\n    gcloud services enable bigquery.googleapis.com --quiet\n    ```\n\n2.  **Create a Dataset:**\n\n    ```bash\n    bq mk --dataset --location=US my_dataset\n    ```\n\n3.  **Create a Table:**\n\n    Create a file named `schema.json` with your table schema:\n\n    ```json\n    [\n      {\n        \"name\": \"name\",\n        \"type\": \"STRING\",\n        \"mode\": \"REQUIRED\"\n      },\n      {\n        \"name\": \"post_abbr\",\n        \"type\": \"STRING\",\n        \"mode\": \"NULLABLE\"\n      }\n    ]\n    ```\n\n    Then create the table with the `bq` tool:\n\n    ```bash\n    bq mk --table my_dataset.mytable schema.json\n    ```\n\n4.  **Run a Query:**\n\n    ```bash\n    bq query --use_legacy_sql=false \\\n    'SELECT name FROM `bigquery-public-data.usa_names.usa_1910_2013` \\\n    WHERE state = \"TX\" LIMIT 10'\n    ```\n\n## Reference Directory\n\n- [Core Concepts](references/core-concepts.md): Storage types, analytics\n  workflows, and BigQuery Studio features.\n\n- [Change History](references/change-history.md): Tracking and querying\n  incremental table changes using APPENDS and CHANGES.\n\n-   [Continuous Queries](references/continuous-queries.md): Running continuous\n    SQL statements to analyze incoming data in real time.\n\n- [CLI Usage](references/cli-usage.md): Essential `bq` command-line tool\n  operations for managing data and jobs.\n\n- [Client Libraries](references/client-library-usage.md): Using Google Cloud\n  client libraries for Python, Java, Node.js, and Go.\n\n- [MCP Usage](references/mcp-usage.md): Using the BigQuery remote MCP server and\n  Gemini CLI extension.\n\n- [Infrastructure as Code](references/iac-usage.md): Terraform examples for\n  datasets, tables, and reservations.\n\n- [IAM & Security](references/iam-security.md): Roles, permissions, and data\n  governance best practices.\n\n*If you need product information not found in these references, use the\nDeveloper Knowledge MCP server `search_documents` tool.*\n\n## Related Skills\n\n- [BigQuery AI & ML Skill](../bigquery-ai-ml):\n  SKILL.md file for BigQuery AI and ML capabilities (forecast, anomaly\n  detection, text generation).\n",
+ "body_lines": 90,
+ "bytes": 2777,
+ "code_blocks": 0,
+ "description": "Manages datasets, tables, and jobs in BigQuery. Use when you need to interact with BigQuery, run SQL queries, manage BigQuery resources (datasets, tables, views), or perform basic data ingestion and analysis.",
+ "dir_name": "bigquery-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/change-history.md",
+  "references/cli-usage.md",
+  "references/client-library-usage.md",
+  "references/continuous-queries.md",
+  "references/core-concepts.md",
+  "references/iac-usage.md",
+  "references/iam-security.md",
+  "references/mcp-usage.md"
+ ],
+ "file_count": 9,
+ "frontmatter": {
+  "metadata": {
+   "category": "BigDataAndAnalytics"
+  },
+  "name": "bigquery-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/bigquery-basics",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "039af2065e5f52d5",
+ "heading_count": 4,
+ "id": "google--bigquery-basics",
+ "languages": [],
+ "name": "bigquery-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/bigquery-basics/SKILL.md",
+ "score": 75,
+ "score_breakdown": {
+  "body": 18,
+  "description": 20,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/bigquery-basics",
+ "tags": [
+  "capability:analyze",
+  "domain:cloud-infra",
+  "domain:data",
+  "stack:gcp",
+  "stack:sql",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 284
+}

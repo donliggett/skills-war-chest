@@ -1,0 +1,59 @@
+{
+ "also_at": [],
+ "body": "## Usage Guide\n\nTo use this skill effectively:\n\n1.  **Generate Code**: Provide the Python snippets below to the user to help\n    them manage prompts in Agent Platform.\n\n2.  **No File System Search**: Do not try to find Python files or scripts on the\n    file system for these operations.\n\n## Safety & Confirmation Tiers (CRITICAL)\n\nBefore executing any commands or scripts on behalf of the user, you must adhere\nto the following safety tiers based on the action requested, to prevent\naccidental mutation or permanent deletion of prompt resources:\n\n1.  **Tier R: Read-only (`list`, `get`)**\n    *   No confirmation needed. Execute immediately to gather information.\n2.  **Tier M: Mutating & Reversible (`create`)**\n\n    *   Requires **interactive confirmation** with 'Yes'/'No' options before\n        executing prompt creation, to prevent unintended resource proliferation\n        or misconfiguration. The confirmation prompt must clearly explain the\n        proposed prompt creation and its key parameters (e.g., display name,\n        template text, target model). Natural-language paraphrases without\n        specifying the parameters are not sufficient.\n    *   **Same-turn restriction**: Do not execute the creation code in the same\n        turn as presenting the confirmation prompt. Stop and wait for the user's\n        reply; only execute after explicit 'Yes' / approval.\n    *   Every parameter in the card must trace back to something the user said.\n        The target model is a user choice, not a default: if the user did not\n        name one, ASK before building the card. Do not carry over the model that\n        appears in the examples here or in `references/create.md`.\n    *   **Gold Standard Example** — for a user who said \"create a prompt called\n        Customer Support Greeting for gemini-2.5-pro with the template Hello\n        {{user_name}}, how can I help...\":\n\n        > I will create a prompt in Agent Platform with the following\n        > parameters. Please confirm this information before I proceed:\n        >\n        > *   **Display Name**: `Customer Support Greeting`\n        > *   **Target Model**: `gemini-2.5-pro`\n        > *   **Template Text**: \"Hello {{user_name}}, how can I help...\"\n        >\n        > Do you confirm? [Yes/No]\n\n3.  **Tier D: Destructive & Irreversible (`delete`)**\n\n    *   Requires **explicit typed confirmation** (e.g. \"I confirm\" or \"Yes,\n        delete it\") before executing prompt deletion, to prevent accidental\n        permanent loss of production prompt assets. Ask for confirmation before\n        any pre-flight checks.\n    *   **Same-turn restriction**: NEVER execute in the same turn as asking for\n        typed confirmation. Wait for the user to reply in a new turn.\n    *   **Gold Standard Example**:\n\n        > I will permanently delete the following prompt from Agent Platform.\n        > This action is irreversible. Please explicitly type your confirmation\n        > (e.g., \"I confirm\") before I proceed:\n        >\n        > *   **Prompt ID**: `prompt_12345abc`\n        > *   **Display Name**: `Legacy Outdated Prompt`\n        >\n        > Please type your confirmation to proceed.\n\n## Phase 0: Environment Setup\n\n**CRITICAL**: Before the user runs any of the Python snippets below, you MUST\nadvise them to ensure the environment is correctly initialized by following\nthese steps:\n\n1.  **Google Cloud Authentication**: Authenticate with your Google Cloud account\n    and configure active Application Default Credentials (ADC) for Agent\n    Platform access:\n\n    ```bash\n    gcloud auth login\n    gcloud auth application-default login\n    ```\n\n2.  **Python Dependencies**: This skill needs `google-cloud-aiplatform` and\n    `google-genai`. Do **not** create a virtual environment — it starts empty\n    and hides packages the environment already provides, forcing a redundant\n    install. Probe, and install only what is missing:\n\n    ```bash\n    python3 -c \"import vertexai, google.genai\" \\\n      || pip install google-cloud-aiplatform google-genai\n    ```\n\n3.  **Execution**: Run Python snippets with a plain `python3`. There is no\n    environment to activate first.\n\n> [!TIP]\n>\n> **Placeholder Parameter Replacement:** The Python scripts below use uppercase\n> string placeholders (like `\"PROJECT_ID\"`, `\"LOCATION_ID\"`, `\"PROMPT_ID\"`, and\n> `\"MODEL_ID\"`). You **MUST** dynamically replace these placeholders with the\n> actual Project ID, Region, Prompt ID, and target model values provided in the\n> user's prompt (or discovered context) before generating or providing the\n> scripts. If the user did not supply one of these, ask -- a placeholder is\n> never satisfied by guessing a plausible value.\n\n## 1. Managing Prompts via Agent Platform SDK\n\nThe SDK provides a high-level `Prompt` class in the preview module.\n\n### Create a Prompt (Tier M)\n\nUse when you need to create a new managed prompt in Agent Platform.\n\n*   **Reference**: See [create.md](references/create.md) for detailed\n    instructions and Python snippets.\n\n### List Prompts (Tier R)\n\n```python\nimport vertexai\nfrom vertexai.preview import prompts\n\nvertexai.init(project=\"PROJECT_ID\", location=\"LOCATION_ID\")\n\nall_prompts = prompts.list()\nfor p in all_prompts:\n    print(f\"Name: {p.display_name}, ID: {p.prompt_id}\")\n```\n\n### Retrieve and Use a Prompt (Tier R)\n\n```python\nimport vertexai\nfrom vertexai.preview import prompts\n\nvertexai.init(project=\"PROJECT_ID\", location=\"LOCATION_ID\")\n\nretrieved_prompt = prompts.get(prompt_id=\"PROMPT_ID\")\n# Versions are supported: prompts.get(prompt_id=\"PROMPT_ID\", version_id=\"2\")\n\n# Assemble with variables (kwargs must match template variable names)\nassembled = retrieved_prompt.assemble_contents(text=\"The quick brown fox...\")\nprint(assembled)\n```\n\n### Delete a Prompt (Tier D)\n\n**CRITICAL**: You must pass the numeric prompt ID (e.g.,\n`\"1234567890123456789\"`) to `prompts.delete()`. The SDK constructs the full\nresource path internally using the project and location from `vertexai.init()`.\n\n**Confirmation Required**: As a Tier D (Destructive) operation, the agent MUST\npause and request explicit, high-friction typed re-confirmation of the prompt ID\nfrom the user before generating or providing the deletion code. The action is\nirreversible.\n\n> [!IMPORTANT]\n>\n> **NEVER pre-emptively provide or execute any deletion code before receiving\n> the user's response in a new turn.** You must never speculate or assume that\n> confirmation will be given. Asking for confirmation and providing the code in\n> a single parallel turn is a severe safety violation.\n\n```python\nimport vertexai\nfrom vertexai.preview import prompts\n\nvertexai.init(project=\"PROJECT_ID\", location=\"LOCATION_ID\")\n\nprompts.delete(prompt_id=\"PROMPT_ID\")\n```\n\n## 2. Best Practices\n\n-   **Idempotency**:\n    *   **Tier R** (List, Get): Inherently idempotent.\n    *   **Tier D** (Delete): Re-running a delete on a non-existent or already\n        deleted resource returns NOT_FOUND. Treat this as success.\n-   **Placeholders**: Use the standard placeholder syntax (variable name\n    enclosed in double curly braces) in your prompt templates.\n-   **Versioning**: Always tag or record version IDs when making updates to\n    production prompts.\n-   **Model Reference**: A prompt is created against a target model ID, which\n    the snippets carry as the `\"MODEL_ID\"` placeholder. Like the other\n    placeholders it is MUST-replace, and it is replaced from what the user\n    said -- if they named no model, ask. Do not substitute a plausible current\n    model such as `gemini-2.5-pro`.\n-   **Underlying Schema**: When using the Dataset API, always use the correct\n    `metadata_schema_uri` and nested `metadata` structure to ensure the prompt\n    is recognized by Agent Platform Studio and the Prompts SDK.\n",
+ "body_lines": 189,
+ "bytes": 8108,
+ "code_blocks": 6,
+ "description": "Manages and orchestrates prompts in Agent Platform. Use when you need to create, list, retrieve, version, or delete managed prompts in Agent Platform. Don't use for model training, model deployment to endpoints, or managing non-Agent Platform prompts.",
+ "dir_name": "agent-platform-prompt-management",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/create.md"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "metadata": {
+   "category": "AiAndMachineLearning"
+  },
+  "name": "agent-platform-prompt-management"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/agent-platform-prompt-management",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "9f17de527d1ae48c",
+ "heading_count": 11,
+ "id": "google--agent-platform-prompt-management",
+ "languages": [
+  "python"
+ ],
+ "name": "agent-platform-prompt-management",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-prompt-management/SKILL.md",
+ "score": 87,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/agent-platform-prompt-management",
+ "tags": [
+  "capability:build",
+  "capability:orchestrate",
+  "domain:agent-workflow",
+  "domain:cloud-infra",
+  "domain:ml-ai",
+  "trait:code-heavy",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 1041
+}

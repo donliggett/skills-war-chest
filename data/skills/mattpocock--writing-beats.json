@@ -1,0 +1,50 @@
+{
+ "also_at": [],
+ "body": "<what-to-do>\n\nThe user has passed (or will pass) a markdown file of raw material. This is **exploit**: the exploring is done, the pile is fixed. Commit to a path through it and mine the pile to fill each beat.\n\nIf the user did not say where to save the article, ask once and remember the path.\n\nThen run a beat-by-beat journey, choose-your-own-adventure style:\n\n1. **Establish the prerequisites.** Before any beats, settle with the user what the audience already knows walking in: the concepts that are **grounded** from the start. Everything else must be grounded by a beat before a later beat can use it. See [Grounding](#grounding).\n2. Write 2–3 candidate **starting beats**, drawn from the raw material. Each is a different entry point into the article. Each may only lean on grounded concepts; note what new concepts each one grounds. Show the user the beats before writing to the article file. The user picks one. Preview what beats that pick unlocks, as if the user is seeing a little way down the path.\n3. Once the user picks a starting beat, write **only that beat** to the article file. A beat may be one sentence or several paragraphs, whatever that beat naturally is. Stop there.\n4. Re-read the article file from disk. Then offer 2–3 candidate **next beats**: different directions the journey could pivot to from where the article now stands. Each must be reachable from the current grounded set; note what each one grounds.\n5. Loop steps 3–5 until the article reaches a natural end.\n\n</what-to-do>\n\n<supporting-info>\n\n## Grounding\n\nEvery **concept** has to be **grounded** before a beat can lean on it: the audience either walked in knowing it or met it in an earlier beat. A beat that reaches for an ungrounded concept loses the reader; that is the one move the journey can't make. The unit is the concept, not the word for it: a beat can lean on an idea the reader lacks even with no jargon in sight. Where a concept has a name (a **term**), grounding it means landing the idea and the term together.\n\nA concept gets grounded one of two ways:\n\n- **Prerequisite**: grounded before the first beat. The audience brings it. Fixed at the start.\n- **Introduced**: a beat establishes it, and from then on it's grounded for every later beat.\n\nSo each beat does two jobs: it **requires** concepts that are already grounded, and it **grounds** new ones. Keep a running list of what's grounded so far, and update it each time a beat lands.\n\nThis is what shapes the choose-your-own-adventure. A candidate beat is only reachable if everything it requires is already grounded; picking a beat that grounds concept X unlocks every beat that was waiting on X. When you offer next beats, they must all be reachable from the current grounded set, and say what each one grounds, so the user can see which paths it opens.\n\nThe big lever is what you make a prerequisite versus what you ground inside the piece. Demand too much up front and you shut out readers who don't have it; ground too much inside and the early beats drown in definitions. Settle this with the user when you establish prerequisites, and revisit it whenever a tempting beat turns out to require a concept nothing has grounded yet: the fix is either a grounding beat before it, or promoting the concept to a prerequisite.\n\n## What is a beat\n\nA beat is one move in the journey. It does one thing: sets a scene, lands a point, asks a question, drops an aside, twists the angle. Then it stops, leaving the reader at a place where the next beat can pivot.\n\nA beat is sized by what it needs:\n\n- A single sentence if that's all the move is (\"And then nothing happened for three weeks.\").\n- A short paragraph if the move needs setup.\n- Multiple paragraphs if the beat is a self-contained vignette, argument, or example.\n\nIf a \"beat\" needs five paragraphs and three subheadings, it's not a beat; it's two beats glued together. Split it.\n\n## Pulling from the pile\n\nPull material from the raw pile to populate each beat. You can paraphrase, split, recombine, or quote. The pile is a quarry.\n\n## Ending the journey\n\nThe article ends when the journey is complete, not when the pile is empty. Most piles will have leftover fragments that don't make it in. That is fine; that is the point of having more raw material than you need.\n\n## Writing rhythm\n\n- Append one beat at a time. Never write ahead.\n- Re-read the article file from disk before every write. Preserve user edits absolutely.\n- If the user edits a previous beat substantially, let it change what comes next.\n- If the user says \"rewrite that beat\" or \"go back and try a different beat 3\", do it: edit in place, leave the rest alone.\n\n</supporting-info>\n",
+ "body_lines": 62,
+ "bytes": 4855,
+ "code_blocks": 0,
+ "description": "Writing, exploit; assemble raw material into a journey of beats, grounding each term before a beat leans on it.",
+ "dir_name": "writing-beats",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "disable-model-invocation": true,
+  "name": "writing-beats"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/in-progress/writing-beats",
+ "grade": "C",
+ "group": "in-progress",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "a96abafa2372eede",
+ "heading_count": 5,
+ "id": "mattpocock--writing-beats",
+ "languages": [],
+ "name": "writing-beats",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/writing-beats/SKILL.md",
+ "score": 57,
+ "score_breakdown": {
+  "body": 18,
+  "description": 6,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/in-progress/writing-beats",
+ "tags": [
+  "domain:docs-writing",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 826
+}

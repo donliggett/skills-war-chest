@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# GKE Golden Path Configuration\n\nThe golden path is the recommended Autopilot configuration for production\nclusters. It defines sensible defaults — when the user requests different\nsettings, apply them and note relevant trade-offs.\n\n> **MCP Tools:** `get_cluster`, `create_cluster`, `update_cluster`\n\n## Rules\n\n1.  **Default to the golden path.** Use golden path values unless the user\n    requests otherwise. When deviating, note trade-offs but respect the user's\n    choice.\n2.  **Day-0 vs Day-1.** Flag Day-0 decisions (networking, private nodes,\n    subnets, IP allocation) prominently — they are hard/impossible to change\n    after creation.\n3.  **Tool preference: MCP > gcloud > kubectl.** MCP is preferred as it directly\n    interfaces with GKE APIs with structured data, reducing shell syntax errors\n    and parsing ambiguities. See the `gke-basics` skill's CLI reference for full\n    coverage matrix and override options. If the user\n    says \"use gcloud\" or \"use kubectl\", respect that for the session.\n4.  **Document decisions and rationale**, especially for Day-0 choices and\n    golden path deviations.\n\n## Required Inputs\n\nIf the user is unsure, use golden path defaults.\n\n-   **Project ID** (required)\n-   **Region** (required, e.g., `us-central1`)\n-   **Cluster name** (required)\n-   **Environment type**: dev/test or production (defaults to production)\n-   **Networking**: bring-your-own VPC/subnet or auto-create (default:\n    auto-create)\n-   **Scale expectations**: expected node/pod count, workload types\n-   **Cost constraints**: Spot VM tolerance, budget considerations\n\n## Always-Apply Defaults\n\nRecommended best practices applied by default. If the user requests a different\nsetting, apply it and briefly note the security or operational trade-off.\n\nSetting                                                            | Golden Path Value\n------------------------------------------------------------------ | -----------------\n`autopilot.enabled`                                                | `true`\n`privateClusterConfig.enablePrivateNodes`                          | `true`\n`masterAuthorizedNetworksConfig.privateEndpointEnforcementEnabled` | `true`\n`secretManagerConfig.enabled` + `rotationInterval: 120s`           | `true`\n`rbacBindingConfig.enableInsecureBinding*`                         | `false` (both)\n`workloadIdentityConfig.workloadPool`                              | enabled\n`networkConfig.datapathProvider`                                   | `ADVANCED_DATAPATH`\n`networkConfig.dnsConfig.clusterDns`                               | `CLOUD_DNS`\n`autoscaling.autoscalingProfile`                                   | `OPTIMIZE_UTILIZATION`\n`verticalPodAutoscaling.enabled`                                   | `true`\n`monitoringConfig` components                                      | SYSTEM_COMPONENTS, STORAGE, POD, DEPLOYMENT, STATEFULSET, DAEMONSET, HPA, JOBSET, CADVISOR, KUBELET, DCGM, APISERVER, SCHEDULER, CONTROLLER_MANAGER\n`loggingConfig` components                                         | SYSTEM_COMPONENTS, WORKLOADS (enabled by default)\n`advancedDatapathObservabilityConfig.enableMetrics`                | `true`\n`nodeConfig.shieldedInstanceConfig.enableSecureBoot`               | `true`\n`nodeConfig.workloadMetadataConfig.mode`                           | `GKE_METADATA`\n`nodeConfig.gcfsConfig.enabled` / `gvnic.enabled`                  | `true` / `true`\n`addonsConfig.statefulHaConfig.enabled`                            | `true`\nStorage CSI drivers (Filestore, GCS FUSE, Parallelstore)           | enabled\nPod Security Standards                                             | `restricted` on production namespaces\n\n## Customer-Configurable Settings\n\nThese have golden path defaults but customers may deviate with valid\njustification. **Ask before changing.**\n\nSetting                                  | Default                             | Why Deviate\n---------------------------------------- | ----------------------------------- | -----------\n`dnsEndpointConfig.allowExternalTraffic` | `true`                              | Restrict if cluster only accessed from within VPC\n`autoIpamConfig` / `createSubnetwork`    | `true` / `true`                     | Customer has pre-existing VPC/subnets\n`maxPodsPerNode`                         | `48`                                | `110` for high pod-density (costs more CIDR space)\n`subnetwork`                             | auto-created                        | Customer brings existing subnets\nMaintenance exclusion windows            | configured (NO_MINOR_UPGRADES, 1yr) | Customer-specific scheduling\n`nodeConfig.bootDisk.diskType`           | `pd-balanced`                       | `pd-ssd` for I/O-intensive, `pd-standard` for cost\n`nodeConfig.machineType`                 | `ek-standard-8` (Autopilot)         | Varies by workload; use ComputeClasses\n\n## Guardrails\n\n-   Do not request or output secrets (tokens, keys, service account JSON).\n-   Discover project/cluster context via MCP tools or `gcloud config get-value\n    project` — don't ask users to paste project IDs.\n-   For Day-0 decisions, always ask clarifying questions before proceeding.\n-   For Day-1 features, propose golden path defaults with trade-offs and let the\n    customer confirm.\n-   Do not promise zero downtime; advise PDBs, health probes, replicas, and\n    staged upgrades.\n-   When auditing existing clusters, compare against golden path and report\n    deviations with severity and remediation.\n\n## Golden Path Config\n\nSee [golden-path-autopilot.yaml](./assets/golden-path-autopilot.yaml) for the\nfull cluster-level policy settings.\n",
+ "body_lines": 97,
+ "bytes": 6039,
+ "code_blocks": 0,
+ "description": "Provides GKE golden path configuration defaults, production readiness checklists, and cluster default patterns. Use when designing GKE clusters, verifying GKE production readiness, or checking configurations against GKE defaults. Don't use for setting up workload autoscaling specifically (use gke-workload-scaling instead).",
+ "dir_name": "gke-golden-path",
+ "dup_cluster": null,
+ "extra_files": [
+  "assets/golden-path-autopilot.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-golden-path"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-golden-path",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": true,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "cde697d895551233",
+ "heading_count": 7,
+ "id": "google--gke-golden-path",
+ "languages": [],
+ "name": "gke-golden-path",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-golden-path/SKILL.md",
+ "score": 79,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 6,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-golden-path",
+ "tags": [
+  "domain:cloud-infra",
+  "stack:kubernetes",
+  "trait:has-assets",
+  "trait:spec-clean"
+ ],
+ "words": 546
+}

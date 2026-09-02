@@ -1,0 +1,56 @@
+{
+ "also_at": [],
+ "body": "# GKE Batch & HPC Workloads\n\nThis reference covers running batch processing and high-performance computing\n(HPC) workloads on GKE.\n\n> **MCP Tools:** `apply_k8s_manifest`, `get_k8s_resource`,\n> `describe_k8s_resource`, `get_k8s_logs`, `delete_k8s_resource`,\n> `list_k8s_events`\n\n## When to Use\n\n-   Running batch data processing pipelines\n-   HPC simulations (CFD, molecular dynamics, financial modeling)\n-   Large-scale parallel computation (MPI, MapReduce)\n-   ML training jobs\n-   CI/CD build farms\n\n## Batch Processing on GKE\n\n### Kubernetes Jobs\n\n```yaml\napiVersion: batch/v1\nkind: Job\nmetadata:\n  name: batch-job\nspec:\n  parallelism: 10\n  completions: 100\n  backoffLimit: 3\n  template:\n    spec:\n      containers:\n      - name: worker\n        image: <IMAGE>\n        resources:\n          requests:\n            cpu: \"1\"\n            memory: \"2Gi\"\n      restartPolicy: Never\n```\n\n### JobSet (for Complex Multi-Job Workflows)\n\nThe golden path enables JobSet monitoring (`JOBSET` in monitoringConfig).\n\n```yaml\napiVersion: jobset.x-k8s.io/v1alpha2\nkind: JobSet\nmetadata:\n  name: training-job\nspec:\n  replicatedJobs:\n  - name: workers\n    replicas: 4\n    template:\n      spec:\n        parallelism: 1\n        completions: 1\n        template:\n          spec:\n            containers:\n            - name: worker\n              image: <IMAGE>\n              resources:\n                requests:\n                  cpu: \"4\"\n                  memory: \"8Gi\"\n```\n\n### Kueue (Job Queuing)\n\nKueue manages job scheduling and resource allocation for batch workloads:\n\n```bash\n# Install Kueue\nkubectl apply --server-side -f https://github.com/kubernetes-sigs/kueue/releases/latest/download/manifests.yaml\n```\n\n```yaml\n# Define a ClusterQueue\napiVersion: kueue.x-k8s.io/v1beta1\nkind: ClusterQueue\nmetadata:\n  name: batch-queue\nspec:\n  namespaceSelector: {}\n  resourceGroups:\n  - coveredResources: [\"cpu\", \"memory\"]\n    flavors:\n    - name: default\n      resources:\n      - name: \"cpu\"\n        nominalQuota: 100\n      - name: \"memory\"\n        nominalQuota: \"200Gi\"\n---\n# Allow a namespace to use the queue\napiVersion: kueue.x-k8s.io/v1beta1\nkind: LocalQueue\nmetadata:\n  name: batch-local\n  namespace: batch-jobs\nspec:\n  clusterQueue: batch-queue\n```\n\n## HPC on GKE\n\n### Compact Placement (Low-Latency Networking)\n\nFor tightly-coupled HPC workloads that need low-latency inter-node\ncommunication:\n\n```bash\n# Standard clusters: create node pool with compact placement\ngcloud container node-pools create hpc-pool \\\n  --cluster <CLUSTER_NAME> --region <REGION> \\\n  --machine-type c3-standard-44 \\\n  --placement-type COMPACT \\\n  --num-nodes 8 \\\n  --enable-autoscaling --min-nodes 0 --max-nodes 16 \\\n  --quiet\n```\n\n### MPI Workloads\n\nUse the MPI Operator for MPI-based HPC applications:\n\n```bash\n# Install MPI Operator\nkubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/deploy/v2beta1/mpi-operator.yaml\n```\n\n```yaml\napiVersion: kubeflow.org/v2beta1\nkind: MPIJob\nmetadata:\n  name: hpc-simulation\nspec:\n  slotsPerWorker: 4\n  mpiReplicaSpecs:\n    Launcher:\n      replicas: 1\n      template:\n        spec:\n          containers:\n          - name: launcher\n            image: <MPI_IMAGE>\n            command: [\"mpirun\", \"-np\", \"32\", \"./simulation\"]\n            resources:\n              requests:\n                cpu: \"1\"\n                memory: \"2Gi\"\n              limits:\n                cpu: \"2\"\n                memory: \"4Gi\"\n    Worker:\n      replicas: 8\n      template:\n        spec:\n          containers:\n          - name: worker\n            image: <MPI_IMAGE>\n            resources:\n              requests:\n                cpu: \"4\"\n                memory: \"8Gi\"\n              limits:\n                cpu: \"8\"\n                memory: \"16Gi\"\n```\n\n## Cost Optimization for Batch/HPC\n\n### Spot VMs for Batch\n\nBatch workloads are ideal Spot VM candidates (interruptible, can checkpoint).\nUse a ComputeClass with Spot-first priority and `activeMigration` to return to\nSpot when available. See the `gke-compute-classes` skill for the\nSpot-with-fallback pattern.\n\n### Scale-to-Zero\n\nFor batch clusters, allow node pools to scale to zero when no jobs are running:\n\n-   Autopilot (golden path): Automatic, nodes scale to zero when no pods are\n    scheduled\n-   Standard: Set `--min-nodes 0` on batch node pools\n\n## Best Practices & Production Guidelines\n\n-   **Resource Quotas**: Always specify resource requests and limits (CPU,\n    memory, and optionally GPU/TPU) for all batch/HPC manifests. This is\n    critical for Kueue admission, autoscaling, and preventing resource\n    starvation in the cluster.\n-   **TPU/Spot Cluster Maintenance**: For long-running AI training runs on Spot\n    VMs/TPUs, advise using **GKE maintenance exclusions** to block automatic\n    cluster upgrades/reboots during the active training window to minimize\n    unnecessary preemption.\n-   **MPI Workloads**: Use the **Kubeflow Training Operator** to orchestrate\n    distributed MPI applications via the `MPIJob` custom resource.\n-   **Kueue & JobSet**: Use **Kueue** for multi-tenant job queueing and fair\n    sharing; use **JobSet** for multi-component tightly coupled workloads.\n-   **Resilience**: Always set a `backoffLimit` on Jobs, and implement\n    application-level checkpointing (e.g., using Orbax or PyTorch checkpointing)\n    to survive Spot VM preemption.\n",
+ "body_lines": 208,
+ "bytes": 5678,
+ "code_blocks": 14,
+ "description": "Runs batch and HPC workloads on GKE, utilizing job queues and parallel processing. Use when running GKE batch jobs, configuring GKE HPC, or setting up GKE job queues. Don't use for standard web application deployments (use gke-app-onboarding instead).",
+ "dir_name": "gke-batch-hpc",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-batch-hpc"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-batch-hpc",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "87fdaa1574991365",
+ "heading_count": 18,
+ "id": "google--gke-batch-hpc",
+ "languages": [
+  "bash",
+  "yaml"
+ ],
+ "name": "gke-batch-hpc",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-batch-hpc/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-batch-hpc",
+ "tags": [
+  "domain:automation",
+  "domain:cloud-infra",
+  "domain:web",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 585
+}

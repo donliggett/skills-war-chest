@@ -1,0 +1,56 @@
+{
+ "also_at": [],
+ "body": "# Matter.js Skill\n\n## Workflow\n1. Confirm environment (plain HTML, React, or canvas-only) and rendering approach (Matter.Render for debug vs custom renderer).\n2. Provide a minimal Engine/World/Render/Runner setup and add bodies.\n3. Add interactions (mouse constraint) or constraints only if requested.\n4. Share cleanup steps for SPA or teardown scenarios.\n\n## Minimal setup\n```html\n<script>\n  const { Engine, Render, Runner, Bodies, Composite } = Matter;\n\n  const engine = Engine.create();\n\n  const render = Render.create({\n    element: document.body,\n    engine: engine,\n    options: {\n      width: 800,\n      height: 600,\n      wireframes: false\n    }\n  });\n\n  const runner = Runner.create();\n  Runner.run(runner, engine);\n  Render.run(render);\n\n  const ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });\n  const box = Bodies.rectangle(400, 200, 80, 80);\n\n  Composite.add(engine.world, [ground, box]);\n</script>\n```\n\n## Common patterns\n- Use `Composite.add(engine.world, [...])` to add bodies to the world.\n- Use `Render.create({ element, engine })` to create a canvas automatically, or pass a `canvas` you create yourself.\n- Set `render.options.wireframes = false` for solid rendering.\n- Use `Runner.run(runner, engine)` for a simple loop, or call `Engine.update` in your own loop if you need custom timing.\n\n## Mouse interaction (optional)\n```js\nconst { Mouse, MouseConstraint } = Matter;\nconst mouse = Mouse.create(render.canvas);\nconst mouseConstraint = MouseConstraint.create(engine, { mouse });\nComposite.add(engine.world, mouseConstraint);\nrender.mouse = mouse;\n```\n\n## Cleanup checklist (SPA)\n- Stop the runner with `Runner.stop(runner)`.\n- Remove the render canvas from the DOM.\n- Clear engine and world if needed.\n\n## Questions to ask when specs are missing\n- What viewport size and scaling should the canvas use?\n- Are we using Matter.Render or a custom renderer?\n- Do you want mouse/touch drag interaction?\n- Should the simulation loop be paused when offscreen?\n",
+ "body_lines": 62,
+ "bytes": 2227,
+ "code_blocks": 4,
+ "description": "Use when implementing 2D physics interactions with Matter.js, including Engine/World setup, Render/Runner configuration, adding bodies and constraints, and scroll/interaction-friendly canvas scenes.",
+ "dir_name": "matterjs",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/index.html",
+  "demo/preview.jpg"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "name": "matterjs"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/matterjs",
+ "grade": "A",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "eeb1d2f6521e337d",
+ "heading_count": 7,
+ "id": "mengto--matterjs",
+ "languages": [
+  "html",
+  "js"
+ ],
+ "name": "matterjs",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/matterjs/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/matterjs",
+ "tags": [
+  "domain:design",
+  "domain:web",
+  "trait:code-heavy",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 273
+}

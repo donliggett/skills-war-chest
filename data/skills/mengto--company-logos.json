@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# Company Logos Skill\n\n## Use When\n- A design needs recognizable brand marks without embedding custom SVG files or rendering company names as plain text.\n- Logo rows, integrations grids, customer proof, partner lists, and tool badges need consistent icon treatment.\n\n## Workflow\n1. Use Iconify Simple Icons as the default source for brand logos.\n2. Render each logo in a 64x64 visual box, then scale the inner SVG to the composition density.\n3. Keep logos monochrome by default; use brand color only when the surrounding design needs recognition more than restraint.\n4. Align logos to a shared baseline or center grid so rows feel intentional.\n5. Add accessible labels when logos are interactive or communicate important proof.\n\n## Guardrails\n- Do not use typed company names as a replacement for logos unless no icon exists.\n- Do not mix filled, outline, emoji, bitmap, and wordmark styles in one row.\n- Do not hotlink random logo assets from search results.\n",
+ "body_lines": 18,
+ "bytes": 1066,
+ "code_blocks": 0,
+ "description": "Use Iconify Simple Icons logos (64x64) instead of text logos.",
+ "dir_name": "company-logos",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 6,
+ "frontmatter": {
+  "name": "company-logos"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/company-logos",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "d089dd870e8f4012",
+ "heading_count": 4,
+ "id": "mengto--company-logos",
+ "languages": [],
+ "name": "company-logos",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/company-logos/SKILL.md",
+ "score": 52,
+ "score_breakdown": {
+  "body": 13,
+  "description": 6,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/company-logos",
+ "tags": [
+  "domain:design",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 161
+}

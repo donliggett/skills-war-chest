@@ -1,0 +1,60 @@
+{
+ "also_at": [],
+ "body": "# Light Mode Paper Technical Skill\n\n## Use When\n- Create a light-mode technical design system with warm paper surfaces, dark outer framing, subtle diagonal texture, precise bracketed geometry, and restrained accent signals.\n\n## Workflow\n\n## Scope\n- Apply this as a full design-system direction across shell, layout, typography, navigation, cards, mockups, background treatment, and motion.\n- Use it when the interface should feel bright, refined, and technical, but warmer and more tactile than a cold white enterprise dashboard.\n- This is not plain minimal light mode and not editorial paper alone. It should combine paper-like surfaces with precise product-tech framing.\n\n## Visual target\n- Build the main experience on warm off-white, parchment, or soft paper-toned surfaces instead of stark white.\n- Wrap the lighter interior inside a darker outer shell or surrounding field so the content area feels framed, elevated, and intentional.\n- Add subtle technical structure: thin borders, inset rules, L-brackets, tiny corner details, diagonal background texture, and measured spatial guides.\n- Use one restrained accent color for active states, labels, progress, or focal details. The accent should punctuate the system rather than dominate it.\n- Keep the overall result premium and contemporary: rounded container shells are acceptable, but internal layout logic should remain crisp and technical.\n\n## Implementation guidance\n- Prefer a framed master container with generous radius, soft shadow, and a light paper interior placed against a darker page background.\n- Use warm neutrals for primary surfaces, then separate layers with slightly darker paper tones, soft borders, and gentle contrast instead of bright white-on-gray UI.\n- Add low-contrast diagonal texture or fine patterning to large paper regions so the background feels material and lightly engineered.\n- Use clean sans-serif typography for interface content and optional mono utility text for timestamps, captions, browser chrome, transcript cues, or metadata.\n- Build product surfaces such as app mockups, transcript panes, sidebars, or session cards with bright clean interiors, careful spacing, and delicate border hierarchy.\n- Motion should stay calm and polished: masked headline reveals, fade-up sections, controlled card entrance, and subtle activity indicators are appropriate.\n\n## Recommended patterns\n- Dark outer page with a large light rounded container holding the whole experience.\n- Inner framing system using inset border rectangles, small corner brackets, and quiet technical lines over paper-toned backgrounds.\n- Warm light app panels with browser chrome, transcript windows, sidebars, or dashboard modules nested inside the main shell.\n- Accent-driven live states such as active bullets, tiny dividers, progress marks, highlighted words, or primary call-to-action buttons.\n- Paper-technical contrast: soft, readable, welcoming surfaces paired with precise geometry and system-level visual discipline.\n\n## Tuning knobs\n- Paper warmth: shift between cooler stone paper and warmer parchment depending on the brand mood.\n- Framing strength: add or reduce brackets, boundary lines, and technical rules depending on how instrumented the design should feel.\n- Roundness: keep outer shells softly rounded, but avoid over-softening inner layout structures.\n- Accent intensity: keep the accent crisp and memorable, but let warm neutrals carry most of the interface.\n- Texture amount: maintain subtle patterning so the paper feel reads without becoming noisy or vintage.\n\n## Avoid\n- Flat plain white SaaS layouts with no material warmth or framing logic.\n- Heavy vintage paper distressing that makes the interface feel old or dirty.\n- Cold enterprise blue-gray systems that lose the soft paper character.\n- Overusing rounded blobs or generic consumer-app softness that fights the technical structure.\n- Excessive accent usage that turns the paper system into a loud marketing palette.\n",
+ "body_lines": 48,
+ "bytes": 4189,
+ "code_blocks": 0,
+ "description": "Create a light-mode technical design system with warm paper surfaces, dark outer framing, subtle diagonal texture, precise bracketed geometry, and restrained accent signals.",
+ "dir_name": "light-mode-paper-technical",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-2f563338-39fa-47ea-9761-658d4f3f84db-1600w.jpg",
+  "demo/assets/page-02-4f5668c5-fc4a-44e0-bc5e-a664189d3c31-1600w.jpg",
+  "demo/assets/page-03-77415a2e-dcbc-4748-a29d-fced4821881a-1600w.jpg",
+  "demo/assets/page-04-c92852bb-a510-405a-85ab-ffa0fde136a4-1600w.jpg",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 10,
+ "frontmatter": {
+  "name": "light-mode-paper-technical"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/light-mode-paper-technical",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "f09d5b7cb8263b19",
+ "heading_count": 9,
+ "id": "mengto--light-mode-paper-technical",
+ "languages": [],
+ "name": "light-mode-paper-technical",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/light-mode-paper-technical/SKILL.md",
+ "score": 62,
+ "score_breakdown": {
+  "body": 18,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/light-mode-paper-technical",
+ "tags": [
+  "capability:build",
+  "domain:design",
+  "domain:ui-ux",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 585
+}

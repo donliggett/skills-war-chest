@@ -1,0 +1,55 @@
+{
+ "also_at": [],
+ "body": "# GKE Storage\n\nThis reference covers storage configuration for GKE clusters including\npersistent disks, file storage, and cloud storage integration.\n\n> **MCP Tools:** `apply_k8s_manifest`, `get_k8s_resource`,\n> `describe_k8s_resource`, `get_cluster`\n\n## Golden Path Storage Defaults\n\nThe golden path Autopilot config enables these CSI drivers:\n\n| Driver          | Golden Path       | Access Mode     | Use Case             |\n| --------------- | ----------------- | --------------- | -------------------- |\n| Compute Engine  | Enabled (default) | ReadWriteOnce   | Block storage for    |\n: Persistent Disk :                   :                 : databases,           :\n: CSI             :                   :                 : single-pod workloads :\n| Google Cloud    | Enabled           | ReadWriteMany   | Shared NFS for       |\n: Filestore CSI   :                   :                 : multi-pod access     :\n| Cloud Storage   | Enabled           | ReadWriteMany / | Mount GCS buckets as |\n: FUSE CSI        :                   : ReadOnlyMany    : volumes              :\n| Parallelstore   | Enabled           | ReadWriteMany   | High-performance     |\n: CSI             :                   :                 : parallel file system :\n| Boot disk type  | `pd-balanced`     | N/A             | Node boot disks      |\n\n## StorageClasses\n\n### Default StorageClasses\n\nGKE provides built-in StorageClasses:\n\nStorageClass   | Disk Type             | Use Case\n-------------- | --------------------- | ------------------------------\n`standard-rwo` | `pd-standard`         | Cost-effective, low IOPS\n`premium-rwo`  | `pd-ssd`              | High IOPS, databases\n`standard-rwx` | Filestore (Basic HDD) | Shared NFS\n`premium-rwx`  | Filestore (Basic SSD) | Shared NFS, higher performance\n\n### Custom StorageClass\n\n```yaml\napiVersion: storage.k8s.io/v1\nkind: StorageClass\nmetadata:\n  name: fast-regional\nprovisioner: pd.csi.storage.gke.io\nparameters:\n  type: pd-ssd\n  replication-type: regional-pd    # Replicate across 2 zones\nvolumeBindingMode: WaitForFirstConsumer\nallowVolumeExpansion: true         # Always enable for production\n```\n\n## PersistentVolumeClaims\n\n### Block Storage (ReadWriteOnce)\n\n```yaml\napiVersion: v1\nkind: PersistentVolumeClaim\nmetadata:\n  name: database-pvc\nspec:\n  accessModes:\n  - ReadWriteOnce\n  storageClassName: premium-rwo\n  resources:\n    requests:\n      storage: 100Gi\n```\n\n### Shared File Storage (ReadWriteMany via Filestore)\n\n```yaml\napiVersion: v1\nkind: PersistentVolumeClaim\nmetadata:\n  name: shared-data\nspec:\n  accessModes:\n  - ReadWriteMany\n  storageClassName: standard-rwx\n  resources:\n    requests:\n      storage: 1Ti    # Filestore minimum is 1 TiB for Basic tier\n```\n\n### GCS Bucket Mount (Cloud Storage FUSE)\n\nMount a GCS bucket as a volume without a PVC:\n\n```yaml\napiVersion: v1\nkind: Pod\nmetadata:\n  name: gcs-reader\n  annotations:\n    gke-gcsfuse/volumes: \"true\"\nspec:\n  containers:\n  - name: reader\n    image: busybox\n    command: [\"ls\", \"/data\"]\n    volumeMounts:\n    - name: gcs-bucket\n      mountPath: /data\n  volumes:\n  - name: gcs-bucket\n    csi:\n      driver: gcsfuse.csi.storage.gke.io\n      readOnly: true\n      volumeAttributes:\n        bucketName: <BUCKET_NAME>\n```\n\n> Requires Workload Identity for the pod's service account to have\n> `storage.objectViewer` on the bucket.\n\n## Volume Expansion\n\nIf `allowVolumeExpansion: true` is set on the StorageClass, resize by updating\nthe PVC:\n\n```bash\n# kubectl\nkubectl patch pvc <PVC_NAME> -p '{\"spec\":{\"resources\":{\"requests\":{\"storage\":\"200Gi\"}}}}'\n```\n\n```\n# MCP (preferred)\npatch_k8s_resource(parent=\"...\", resourceType=\"persistentvolumeclaim\", name=\"<PVC_NAME>\",\n  patch='{\"spec\":{\"resources\":{\"requests\":{\"storage\":\"200Gi\"}}}}')\n```\n\nKubernetes automatically resizes the filesystem.\n\n## Best Practices\n\n1.  **Always enable volume expansion**: Set `allowVolumeExpansion: true` on all\n    StorageClasses\n2.  **Use regional PDs for production**: `replication-type: regional-pd`\n    replicates across 2 zones for HA\n3.  **Use `WaitForFirstConsumer`**: Ensures the PV is provisioned in the same\n    zone as the pod\n4.  **Choose the right disk type**: `pd-ssd` for databases, `pd-balanced`\n    (golden path default) for general use, `pd-standard` for cold storage\n5.  **Use Filestore for shared access**: When multiple pods need to read/write\n    the same files\n6.  **Use GCS FUSE for data pipelines**: Mount buckets directly for ML training\n    data, logs, etc.\n7.  **Back up PVCs**: Use Backup for GKE (see the `gke-backup-dr` skill) to\n    protect persistent data\n",
+ "body_lines": 153,
+ "bytes": 4901,
+ "code_blocks": 12,
+ "description": "Manages GKE storage, including PVCs, PersistentVolumes, Filestore, and GCS FUSE. Use when configuring GKE storage, creating PVCs, or setting up GCS FUSE on GKE. Don't use for database administration or replication strategies outside volume provisioning context.",
+ "dir_name": "gke-storage",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Storage"
+  },
+  "name": "gke-storage"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-storage",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "aa0b9e7f6dfa831e",
+ "heading_count": 13,
+ "id": "google--gke-storage",
+ "languages": [
+  "bash",
+  "yaml"
+ ],
+ "name": "gke-storage",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-storage/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-storage",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:data",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 536
+}

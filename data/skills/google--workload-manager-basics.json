@@ -1,0 +1,74 @@
+{
+ "also_at": [],
+ "body": "# Workload Manager Basics\n\nWorkload Manager validates enterprise workloads against Google Cloud best\npractices and recommendations. The public client libraries are centered on\nevaluations: define a resource scope, choose built-in or custom rules, run an\nevaluation, then inspect results and scanned resources.\n\n## Use This Flow\n\n```mermaid\nflowchart LR\n    Rules[\"List rules\"] --> Eval[\"Create or update evaluation\"]\n    Resources[\"Project, folder, or org scope\"] --> Eval\n    Eval --> Run[\"Run evaluation\"]\n    Run --> Results[\"Inspect evaluation results\"]\n    Results --> Remediate[\"Remediate findings\"]\n    Results --> Export[\"Optional BigQuery export\"]\n```\n\n## Core API Constraints\n\nTo ensure compatibility, security, and successful integration:\n\n*   **Public Surface Only:** You MUST strictly interact with Workload Manager\n    using the official public `google-cloud-workloadmanager` client library or\n    the public REST API (`workloadmanager.googleapis.com/v1`).\n*   **No Internal or Undocumented APIs:** Do NOT attempt to use internal RPC\n    protocols, private service backends, or undocumented discovery mechanisms.\n    They are not supported for public integrations and will fail.\n*   **No Service-Specific CLI:** There is no public `gcloud workload-manager`\n    CLI command group. Use `gcloud` only for authentication, IAM role\n    assignment, and fetching raw REST tokens.\n*   **Sandbox Execution Robustness (Auth/Mock Fallbacks):** When gcloud\n    authentication or Workload Manager API calls fail in sandboxed or restricted\n    environments (e.g., due to Context Aware Access token blocks, missing API\n    enablement, or\n    mock resources returning 404/403), immediately fall back to presenting\n    example code and static findings from your references instead of entering\n    retry loops. Present the correct client library code structure or REST API\n    payload example, clearly explain the auth or resource limitation, and list\n    typical rules or mock findings statically to satisfy the request.\n\n## Prerequisites\n\n1.  Enable the Workload Manager API:\n\n    ```bash\n    gcloud services enable workloadmanager.googleapis.com --quiet\n    ```\n\n2.  Authenticate locally using Application Default Credentials (ADC) before\n    using client libraries:\n\n    ```bash\n    gcloud auth application-default login\n    ```\n\n3.  Ensure the Workload Manager service agent has the required roles granted in\n    your project (mandatory for API/client library usage, see\n    [IAM & Security](references/iam-security.md)).\n\n4.  Grant the least-privileged role needed for the task. Start with\n    `roles/workloadmanager.viewer` for read-only access to evaluation resources\n    and use `roles/workloadmanager.evaluationAdmin` or\n    `roles/workloadmanager.admin` only when creating, updating, running, or\n    deleting evaluations.\n\n## Quick Client Library Example\n\nUse the Python client library for the first working automation path:\n\n```bash\npython3 -m pip install --upgrade google-cloud-workloadmanager\n```\n\n```python\nfrom google.cloud import workloadmanager_v1\n\nproject_id = \"PROJECT_ID\"\nlocation = \"LOCATION\"\nparent = f\"projects/{project_id}/locations/{location}\"\n\nclient = workloadmanager_v1.WorkloadManagerClient()\n\nrules = client.list_rules(\n    request=workloadmanager_v1.ListRulesRequest(\n        parent=parent,\n        evaluation_type=workloadmanager_v1.Evaluation.EvaluationType.OTHER,\n    )\n)\n\nfor rule in rules.rules:\n    print(rule.name, rule.display_name, rule.severity)\n```\n\n## Reference Directory\n\n-   [Core Concepts](references/core-concepts.md): Evaluations, rules, results,\n    scanned resources, supported workload types, and API shape.\n\n-   [General Best Practices](references/general-best-practices.md): Google Cloud\n    general best-practice posture checks, `OTHER` evaluation guidance, custom\n    Rego rules, and scale/automation patterns.\n\n-   [Client Libraries](references/client-library-usage.md): Python and Go client\n    library examples for listing rules, creating evaluations, running\n    evaluations, and reading findings.\n\n-   [REST Usage](references/rest-usage.md): Direct REST examples for the public\n    Workload Manager API and operations polling.\n\n-   [Public CLI Status](references/public-cli-status.md): No documented\n    service-specific `gcloud workload-manager` command group; use `gcloud` only\n    for auth, IAM, API enablement, and REST tokens.\n\n-   [Public MCP Status](references/public-mcp-status.md): No documented public\n    Workload Manager MCP server; use client libraries or REST API instead.\n\n-   [Setup Prerequisites](references/setup-prerequisites.md): Terraform examples\n    only for adjacent prerequisites such as API enablement, IAM, BigQuery export\n    datasets, and KMS keys. This is not Workload Manager resource management.\n\n-   [IAM & Security](references/iam-security.md): Workload Manager roles,\n    least-privilege guidance, service agents, data handling, and CMEK notes.\n\nIf product behavior or API fields are not covered here, check the current\nWorkload Manager product documentation and client library reference before\nimplementing.\n\n## Authoritative References\n\n-   [Workload Manager overview](https://docs.cloud.google.com/workload-manager/docs/overview)\n-   [Google Cloud best practices](https://docs.cloud.google.com/workload-manager/docs/reference/best-practices-general)\n-   [Workload Manager REST API](https://docs.cloud.google.com/workload-manager/docs/reference/rest)\n-   [About custom rules](https://docs.cloud.google.com/workload-manager/docs/evaluate/custom-rules/about-custom-rules)\n-   [Write custom rules using Rego](https://docs.cloud.google.com/workload-manager/docs/evaluate/custom-rules/rego-custom-rules)\n-   [Python package](https://pypi.org/project/google-cloud-workloadmanager/)\n-   [Workload Manager IAM roles](https://docs.cloud.google.com/iam/docs/roles-permissions/workloadmanager)\n-   For additional information, use the Developer Knowledge MCP server `search_documents` tool.\n\n## Additional Context\n\n-   [Mastering cloud posture management with Workload Manager](https://discuss.google.dev/t/mastering-cloud-posture-management-security-reliability-and-finops-with-workload-manager/318258)\n",
+ "body_lines": 144,
+ "bytes": 6935,
+ "code_blocks": 6,
+ "description": "Use this skill to manage Google Cloud Workload Manager evaluations, rules, scanned resources, and validation results by using public client libraries and the REST API. Use when you need to inspect workload best-practice rules, create and run evaluations for Google Cloud general best practices, SAP, SQL Server, or custom organizational rules, review violations, export results to BigQuery, or automate Workload Manager through client libraries because no service-specific public CLI or MCP server is available. Don't use for general Google Compute Engine instance management, VPC configuration, or standard IAM auditing.",
+ "dir_name": "workload-manager-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/client-library-usage.md",
+  "references/core-concepts.md",
+  "references/general-best-practices.md",
+  "references/iam-security.md",
+  "references/public-cli-status.md",
+  "references/public-mcp-status.md",
+  "references/rest-usage.md",
+  "references/setup-prerequisites.md"
+ ],
+ "file_count": 9,
+ "frontmatter": {
+  "metadata": {
+   "category": "CloudObservabilityAndMonitoring"
+  },
+  "name": "workload-manager-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/workload-manager-basics",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "81312f7c506d2aaf",
+ "heading_count": 8,
+ "id": "google--workload-manager-basics",
+ "languages": [
+  "bash",
+  "mermaid",
+  "python"
+ ],
+ "name": "workload-manager-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/workload-manager-basics/SKILL.md",
+ "score": 87,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/workload-manager-basics",
+ "tags": [
+  "capability:audit",
+  "capability:build",
+  "capability:convert",
+  "domain:automation",
+  "domain:backend",
+  "domain:cloud-infra",
+  "format:api",
+  "format:cli",
+  "stack:gcp",
+  "stack:mcp",
+  "stack:sql",
+  "trait:code-heavy",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 638
+}

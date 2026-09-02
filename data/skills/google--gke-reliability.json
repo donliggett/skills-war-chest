@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# GKE Reliability\n\nThis reference covers high availability and reliability configuration for GKE\nclusters and workloads.\n\n> **MCP Tools:** `get_cluster`, `get_k8s_resource`, `describe_k8s_resource`,\n> `apply_k8s_manifest`, `list_k8s_events`\n\n## Golden Path Reliability Defaults\n\n| Setting          | Golden Path Value     | Notes                            |\n| ---------------- | --------------------- | -------------------------------- |\n| Cluster type     | Regional (4 zones:    | Control plane replicated across  |\n:                  : us-central1-a/b/c/f)  : zones                            :\n| Upgrade strategy | SURGE (`maxSurge: 1`) | Rolling upgrades with extra      |\n:                  :                       : capacity                         :\n| Auto-repair      | `true`                | Unhealthy nodes replaced         |\n:                  :                       : automatically                    :\n| Auto-upgrade     | `true`                | Nodes follow control plane       |\n:                  :                       : version                          :\n| Release channel  | REGULAR               | Balanced freshness and stability |\n| Stateful HA      | Enabled               | Leader election for stateful     |\n:                  :                       : workloads                        :\n\n## Workflows\n\n### 1. Verify Cluster High Availability\n\n```\n# MCP (preferred)\nget_cluster(name=\"projects/<PROJECT>/locations/<REGION>/clusters/<CLUSTER>\",\n  readMask=\"location,locations,nodePools.locations\")\n\n# gcloud fallback\ngcloud container clusters describe <CLUSTER> --region <REGION> \\\n  --format=\"json(location, locations)\" \\\n  --quiet\n```\n\n-   If `location` is a region (e.g., `us-central1`), the control plane is\n    regional\n-   If `locations` has multiple entries, nodes span multiple zones\n\n### 2. Pod Disruption Budgets (PDBs)\n\nPDBs ensure minimum pod availability during voluntary disruptions (node\nupgrades, autoscaler scale-down).\n\n**Check existing PDBs:**\n\n```\n# MCP (preferred)\nget_k8s_resource(parent=\"...\", resourceType=\"poddisruptionbudget\")\n\n# kubectl fallback\nkubectl get pdb --all-namespaces\n```\n\n**Create PDB:**\n\n```yaml\napiVersion: policy/v1\nkind: PodDisruptionBudget\nmetadata:\n  name: my-app-pdb\n  namespace: default\nspec:\n  minAvailable: 2       # Or use maxUnavailable: 1\n  selector:\n    matchLabels:\n      app: my-app\n```\n\n> Every production Deployment with 2+ replicas should have a PDB.\n\n### 3. Health Probes\n\nEvery production container should have liveness and readiness probes. Startup\nprobes are recommended for slow-starting apps.\n\n**Check existing probes:**\n\n```\n# MCP (preferred)\ndescribe_k8s_resource(parent=\"...\", resourceType=\"deployment\", name=\"<APP>\", namespace=\"<NS>\")\n\n# kubectl fallback\nkubectl get deployment <APP> -n <NS> -o yaml | grep -E \"livenessProbe|readinessProbe|startupProbe\"\n```\n\n**Recommended probe configuration:**\n\n```yaml\nspec:\n  containers:\n  - name: app\n    livenessProbe:\n      httpGet:\n        path: /healthz\n        port: 8080\n      initialDelaySeconds: 15\n      periodSeconds: 10\n      timeoutSeconds: 2\n      failureThreshold: 3\n    readinessProbe:\n      httpGet:\n        path: /readyz\n        port: 8080\n      initialDelaySeconds: 5\n      periodSeconds: 5\n      timeoutSeconds: 2\n      failureThreshold: 3\n    startupProbe:             # For slow-starting apps\n      httpGet:\n        path: /healthz\n        port: 8080\n      initialDelaySeconds: 10\n      periodSeconds: 5\n      timeoutSeconds: 2\n      failureThreshold: 30    # 30 * 5s = 150s max startup time\n```\n\n-   **Readiness**: Determines when a pod can accept traffic\n-   **Liveness**: Determines when to restart a container\n-   **Startup**: Disables liveness/readiness until the app is ready (prevents\n    premature restarts)\n\n### 4. Graceful Shutdown\n\nEnsure applications handle `SIGTERM` and drain in-flight requests:\n\n```yaml\nspec:\n  terminationGracePeriodSeconds: 30    # Default; increase for long-running requests\n  containers:\n  - name: app\n    lifecycle:\n      preStop:\n        exec:\n          command: [\"/bin/sh\", \"-c\", \"sleep 5\"]  # Allow LB to deregister\n```\n\n### 5. Topology Spread Constraints\n\nDistribute pods across zones and nodes to survive failures:\n\n```yaml\nspec:\n  topologySpreadConstraints:\n  - maxSkew: 1\n    topologyKey: topology.kubernetes.io/zone\n    whenUnsatisfiable: DoNotSchedule\n    labelSelector:\n      matchLabels:\n        app: my-app\n  - maxSkew: 1\n    topologyKey: kubernetes.io/hostname\n    whenUnsatisfiable: ScheduleAnyway\n    labelSelector:\n      matchLabels:\n        app: my-app\n```\n\n-   **Zone spread** (`DoNotSchedule`): Hard requirement -- pods must be balanced\n    across zones\n-   **Node spread** (`ScheduleAnyway`): Best-effort -- prefer distribution but\n    don't block scheduling\n\n### 6. Replicas\n\n| Workload Type        | Minimum Replicas     | Reason                         |\n| -------------------- | -------------------- | ------------------------------ |\n| Stateless web/API    | 2                    | Survive single pod/node        |\n:                      :                      : failure                        :\n| Critical services    | 3                    | Survive zone failure with zone |\n:                      :                      : spread                         :\n| Stateful (databases) | 3 (with replication) | Application-level quorum       |\n| Batch/jobs           | 1                    | Ephemeral by nature            |\n\n## Best Practices & Production Guidelines\n\n1.  **Regional clusters for production**: Always use regional clusters to\n    survive zone failures.\n2.  **PDBs for everything**: Every production workload with 2+ replicas needs a\n    PodDisruptionBudget (PDB) to protect against voluntary disruptions.\n3.  **Probes with Explicit Timeouts**: Every production container must have both\n    liveness and readiness probes defined. **Always explicitly define\n    `initialDelaySeconds`, `periodSeconds`, and `timeoutSeconds`** for all\n    probes. Never rely on the Kubernetes default timeout of 1 second if your\n    application requires more, but always set a strict limit to prevent hanging\n    connections.\n4.  **Zone spreading**: Use topology spread constraints to distribute pods\n    across failure domains (zones and nodes).\n5.  **Graceful shutdown**: Handle `SIGTERM` and set appropriate\n    `terminationGracePeriodSeconds` with a `preStop` sleep hook to allow load\n    balancer deregistration.\n6.  **Maintenance windows**: Schedule upgrades during low-traffic periods (see\n    the `gke-upgrades` skill).\n",
+ "body_lines": 199,
+ "bytes": 6941,
+ "code_blocks": 14,
+ "description": "Improves GKE workload reliability, using PDBs, health probes, and topology spread constraints. Use when configuring GKE workload reliability, setting up PDBs, or configuring GKE health probes (liveness, readiness, startup). Don't use for disaster recovery setup or full cluster backups (use gke-backup-dr instead).",
+ "dir_name": "gke-reliability",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-reliability"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-reliability",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "1c300cb14a2431a0",
+ "heading_count": 16,
+ "id": "google--gke-reliability",
+ "languages": [
+  "yaml"
+ ],
+ "name": "gke-reliability",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-reliability/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-reliability",
+ "tags": [
+  "domain:business",
+  "domain:cloud-infra",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 716
+}

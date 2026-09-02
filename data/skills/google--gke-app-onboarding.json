@@ -1,0 +1,63 @@
+{
+ "also_at": [],
+ "body": "# GKE App Onboarding\n\nThis reference provides workflows for containerizing and deploying applications\nto GKE for the first time.\n\n> **MCP Tools:** `apply_k8s_manifest`, `get_k8s_resource`,\n> `get_k8s_rollout_status`, `get_k8s_logs`, `describe_k8s_resource`\n\n## Workflow\n\n### 1. App Assessment\n\nBefore containerizing, assess the application:\n\n-   **Language & Framework**: Identify the tech stack\n-   **Dependencies**: List required libraries and external services\n-   **Configuration**: How is the app configured? (env vars, config files,\n    secrets)\n-   **Statefulness**: Does it need persistent storage? (databases, file storage)\n-   **Networking**: Port mapping and protocol (HTTP, gRPC, TCP)\n-   **Health endpoints**: Does the app expose health check endpoints?\n\n### 2. Containerization\n\nCreate a container image. A Dockerfile with a multi-stage build is recommended\nfor most apps — see the Go Dockerfile in\n[`references/go-example.md`](./references/go-example.md) for a worked example.\n\n**Best practices:**\n\n-   Use multi-stage builds to keep production images small\n-   Use distroless or minimal base images to reduce attack surface\n-   Run as non-root user\n-   Log to `stdout` and `stderr` for Cloud Logging collection\n\nA complete worked Node.js example is provided in [`assets/`](./assets/):\n[`Dockerfile`](./assets/Dockerfile) (non-root `node` user),\n[`index.js`](./assets/index.js) (implements distinct `/healthz` and `/readyz`\nendpoints), [`package.json`](./assets/package.json), and\n[`deployment.yaml`](./assets/deployment.yaml) (hardened Deployment plus\nClusterIP Service, probes wired to `/healthz` and `/readyz`).\n\nFor applications where writing a Dockerfile is not preferred, you can use\n[**Cloud Native Buildpacks**](https://buildpacks.io/) to automatically detect\nthe language and build a container image:\n\n```bash\npack build <image> --builder gcr.io/buildpacks/builder:latest\n```\n\n### 3. Image Management\n\nBuild and store the container image:\n\n```bash\n# Configure Docker for Artifact Registry\ngcloud auth configure-docker <REGION>-docker.pkg.dev --quiet\n\n# Build and push\ndocker build -t <REGION>-docker.pkg.dev/<PROJECT>/<REPO>/<IMAGE>:<TAG> .\ndocker push <REGION>-docker.pkg.dev/<PROJECT>/<REPO>/<IMAGE>:<TAG>\n```\n\n**Vulnerability scanning**: Enable automatic scanning in Artifact Registry to\ndetect issues in base images and dependencies.\n\n```bash\n# Check scan results\ngcloud artifacts docker images describe \\\n  <REGION>-docker.pkg.dev/<PROJECT>/<REPO>/<IMAGE>:<TAG> \\\n  --show-package-vulnerability \\\n  --quiet\n```\n\n### 4. Manifest Generation\n\nGenerate Kubernetes manifests for the application. A baseline Deployment +\nClusterIP Service manifest (probes, resource requests/limits, 2 replicas) is in\n[`references/go-example.md`](./references/go-example.md).\n\n**Checklist for manifests:**\n\n-   Resource requests and limits set\n-   Liveness and readiness probes configured\n-   At least 2 replicas for production\n-   Service type appropriate (ClusterIP for internal, use Gateway API for\n    external)\n\nSee [`assets/deployment.yaml`](./assets/deployment.yaml) for a hardened worked\nexample. A production-hardened pod spec must include ALL of: `runAsNonRoot:\ntrue`, `readOnlyRootFilesystem: true`, `allowPrivilegeEscalation: false`,\n`capabilities.drop: [\"ALL\"]`, `seccompProfile: {type: RuntimeDefault}`,\n`automountServiceAccountToken: false` (unless the pod needs the token — then say\nwhy), resource requests, digest-pinned image, and a ClusterIP Service.\n\nThat checklist is the baseline for any pod spec produced here. For manifest work\nbeyond it — Gateway API routes, GCS FUSE and secret volume mounting, `subPath`\noverlays, Spot VM targeting, or AI/inference serving specs — see\n`gke-manifest-generation`.\n\n### 5. Deploy\n\n```\n# MCP (preferred)\napply_k8s_manifest(parent=\"projects/<PROJECT>/locations/<REGION>/clusters/<CLUSTER>\", yamlManifest=\"<manifest>\")\n\n# Verify\nget_k8s_rollout_status(parent=\"...\", resourceType=\"deployment\", name=\"my-app\")\nget_k8s_resource(parent=\"...\", resourceType=\"pod\", labelSelector=\"app=my-app\")\n```\n\n**kubectl fallback:**\n\n```bash\nkubectl apply -f manifests/\nkubectl rollout status deployment/my-app\nkubectl get pods -l app=my-app\n```\n\n## Golden Path Onboarding Checklist\n\nFor every production application onboarding to GKE:\n\n1.  **Container Security**: Non-root user (`runAsNonRoot: true`), lockfile\n    install, minimal/distroless base image.\n2.  **Resource Requests**: Explicit CPU and memory requests (mandatory for GKE\n    Autopilot).\n3.  **Health Probes**: Both liveness (`livenessProbe`) and readiness\n    (`readinessProbe`) probes configured.\n4.  **Reliability & Availability**: At least 2 replicas and a\n    `PodDisruptionBudget` (`minAvailable: 1` or `2`).\n5.  **IAM & Workload Identity**: Workload Identity\n    (`iam.gke.io/gcp-service-account`) instead of static service account keys.\n\n## Next Steps\n\nOnce the application is running on GKE:\n\n-   Configure autoscaling — see the `gke-workload-scaling` skill\n-   Set up observability — see the `gke-observability` skill\n-   Harden security — see the `gke-workload-security` skill\n-   Configure reliability (PDBs, topology spread) — see the `gke-reliability`\n    skill\n",
+ "body_lines": 144,
+ "bytes": 5602,
+ "code_blocks": 10,
+ "description": "Manages GKE application onboarding, covering containerization, deployment manifests, and migration. Use when onboarding or deploying an application to GKE for the first time, or containerizing an app for GKE. Don't use for general GKE cluster administration or upgrades (use gke-basics or gke-upgrades instead).",
+ "dir_name": "gke-app-onboarding",
+ "dup_cluster": null,
+ "extra_files": [
+  "assets/Dockerfile",
+  "assets/deployment.yaml",
+  "assets/index.js",
+  "assets/package-lock.json",
+  "assets/package.json",
+  "references/go-example.md"
+ ],
+ "file_count": 7,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-app-onboarding"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-app-onboarding",
+ "grade": "S",
+ "group": "cloud",
+ "has_assets": true,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "3396b8720b4b52e5",
+ "heading_count": 14,
+ "id": "google--gke-app-onboarding",
+ "languages": [
+  "bash"
+ ],
+ "name": "gke-app-onboarding",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-app-onboarding/SKILL.md",
+ "score": 90,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-app-onboarding",
+ "tags": [
+  "capability:migrate",
+  "domain:cloud-infra",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:has-assets",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 596
+}

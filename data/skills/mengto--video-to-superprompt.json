@@ -1,0 +1,63 @@
+{
+ "also_at": [],
+ "body": "# Video To Superprompt\n\n## Goal\n\nConvert any usable reference video into a builder-ready prompt that captures what the video shows, how it moves, how it should be rebuilt, and what assets or generated media are needed. The default output is one paste-ready prompt unless the user asks for an article, asset pack, or implementation.\n\n## Workflow\n\n1. **Locate the source video.**\n   - Accept local paths, uploaded files, URLs, browser-visible videos, article assets, or repo media.\n   - If the video is referenced but inaccessible, ask for the exact file or URL before inventing details.\n   - If the user wants exact recreation, inspect any source HTML/CSS/JS or local page connected to the video before writing the prompt.\n\n2. **Inspect the video technically.**\n   - For local files, run `ffprobe` for duration, dimensions, frame rate, codec, and size.\n   - Extract representative frames with `ffmpeg`, favoring timeline beats over uniform thumbnails.\n   - Suggested quick pass:\n     ```bash\n     ffprobe -v error -show_entries format=duration,size:stream=width,height,r_frame_rate -of json \"$VIDEO\"\n     mkdir -p /tmp/video-frames\n     ffmpeg -y -i \"$VIDEO\" -vf fps=1 /tmp/video-frames/frame-%03d.jpg\n     ```\n   - For long or scroll-heavy videos, also extract start/middle/end and visible transition moments.\n\n3. **Analyze in layers.**\n   - Story: page/app purpose, emotional arc, section order, transition between beats.\n   - Screen/layout: viewport framing, grids, sticky zones, cards, media, overlays, margins, navigation, footer.\n   - Motion: reveal timing, easing, parallax, masks, pinned sections, scroll scrubbing, hover/tap states, looped ambient motion, camera moves.\n   - Visual design: typography, color palette, surfaces, borders, shadows, texture, iconography, image/video treatment.\n   - Technical rebuild: CSS/native APIs, IntersectionObserver, Web Animations API, GSAP ScrollTrigger, Lenis, Framer Motion/Motion One, Three.js/WebGL, canvas, video currentTime scrubbing, carousels, or other domain libraries.\n   - Accessibility/performance: reduced motion, mobile behavior, touch/keyboard states, lazy loading, video preload, pixel-ratio caps, static fallbacks.\n\n4. **Plan assets.**\n   - Produce an asset map. Include exact URLs when supplied, local filenames when used, or placeholder names when assets still need generation.\n   - If AI assets are needed, create separate prompts for image plates, video clips, WebGL/canvas elements, posters, sprites, masks, and texture overlays.\n   - If user names specific models or APIs, preserve them exactly in the prompt and separate image prompts from video prompts.\n\n5. **Write the superprompt.**\n   - Use a single fenced `text` block for the paste-ready prompt unless the user asks for another format.\n   - Start with the final thing to build and the reference boundary: exact recreation vs inspired adaptation.\n   - Include: asset map, brand/content, global design language, layout rules, section-by-section anatomy, motion system, scroll system, video behavior, WebGL/Three.js behavior, responsive requirements, accessibility/performance, and anti-patterns.\n   - For every major section, specify purpose, layout, visual details, animation, interactions, scroll behavior, library/API choice, and reduced-motion fallback.\n   - Avoid vague phrases like “make it beautiful,” “similar animation,” or “nice transitions.” Convert taste into concrete build instructions.\n\n6. **Verify before finalizing.**\n   - Check that all asset paths/URLs in the prompt exist or are clearly marked as placeholders.\n   - If screenshots/frames were created, confirm files are non-empty and representative.\n   - If writing an article or repo artifact, obey local workspace instructions, keep dirty-worktree staging narrow, and commit when required.\n\n## Output Modes\n\n- **Prompt only:** Give the paste-ready prompt and, when helpful, a short asset map above it.\n- **Article:** Create `content.md` plus local frame/video evidence, manifest, and prompts. Follow the current repo article conventions.\n- **Implementation brief:** Add a build plan and QA checklist after the prompt.\n- **Asset-generation pack:** Split prompts into background images, video clips, sprites/WebGL, posters, and final page prompt.\n\n## Quality Bar\n\n- The prompt should be long enough to rebuild the interaction without seeing the original video.\n- It should preserve the video’s sequence, pacing, and notable quirks.\n- It should name exact motion mechanisms: pinned section, scrubbed timeline, `video.currentTime`, parallax layer, opacity reveal, transform, mask, shader, particle field, hover state, or carousel physics.\n- It should include mobile behavior and reduced-motion behavior every time.\n- It should call out what to avoid, especially generic landing-page sections, decorative blobs, mismatched stock media, autoplay-only video when scroll-scrubbing is required, and text overlap.\n\n## References\n\n- Read `references/superprompt-template.md` when writing the final prompt from scratch or when the user asks for the “full detailed prompt.”\n",
+ "body_lines": 68,
+ "bytes": 5538,
+ "code_blocks": 0,
+ "description": "Turn a reference video into a super detailed recreation or inspiration prompt. Use when the user provides, mentions, uploads, links, or points to a video and asks to analyze the design, UI, animations, transitions, scroll interactions, typography, colors, assets, WebGL/Three.js, storytelling, section-by-section behavior, or to create a prompt/article that recreates the page, app, interaction, or motion system.",
+ "dir_name": "video-to-superprompt",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml",
+  "demo/PROMPT.md",
+  "demo/expected-output.md",
+  "demo/index.html",
+  "demo/input.md",
+  "demo/preview.jpg",
+  "references/superprompt-template.md"
+ ],
+ "file_count": 8,
+ "frontmatter": {
+  "name": "video-to-superprompt"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/codex/video-to-superprompt",
+ "grade": "B",
+ "group": "codex",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "2b0db0096fb715f9",
+ "heading_count": 6,
+ "id": "mengto--video-to-superprompt",
+ "languages": [],
+ "name": "video-to-superprompt",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/video-to-superprompt/SKILL.md",
+ "score": 75,
+ "score_breakdown": {
+  "body": 18,
+  "description": 20,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "agent-skills/codex/video-to-superprompt",
+ "tags": [
+  "agent:codex",
+  "capability:analyze",
+  "capability:build",
+  "domain:agent-workflow",
+  "domain:animation",
+  "domain:media",
+  "format:video",
+  "stack:threejs",
+  "trait:has-references",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 685
+}

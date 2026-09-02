@@ -1,0 +1,62 @@
+{
+ "also_at": [],
+ "body": "# Google Cloud Build Basics\n\n## Prerequisites\n\nBefore starting, ensure the following prerequisites are met:\n\n1.  **Google Cloud SDK**: Ensure the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) is installed and configured.\n2.  **Authentication**: Authenticate the gcloud CLI:\n    ```bash\n    gcloud auth login\n    gcloud auth application-default login\n    ```\n3.  **Project ID**: Know the target Google Cloud Project ID. Set the context:\n    ```bash\n    gcloud config set project <PROJECT_ID>\n    ```\n4.  **Enable Cloud Build API**: The Cloud Build API must be enabled for the project.\n    ```bash\n    gcloud services enable cloudbuild.googleapis.com\n    ```\n5.  **Permissions**: Ensure the user or service account has the necessary permissions, such as `roles/cloudbuild.builds.editor` and `roles/serviceusage.serviceUsageAdmin` (to enable the API).\n\n## Core Concepts\n\nGoogle Cloud Build (GCB) is a serverless platform that executes your builds on Google Cloud. It translates your source code into deployable artifacts, such as Docker containers or Java archives.\n\n| Concept | Description |\n| :--- | :--- |\n| **`cloudbuild.yaml`** | The required configuration file that defines the build steps. It is written in YAML or JSON. |\n| **Build Steps** | A sequence of actions (steps) GCB performs. Each step runs a command inside a specific Docker container (the builder). Common builders include `gcr.io/cloud-builders/gcloud`, `gcr.io/cloud-builders/docker`, and custom containers. |\n| **Artifacts** | The output of the build, typically a container image pushed to Google Container Registry (GCR) or Artifact Registry (AR), or other deployable files. |\n| **Triggers** | Automation rules that invoke a build in response to an event, such as a push to a Git repository, a Pub/Sub message, or a manual request. |\n\n## Navigation: Viewing Build History\n\nThe Cloud Build Build History page is the central place to monitor the status of past and ongoing builds.\n\n1.  **Open the Cloud Console**: Navigate to the Google Cloud Console.\n2.  **Go to Cloud Build**: Use the search bar or the navigation menu to find **Cloud Build**.\n3.  **Select Build History**: In the left navigation pane, select **History** (or use the direct URL: `https://console.cloud.google.com/cloud-build/builds`).\n4.  **Review Builds**:\n    *   **Status**: Check the status column (`SUCCESS`, `FAILURE`, `WORKING`, `QUEUED`).\n    *   **Region**: Use the region filter at the top to view builds that ran in a specific region (important for regional worker pools).\n    *   **Logs**: Click on a specific Build ID to view the detailed logs, execution steps, and build summary. This is crucial for debugging failed builds.\n\n> [!NOTE]\n> If this is your first time visiting the page, you might see the \"zero-state\" experience, which offers options to run a sample build or create your first trigger (as noted in the [`cb-list-build-zero-state`](references/cb-list-build-zero-state.md) skill). Note that region settings for triggers and builds are immutable after creation and must be chosen deliberately.\n\n## Creating a Basic Automated Trigger\n\nThis process defines an automation rule to run a build whenever code is pushed to a specified Git branch.\n\n### Step 1: Start Trigger Creation\n\n1.  Navigate to the **Cloud Build Triggers** page (`https://console.cloud.google.com/cloud-build/triggers`).\n2.  Click **Create trigger**.\n\n### Step 2: Configure Trigger Settings\n\n1.  **Name**: Provide a unique, descriptive name (e.g., `github-main-branch-build`).\n2.  **Region**: Select the region where the trigger configuration will be stored (e.g., `global` or a specific regional endpoint). **Note: Trigger and build region settings are immutable after creation and must be chosen deliberately.**\n3.  **Event**: Select the event type. For automated CI/CD, select **Push to a branch**.\n4.  **Source**: Select the repository source:\n    *   **Repository**: Connect your source repository (GitHub, Bitbucket, Cloud Source Repositories, etc.). If needed, authorize the connection.\n    *   **Repository Name**: Select the specific repository you want to link.\n5.  **Branch**: Enter the branch pattern (e.g., `^main$` or `^develop`).\n\n### Step 3: Configure Build Settings\n\n1.  **Configuration**: Select **Cloud Build configuration file (yaml or json)**.\n2.  **Location**: Keep the default **Repository** and specify the path to your build configuration file (e.g., `cloudbuild.yaml`).\n    *   *Alternative*: For very simple builds, you can choose **Inline** to paste the YAML configuration directly into the trigger.\n3.  **(Optional) Service Account**: For production environments, select a dedicated service account with limited permissions to enforce the principle of least privilege.\n\n### Step 4: Save and Test\n\n1.  Click **Create**. The trigger is now active and will run automatically on the next matching Git push.\n\n> [!TIP]\n> The `cb-create-trigger` skill provides detailed `gcloud` commands for creating triggers across all types (GitHub, Pub/Sub, Webhook) and configurations (inline, Dockerfile, YAML). Use that skill for CLI automation.\n\n## Running an Existing Trigger Manually\n\nSometimes you need to run a trigger on demand, outside of its normal automation flow (e.g., to rebuild an old commit or test a new substitution).\n\n> [!IMPORTANT]\n> **Substitution Immutability**: You can only override values for substitution variables that are **already defined in the trigger configuration**. You cannot introduce new substitution variable keys at runtime.\n\n### Option A: Via the Cloud Console\n\n1.  Navigate to the **Cloud Build Triggers** page (`https://console.cloud.google.com/cloud-build/triggers`).\n2.  Locate the trigger you wish to run.\n3.  Click the vertical ellipsis (⋮) next to the trigger and select **Run**.\n4.  A dialog will appear, allowing you to specify:\n    *   **Source branch/tag**: Choose the specific Git reference to build from.\n    *   **Substitution Variables**: Override any existing substitution variables (e.g., set `_VERSION` to a new value).\n5.  Click **Run trigger**. The build will start immediately, and you can monitor its status on the **History** page.\n\n### Option B: Via the gcloud CLI\n\nUse the `gcloud builds triggers run` command to invoke the trigger and optionally override parameters.\n\n```bash\n# Run the trigger against the 'main' branch\ngcloud builds triggers run <TRIGGER_NAME> \\\n    --region=<REGION> \\\n    --branch=main\n\n# Run the trigger and override a substitution variable\ngcloud builds triggers run <TRIGGER_NAME> \\\n    --region=<REGION> \\\n    --branch=main \\\n    --substitutions=_IMAGE_TAG=\"20231027-manual\"\n\n# Monitor the initiated build\n# Note: The run command outputs the build ID. Use it to check status:\n# gcloud builds log <BUILD_ID> --region=<REGION>\n```\n\n> [!NOTE]\n> The `cb-run-trigger` skill provides more complex invocation examples, including running against a specific commit SHA or using tags.\n\n## Related Skills\n\n*   [`cb-create-trigger`](references/cb-create-trigger.md): Detailed CLI-focused instructions for creating all trigger types.\n*   [`cb-list-build-zero-state`](references/cb-list-build-zero-state.md): Advanced management of the Cloud Build dashboard and onboarding zero state.\n*   [`cb-run-trigger`](references/cb-run-trigger.md): Comprehensive guide to manually running triggers using various `gcloud` options.\n\n## External Resources & Documentation\n\n*   [Google Cloud Build Documentation](https://cloud.google.com/build/docs)\n*   [Cloud Build Configuration File Schema](https://cloud.google.com/build/docs/build-config-file-schema)\n*   [Automating Builds with Triggers](https://cloud.google.com/build/docs/automating-builds/create-manage-triggers)\n*   [gcloud CLI builds Reference](https://cloud.google.com/sdk/gcloud/reference/builds)\n",
+ "body_lines": 135,
+ "bytes": 8161,
+ "code_blocks": 2,
+ "description": "Teaches the fundamentals of Google Cloud Build (GCB). Covers core concepts, API enablement, console navigation to the Build History page, and the end-to-end workflow for creating and manually running a basic build trigger. Do not use for managing private pools or complex pipeline architectures.",
+ "dir_name": "cloud-build-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/cb-create-trigger.md",
+  "references/cb-list-build-zero-state.md",
+  "references/cb-run-trigger.md"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "metadata": {
+   "category": "DevOps"
+  },
+  "name": "cloud-build-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/cloud-build-basics",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "e960ded35bbe1ae0",
+ "heading_count": 19,
+ "id": "google--cloud-build-basics",
+ "languages": [
+  "bash"
+ ],
+ "name": "cloud-build-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-build-basics/SKILL.md",
+ "score": 87,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/cloud-build-basics",
+ "tags": [
+  "capability:build",
+  "capability:orchestrate",
+  "capability:plan",
+  "domain:automation",
+  "domain:backend",
+  "domain:cloud-infra",
+  "stack:gcp",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 1044
+}

@@ -1,0 +1,61 @@
+{
+ "also_at": [],
+ "body": "# GKE Workload Security\n\nThis skill provides workflows and best practices for securing GKE workloads. It\ncovers security auditing, Identity and Access Management (Workload Identity),\nNetwork Security (Network Policies), and Node Security.\n\n## Workflows\n\n### 1. Security Audit\n\nAssess the current security posture of your cluster using the provided audit\nscript.\n\n**Prerequisites:**\n\n-   `gcloud` CLI authenticated.\n-   `jq` command-line JSON processor installed.\n\n**Capabilities:**\n\n-   Checks for Workload Identity.\n-   Verifies Network Policy is enabled.\n-   Checks if Shielded Nodes are enabled.\n-   Checks if Binary Authorization is enabled.\n-   Checks for Private Cluster configuration.\n\n**Command:**\n\n```bash\nscripts/audit_cluster.sh <cluster-name> <region> <project-id>\n```\n\n### 2. Configure Workload Identity\n\nWorkload Identity allows Kubernetes Service Accounts (KSAs) to impersonate\nGoogle Service Accounts (GSAs). This is the recommended method for workloads to\naccess Google Cloud APIs.\n\n**Steps:**\n\n1.  **Create Namespace and KSA:**\n\n    ```bash\n    kubectl create namespace workload-identity-test-ns\n    kubectl create serviceaccount <ksa-name> \\\n        --namespace workload-identity-test-ns\n    ```\n\n2.  **Bind KSA to GSA:**\n\n    ```bash\n    gcloud iam service-accounts add-iam-policy-binding <gsa-name>@<project-id>.iam.gserviceaccount.com \\\n        --role roles/iam.workloadIdentityUser \\\n        --member \"serviceAccount:<project-id>.svc.id.goog[workload-identity-test-ns/<ksa-name>]\"\n    ```\n\n3.  **Annotate KSA:**\n\n    ```bash\n    kubectl annotate serviceaccount <ksa-name> \\\n        --namespace workload-identity-test-ns \\\n        iam.gke.io/gcp-service-account=<gsa-name>@<project-id>.iam.gserviceaccount.com\n    ```\n\n4.  **Verify Example Pod:** Use existing asset\n    `assets/workload-identity-pod.yaml` to test the configuration. Update the\n    `<ksa-name>` in the file first.\n\n    ```bash\n    kubectl apply -f assets/workload-identity-pod.yaml -n workload-identity-test-ns\n    ```\n\n### 3. Implement Network Policies\n\nControl traffic flow between Pods using Network Policies. By default, all\ntraffic is allowed.\n\n**Enable Network Policy Enforcement:**\n\n```bash\ngcloud container clusters update <cluster-name> \\\n    --update-addons=NetworkPolicy=ENABLED \\\n    --region <region>\n```\n\n> [!NOTE] If your cluster uses Dataplane V2 (`--enable-dataplane-v2`), Network\n> Policy enforcement is built-in and this step is not required (and may fail).\n\n**Apply Default Deny Policy:** Isolate namespaces by denying all ingress and\negress traffic by default.\n\n**Replace `<target-namespace>` with the namespace you want to isolate.**\n\n```bash\nkubectl apply -f assets/default-deny-netpol.yaml -n <target-namespace>\n```\n\n### 4. GKE Sandbox (gVisor) Pod Isolation\n\nRun untrusted workloads in a sandbox for extra kernel isolation. *(Note:\nEnabling Shielded Nodes (`--enable-shielded-nodes`) and GKE Sandbox\n(`--enable-gke-sandbox`) at the cluster control plane level are platform-level\nactions covered in the `gke-platform-security` skill.)*\n\n**Run a Sandboxed Pod:** Add `runtimeClassName: gvisor` to your Pod spec:\n\n```yaml\napiVersion: v1\nkind: Pod\nmetadata:\n  name: sandboxed-pod\nspec:\n  runtimeClassName: gvisor\n  containers:\n  - name: app\n    image: nginx\n```\n\n### 5. Pod Security Standards\n\nEnforce security policies on namespaces using labels.\n\n**Enforce Restricted Profile:**\n\n```bash\nkubectl label --overwrite ns <namespace> \\\n    pod-security.kubernetes.io/enforce=restricted \\\n    pod-security.kubernetes.io/enforce-version=latest\n```\n\n> [!NOTE] Using `latest` ensures you use the policies corresponding to the\n> cluster's current version. You can pin it to a specific version (e.g.,\n> `v1.30`) to lock down the namespace to policies of a specific release.\n\n### 6. Secret Manager Integration (CSI Driver)\n\nMount secrets from Google Cloud Secret Manager directly as volumes in your pods.\n\n**Prerequisites**: Secret Manager CSI driver must be enabled on the cluster.\n\n**Example SecretProviderClass:**\n\n```yaml\napiVersion: secrets-store.csi.x-k8s.io/v1\nkind: SecretProviderClass\nmetadata:\n  name: my-secret-provider\nspec:\n  provider: gcp\n  parameters:\n    secrets: |\n      - resourceName: \"projects/<project-id>/secrets/my-secret/versions/latest\"\n        fileName: \"my-secret-file\"\n```\n\n**Example Pod Spec excerpt:**\n\n```yaml\nspec:\n  containers:\n    - name: my-app\n      volumeMounts:\n        - name: secrets-store-inline\n          mountPath: \"/mnt/secrets\"\n          readOnly: true\n  volumes:\n    - name: secrets-store-inline\n      csi:\n        driver: secrets-store.csi.k8s.io\n        readOnly: true\n        volumeAttributes:\n          secretProviderClass: \"my-secret-provider\"\n```\n\n### 7. Enable Network Policy Logging\n\nIf using GKE Dataplane V2, you can log allowed and denied connections.\n\n**Steps:**\n\n1.  Configure the `NetworkLogging` custom resource.\n\n**Example NetworkLogging Manifest:**\n\n```yaml\napiVersion: networking.gke.io/v1alpha1\nkind: NetworkLogging\nmetadata:\n  name: default\nspec:\n  cluster:\n    allow:\n      log: true\n      delegate: true\n    deny:\n      log: true\n      delegate: true\n```\n\nThis will log connection details to Cloud Logging.\n\n## Best Practices\n\n1.  **Least Privilege:** Always use Workload Identity with minimal IAM roles.\n    Avoid using Node default service accounts.\n2.  **Network Isolation:** Use Network Policies to restrict Pod-to-Pod\n    communication. Enable Network Policy Logging for visibility.\n3.  **Image Security:** Use Binary Authorization to ensure only trusted images\n    are deployed.\n4.  **Secret Management**: Use Secret Manager CSI driver instead of default\n    Kubernetes secrets for sensitive data.\n5.  **Pod Security**: Enforce `baseline` or `restricted` Pod Security Standards\n    on all non-system namespaces.\n6.  **Policy Enforcement**: Consider using **Policy Controller** (Gatekeeper) to\n    enforce custom security and compliance policies across the cluster.\n\n## Resources\n\n-   [Workload Identity Federation for GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity)\n-   [GKE Network Policies](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)\n-   [Pod Security Standards in GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-standards)\n-   [Google Secret Manager CSI Driver](https://cloud.google.com/kubernetes-engine/docs/how-to/secret-manager)\n-   [GKE Dataplane V2 Network Logging](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy-logging)\n",
+ "body_lines": 224,
+ "bytes": 7516,
+ "code_blocks": 16,
+ "description": "Audits, configures, and hardens workload-level security controls for Google Kubernetes Engine (GKE) applications and namespaces. Covers running cluster security audits (`audit_cluster.sh`), configuring Workload Identity Federation (impersonation, KSA/GSA binding, and pod setup), enforcing Network Policies (default-deny and Dataplane V2 logging), isolating high-risk pods inside GKE Sandbox (`gVisor`), enforcing Pod Security Standards (`restricted` labeling), and mounting Secret Manager secrets via CSI (`SecretProviderClass`). Use when auditing cluster security posture, isolating namespaces, applying pod security standards, setting up Workload Identity, or configuring network policies and secret volume mounts. Don't use for cluster-wide control plane security, RBAC hardening, Binary Authorization, Shielded Nodes, or enabling platform-level GKE add-ons (use gke-platform-security instead).",
+ "dir_name": "gke-workload-security",
+ "dup_cluster": null,
+ "extra_files": [
+  "assets/default-deny-netpol.yaml",
+  "assets/workload-identity-pod.yaml",
+  "scripts/audit_cluster.sh"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "metadata": {
+   "category": "Security"
+  },
+  "name": "gke-workload-security"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-workload-security",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": true,
+ "has_references": false,
+ "has_scripts": true,
+ "hash": "95054149f3b23dce",
+ "heading_count": 11,
+ "id": "google--gke-workload-security",
+ "languages": [
+  "bash",
+  "yaml"
+ ],
+ "name": "gke-workload-security",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-workload-security/SKILL.md",
+ "score": 86,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 11,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-workload-security",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:security",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:has-assets",
+  "trait:has-scripts",
+  "trait:spec-clean"
+ ],
+ "words": 701
+}

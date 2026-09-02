@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# Google Cloud Well-Architected Framework skill for the Performance Optimization pillar\n\n## Overview\n\nThe Performance Optimization pillar of the Google Cloud Well-Architected\nFramework provides principles and recommendations to help you design, build, and\noperate high-performing workloads. It focuses on efficiently allocating\nresources, leveraging modular architectures, and using data-driven insights to\ncontinuously monitor and improve performance as your business needs evolve.\n\n## Core principles\n\nThe recommendations in the performance optimization pillar of the\nWell-Architected Framework are aligned with the following core principles:\n\n-   **Plan resource allocation**: Carefully select and configure the compute,\n    storage, and networking resources that best match the specific requirements\n    of your workload. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/performance-optimization/plan-resource-allocation.md.txt\n\n-   **Take advantage of elasticity**: Utilize automated scaling and serverless\n    technologies to dynamically adjust resource capacity in response to\n    real-time demand fluctuations. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/performance-optimization/elasticity.md.txt\n\n-   **Promote modular design**: Architect systems using independent, loosely\n    coupled components to enhance scalability and allow individual parts to be\n    optimized without affecting the entire system. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/performance-optimization/promote-modular-design.md.txt\n\n-   **Continuously monitor and improve performance**: Implement robust\n    observability to identify bottlenecks and use performance data to drive\n    iterative enhancements throughout the software development lifecycle.\n    Grounding document:\n    https://docs.cloud.google.com/architecture/framework/performance-optimization/continuously-monitor-and-improve-performance.md.txt\n\n## Relevant Google Cloud products\n\nThe following are _examples_ of Google Cloud products and features that are\nrelevant to performance optimization:\n\n-   **Compute and scaling**\n    -   **Compute Engine (MIGs)**: Managed instance groups that support\n        autoscaling and load balancing for VM-based workloads.\n    -   **Google Kubernetes Engine (GKE)**: Provides container orchestration\n        with horizontal and vertical pod autoscaling.\n    -   **Cloud Run**: A fully managed serverless platform that automatically\n        scales containers to zero or up based on traffic.\n\n-   **Data and caching**\n    -   **Cloud CDN**: Low-latency content delivery network to cache static and\n        dynamic content closer to end-users.\n    -   **Memorystore**: Managed in-memory data store for Valkey and Redis to\n        provide sub-millisecond data access.\n    -   **Bigtable**: NoSQL database service for analytical and operational\n        workloads requiring low latency and high throughput.\n    -   **Spanner**: RDBMS that provides global consistency, high availability,\n        and horizontal scaling for mission-critical transactional applications.\n\n-   **Performance analysis and monitoring**\n    -   **Cloud Trace**: Distributed tracing system that helps identify latency\n        bottlenecks.\n    -   **Cloud Profiler**: Continuous CPU and memory profiling to identify\n        resource-heavy application code.\n    -   **Cloud Monitoring**: Provides dashboards and alerts based on\n        performance KPIs like latency and throughput.\n\n## Workload assessment questions\n\nAsk appropriate questions to understand the performance-related requirements and\nconstraints of the workload and the user's organization. Choose questions from\nthe following list:\n\n-   **Plan resource allocation**\n    -   When initially provisioning compute resources for a new application,\n        which approach do you use to determine the required capacity for\n        expected peak loads?\n    -   Which caching strategies (browser, in-memory, CDN, database) do you\n        utilize to improve performance and responsiveness?\n    -   How do you optimize the performance of your data storage solutions\n        (e.g., SSD vs HDD, storage classes) for your applications?\n\n-   **Promote modular design**\n    -   Which architectural patterns (microservices, asynchronous messaging,\n        stateless servers) do you employ to enhance performance and resilience?\n    -   How do you design your application to minimize the impact of failures in\n        one part of the system on other parts?\n\n-   **Continuously monitor and improve performance**\n    -   How frequently do you review and analyze the performance of your\n        production applications and infrastructure?\n    -   Which tools or techniques (APM, distributed tracing, load testing) do\n        you use to proactively identify and diagnose performance bottlenecks?\n    -   How do you incorporate performance considerations into your software\n        development lifecycle (SDLC)?\n\n-   **Take advantage of elasticity**\n    -   Which methods do you use to manage and optimize the cost of your cloud\n        resources while maintaining performance?\n    -   How do you typically handle sudden spikes in traffic or workload on your\n        applications?\n\n## Validation checklist\n\nUse the following checklist to evaluate the architecture's alignment with\nperformance optimization recommendations:\n\n-   **Resource allocation**\n    -   [ ] Initial provisioning is based on load testing or historical data\n        rather than general estimates.\n    -   [ ] Caching is implemented at multiple layers (CDN, in-memory, or\n        browser) to offload backend systems.\n    -   [ ] Storage types (SSD/HDD) and classes are selected based on the\n        specific I/O requirements of the workload.\n\n-   **Modular design**\n    -   [ ] The architecture uses microservices or decoupled components to allow\n        independent scaling.\n    -   [ ] Circuit breakers or bulkheads are implemented to isolate failures\n        and prevent performance degradation across the system.\n\n-   **Monitoring and continuous improvement**\n    -   [ ] Automated dashboards and alerts are configured for key performance\n        indicators (KPIs).\n    -   [ ] Distributed tracing and profiling tools are used to identify\n        code-level bottlenecks.\n    -   [ ] Performance testing (unit and integration) is integrated into the\n        software development lifecycle.\n\n-   **Elasticity**\n    -   [ ] Auto-scaling rules are configured and validated to handle variable\n        demand.\n    -   [ ] The architecture leverages serverless or managed services to\n        dynamically match capacity to load.\n    -   [ ] Resource utilization is reviewed regularly to eliminate idle\n        overhead and balance cost with performance.\n",
+ "body_lines": 137,
+ "bytes": 7318,
+ "code_blocks": 0,
+ "description": "Generates performance-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Performance Optimization pillar of the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify performance requirements, and provide actionable recommendations for resource allocation, modular design, and elasticity.",
+ "dir_name": "google-cloud-waf-performance-optimization",
+ "dup_cluster": "google--google-cloud-waf-operational-excellence",
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "WellArchitectedFramework"
+  },
+  "name": "google-cloud-waf-performance-optimization"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/google-cloud-waf-performance-optimization",
+ "grade": "C",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "03e6b3e523712cad",
+ "heading_count": 6,
+ "id": "google--google-cloud-waf-performance-optimization",
+ "languages": [],
+ "name": "google-cloud-waf-performance-optimization",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-performance-optimization/SKILL.md",
+ "score": 62,
+ "score_breakdown": {
+  "body": 18,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/google-cloud-waf-performance-optimization",
+ "tags": [
+  "capability:optimize",
+  "capability:plan",
+  "domain:cloud-infra",
+  "domain:design",
+  "domain:research",
+  "stack:gcp",
+  "trait:spec-clean"
+ ],
+ "words": 807
+}

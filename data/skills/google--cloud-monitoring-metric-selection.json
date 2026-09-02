@@ -1,0 +1,56 @@
+{
+ "also_at": [],
+ "body": "# Metric Selection (Service Query & Local Keyword Filtering)\n\nUse this skill to identify the most relevant Google Cloud Monitoring metric\ndescriptors. It queries all metric descriptors for a target service from the API\nand filters them locally inside the agent's context using keyword matching.\n\n## CRITICAL RULES\n\n*   **Always Query Live APIs**: You MUST always retrieve the most up-to-date\n    metric descriptors dynamically by calling the `list_metric_descriptors` MCP\n    tool.\n*   **Mandatory Project ID and Resource Parameter Clarification**: BEFORE\n    calling any API tools (such as `list_metric_descriptors`), you MUST ensure\n    the GCP Project ID is provided in the prompt, URI, or environment context.\n    If the Project ID cannot be resolved, you MUST ask the user to clarify or\n    provide it BEFORE executing API queries. Do NOT run API queries against\n    unconfirmed default or placeholder project names (such as `mock-project`,\n    `my-project-id`, `unused`, or `YOUR_PROJECT_ID`).\n*   **Fallback Reporting**: If API calls fail and fallback sources (such as\n    public docs) are used, you MUST state the error, the fallback source, and\n    the risks of non-live data (such as potential staleness, missing custom\n    metrics, or schema mismatches).\n\n## Workflow\n\n### Step 1: Verify & Auto-Configure MCP\n\n1.  Check if any tool matching `list_metric_descriptors` (such as\n    `google-cloud-monitoring:list_metric_descriptors`,\n    `mcp_google-cloud-monitoring_list_metric_descriptors`, or a similar pattern)\n    is available in your active toolset.\n2.  **Verify via Unique URL**: To ensure you are calling the correct Google\n    Cloud Monitoring tool, confirm that the underlying MCP server configuration\n    points to: **`https://monitoring.googleapis.com/mcp`**.\n3.  If the tool is **missing**:\n\n    *   Locate the MCP configuration file for the user's environment. Check\n        common paths:\n        -   `~/.gemini/config/mcp_config.json`\n        -   `~/.codeium/windsurf/mcp_config.json`\n        -   `cline_mcp_settings.json`\n        -   `claude_desktop_config.json`\n    *   Directly update/merge the configuration file with the following server\n        configuration. **CRITICAL**: Merge the JSON object to preserve any\n        existing MCP servers in `mcpServers`. Do not overwrite the file.\n\n        ```json\n        \"google-cloud-monitoring\": {\n          \"url\": \"https://monitoring.googleapis.com/mcp\",\n          \"authProviderType\": \"google_credentials\",\n          \"enabledTools\": [\n            \"list_metric_descriptors\"\n          ]\n        }\n        ```\n\n    *   Print a clear message notifying the user that the\n        `google-cloud-monitoring` MCP server has been configured, and request\n        them to restart or start a new chat session to refresh tools. Stop\n        calling further tools and end the turn.\n\n### Step 2: Analyze Request & Extract Keywords\n\n1.  **Resolve Project ID and Identifiers**: Check for the GCP Project ID and\n    resource identifiers in the prompt, resource URIs, or environment context.\n    According to the CRITICAL RULES above, do NOT use placeholder project names.\n\n2.  **Identify Service Prefix**: Map target GCP services to their standard\n    prefix (such as `compute`, `spanner`, `bigquery`, `storage`).\n\n3.  **Extract Metric Concepts**: Extract metric keywords from user prompt (such\n    as \"CPU\", \"memory\", \"bytes scanned\", \"latency\", \"connections\") and map to\n    search substrings.\n\n*Example Query Analysis:*\n\n*   **User Prompt**: \"Check Cloud Storage bucket write throughput and request\n    count\"\n*   **Resource URI**:\n    `//storage.googleapis.com/projects/my-project/buckets/my-bucket`\n*   **Service Prefix**: `storage` (mapped to `storage.googleapis.com`)\n*   **Metric Keywords**: `write`, `throughput`, `request`, `count`\n*   **Mapped Substrings**: `write`, `throughput`, `request_count`, `count`\n\n### Step 3: Query Metric Descriptors via list_metric_descriptors Tool\n\nQuery all metric descriptors for each identified service prefix using the\n`list_metric_descriptors` MCP tool (using `pageSize: 200`). Because Google Cloud\nMonitoring filters do not allow combining multiple `metric.type` restrictions\nwith `OR`, you must **initiate a separate query for each identified service\nprefix** (either sequentially or in parallel).\n\nIf any response includes a `nextPageToken`, you MUST make consecutive follow-up\ncalls passing `pageToken` until all remaining descriptors for that prefix are\nretrieved before filtering.\n\n*Filter Pattern Construction:* Map the target service domain to its appropriate\nprefix style:\n\n1.  **Standard Google Cloud Services**:\n    `starts_with(\"<service_prefix>.googleapis.com/\")` (such as\n    `bigquery.googleapis.com/`, `redis.googleapis.com/`).\n2.  **Ops Agent (Guest OS)**: `starts_with(\"agent.googleapis.com/\")` (for guest\n    OS memory/disk metrics).\n3.  **Kubernetes / GKE Native**: `starts_with(\"kubernetes.io/\")`\n4.  **Istio Service Mesh**: `starts_with(\"istio.io/\")`\n5.  **Knative Serving / Autoscaler**: `starts_with(\"knative.dev/\")`\n6.  **Custom / External Metrics**: Use `starts_with(\"custom.googleapis.com/\")`\n    or `starts_with(\"external.googleapis.com/\")`.\n\n*Example Tool Call Payload:* If both Spanner and Compute Engine are targeted in\nthe request, execute these two tool calls:\n\n1.  Spanner query:\n\n```json\n{\n  \"name\": \"projects/my-project-id\",\n  \"filter\": \"metric.type = starts_with(\\\"spanner.googleapis.com/\\\")\",\n  \"pageSize\": 200\n}\n```\n\n1.  Compute Engine query:\n\n```json\n{\n  \"name\": \"projects/my-project-id\",\n  \"filter\": \"metric.type = starts_with(\\\"compute.googleapis.com/\\\")\",\n  \"pageSize\": 200\n}\n```\n\nCall the `list_metric_descriptors` tool with these payloads.\n\n### Step 4: Local Filtering & Fallback Protocol\n\nAggregate all descriptors returned from Step 3, and filter them locally inside\nyour LLM context:\n\n1.  **Keyword Filtering**: Filter the list by matching your target metric\n    keywords (such as \"cpu\", \"latency\") against the `type`, `displayName`, and\n    `description` fields of the descriptors.\n2.  **Resource Alignment**: Check if the metric contains labels matching the\n    target resource granularity (such as checking for a `database` label if\n    targeting a database resource). Do not attempt to dynamically match resource\n    type strings directly, as Google Cloud Monitoring resource mappings (like\n    Spanner databases mapping to `spanner_instance`) can be counter-intuitive.\n\n#### Troubleshooting & API Fallbacks\n\nIf any tool call fails, times out, or returns empty results, use these\nstrategies:\n\n*   **Case A: API Syntax Error**: Examine the error message, correct the filter\n    syntax, and retry.\n*   **Case B: Timeout / Rate Limits**: Retry the call once with a smaller page\n    size (such as `pageSize: 20`).\n*   **Case C: Unrecoverable Failure / Empty List**:\n    1.  Verify if the target service is enabled in the project.\n    2.  Search Google Cloud public documentation to verify standard metrics for\n        the service.\n\n### Step 5: Output Selected Metrics\n\nFor each service domain, return only the 5-15 key metrics directly relevant to\nthe user's intent.\n\nYou MUST report the selected metrics in clean Markdown tables, grouped by\nservice (that is, one table per service prefix). The table MUST include the\nfollowing columns: \"Metric Type\", \"Display Name\", \"Description\", \"Metric Kind\",\n\"Value Type\", \"Unit\", and \"Monitored Resource Types\". Map the fields from the\nGoogle Cloud Monitoring `list_metric_descriptors` tool call response objects\ndirectly to the table columns:\n\n*   **Metric Type**: Map to the `type` field (for example,\n    `spanner.googleapis.com/instance/cpu/utilization`).\n*   **Display Name**: Map to the `displayName` field.\n*   **Description**: Map to the `description` field.\n*   **Metric Kind**: Map to the `metricKind` field (for example, `GAUGE`,\n    `DELTA`, `CUMULATIVE`).\n*   **Value Type**: Map to the `valueType` field (for example, `INT64`,\n    `DOUBLE`, `DISTRIBUTION`, `BOOL`).\n*   **Unit**: Map to the `unit` field (for example, `1`, `By`, `s`, `ms`).\n*   **Monitored Resource Types**: Map to the `monitoredResourceTypes` list field\n    (for example, `[\"spanner_instance\"]`).\n\n*Example Output Table:*\n\nMetric Type                                       | Display Name             | Description                                 | Metric Kind | Value Type | Unit | Monitored Resource Types\n:------------------------------------------------ | :----------------------- | :------------------------------------------ | :---------- | :--------- | :--- | :-----------------------\n`spanner.googleapis.com/instance/cpu/utilization` | Instance CPU Utilization | Fraction of allocated CPU currently in use. | GAUGE       | DOUBLE     | 1    | `[\"spanner_instance\"]`\n\n## Reference Documentation & Links\n\n*   **Google Cloud Monitoring Metric List**:\n    [GCP Metrics Documentation](https://cloud.google.com/monitoring/api/metrics_gcp)\n*   **MetricDescriptor MCP Tool Reference**:\n    [MCP Tools Reference: monitoring.googleapis.com](https://docs.cloud.google.com/monitoring/api/ref_v3_mcp/mcp/tools_list/list_metric_descriptors)\n*   **Monitoring Filter Syntax Guide**:\n    [Monitoring Filters](https://cloud.google.com/monitoring/api/v3/filters)\n",
+ "body_lines": 202,
+ "bytes": 9667,
+ "code_blocks": 4,
+ "description": "Retrieve, query, and identify relevant Google Cloud Monitoring metric descriptors for a GCP service or resource (such as Compute Engine, Spanner, BigQuery, Cloud Run, Cloud SQL, Pub/Sub, Cloud Storage, etc.). Use when asked to find, list, search, or discover GCP metric types, names, kind/value schemas, or descriptors.",
+ "dir_name": "cloud-monitoring-metric-selection",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "CloudObservabilityAndMonitoring"
+  },
+  "name": "cloud-monitoring-metric-selection"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/cloud-monitoring-metric-selection",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "4d76e7e14a9936d7",
+ "heading_count": 10,
+ "id": "google--cloud-monitoring-metric-selection",
+ "languages": [
+  "json"
+ ],
+ "name": "cloud-monitoring-metric-selection",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-monitoring-metric-selection/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/cloud-monitoring-metric-selection",
+ "tags": [
+  "domain:cloud-infra",
+  "domain:data",
+  "domain:devops",
+  "stack:gcp",
+  "stack:sql",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 1100
+}

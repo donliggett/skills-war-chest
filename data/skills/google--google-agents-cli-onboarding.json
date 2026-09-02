@@ -1,0 +1,56 @@
+{
+ "also_at": [],
+ "body": "# Google Agents CLI Onboarding\n\n> [!TIP] **One-Time Setup**: To install the CLI and enable all 7 specialized\n> development skills in your coding agent, run the setup command:\n>\n> ```bash\n> uvx google-agents-cli setup\n> ```\n>\n> Alternatively, to install only the expert skills and let the agent handle\n> execution:\n>\n> ```bash\n> npx skills add google/agents-cli\n> ```\n\n## Overview\n\nThis skill serves as the entrypoint for **agents-cli** — Google's toolkit for\nbuilding, evaluating, and deploying AI agents on the Gemini Enterprise Agent\nPlatform.\n\nUse this skill to perform the initial setup and identify the correct specialized\nworkflows for your task.\n\n## The Agent Development Lifecycle\n\nAfter running the setup, the following specialized skills become available and\nwill activate automatically based on your requests. Use this table to identify\nwhich skill to load for your current phase:\n\n| Phase | Specialized Skill | Purpose / When to Load |\n| :--- | :--- | :--- |\n| **0 — Understand** | `google-agents-cli-workflow` | **Clarify intent.** Define the agent spec in `.agents-cli-spec.md` before coding. |\n| **1 — Study** | `google-agents-cli-workflow` | **Leverage samples.** Study existing agent samples (e.g., `ambient-expense`) before scaffolding. |\n| **2 — Scaffold** | `google-agents-cli-scaffold` | **Create/Enhance.** Initialize the project structure, CI/CD, and infrastructure templates. |\n| **3 — Build** | `google-agents-cli-adk-code` | **Implement.** Write agent logic, tools, callbacks, and manage state using ADK APIs. |\n| **4 — Evaluate** | `google-agents-cli-eval` | **Validate Quality.** Run systematic evaluations (LLM-as-judge). |\n| **5 — Deploy** | `google-agents-cli-deploy` | **Go Production.** Deploy to Agent Runtime (Vertex AI), Cloud Run, or GKE. |\n| **6 — Publish** | `google-agents-cli-publish` | **Register.** Make your agent available as a tool in Gemini Enterprise. |\n| **7 — Observe** | `google-agents-cli-observability` | **Monitor.** Set up Cloud Trace, prompt-response logging, and BigQuery analytics. |\n\n## Key CLI Commands\n\nBelow are the primary commands you will use throughout the development\nlifecycle:\n\n| Command | Description |\n| :--- | :--- |\n| `agents-cli setup` | Install the CLI and configure skills in your coding agent. |\n| `agents-cli scaffold <name>` | Create a new agent project from a template. |\n| `agents-cli eval run` | Run the agent and grade the traces in a single step (generate + grade). |\n| `agents-cli deploy` | Deploy your agent to Google Cloud (Agent Runtime, Cloud Run, GKE). |\n| `agents-cli publish gemini-enterprise` | Register your deployed agent with Gemini Enterprise. |\n\n*For the full list of available commands and global options, run `agents-cli\n--help`.*\n\n## Next Steps\n\nFollow this sequence to initiate the development workflow:\n\n1.  **Execute Setup:** Run the `uvx` or `npx` command in the `[!TIP]` box above\n    to install the CLI and enable the specialized skills in your environment.\n2.  **Verify Installation:** Run `agents-cli info` to confirm the installation\n    and view the active project configuration.\n3.  **Initiate Phase 0:** Ask the user for their core requirements (agent\n    purpose, external tools, deployment target) and document them in\n    `.agents-cli-spec.md` before writing any code.\n\n## Reporting Issues\n\nReport bugs or improvements at [Google Agents CLI Issues](https://github.com/google/agents-cli/issues).\n\n## Supporting Links\n\n*   [Google Agents CLI Documentation](https://github.com/google/agents-cli/tree/main/docs/src)\n",
+ "body_lines": 78,
+ "bytes": 4018,
+ "code_blocks": 0,
+ "description": "Onboarding entrypoint for agents-cli in Agent Platform. It should be used when the user wants to \"create a new agent\", \"develop an agent\", \"build an agent using ADK\", \"run the agent locally\", \"debug agent code\", \"test an agent\", \"evaluate an agent\", \"deploy an agent\", \"publish an agent\", \"monitor an agent\", or needs the ADK (Agent Development Kit) development lifecycle.",
+ "dir_name": "google-agents-cli-onboarding",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "DevOps"
+  },
+  "name": "google-agents-cli-onboarding"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/google-agents-cli-onboarding",
+ "grade": "C",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "fd48e52bd47e3b11",
+ "heading_count": 7,
+ "id": "google--google-agents-cli-onboarding",
+ "languages": [],
+ "name": "google-agents-cli-onboarding",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-agents-cli-onboarding/SKILL.md",
+ "score": 62,
+ "score_breakdown": {
+  "body": 18,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/google-agents-cli-onboarding",
+ "tags": [
+  "capability:build",
+  "capability:debug",
+  "capability:deploy",
+  "domain:cloud-infra",
+  "domain:research",
+  "domain:testing",
+  "format:cli",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 522
+}

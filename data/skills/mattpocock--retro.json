@@ -1,0 +1,50 @@
+{
+ "also_at": [],
+ "body": "The user has asked for a **retrospective**. You are suggesting improvements to the coding agent's **environment** to improve future runs.\n\n## Steps\n\n1. Call the Skill tool with `writing-for-agents` for the writing style guide.\n\n2. Read the primary sources for the session the user specifies. This may mean searching through session logs on this machine. If the user doesn't specify a session, default to the current one.\n\n3. Look for candidates for improvement in these categories.\n\n- **Navigation**: how easy was it for the agent to find the right files? Are there hidden dependencies between files? Would a **navigation pointer** make it easier? _Use when_ the session took a long time to find a piece of information.\n- **Automated checks**: are there automated checks that could catch errors the agent made? Linting, typing, tests, filesystem linters? _Use when_ the agent made a mistake that could have been caught by an automated check.\n- **Coding standards**: should the **reviewer agent** be given a new rule to enforce? Should an existing rule be removed or clarified? _Use when_ the reviewer agent failed to catch a mistake.\n- **Global AGENTS.md**: are there any steering instructions that should be moved to coding standards (or automated checks) instead? _Use when_ the AGENTS.md file is particularly large - in the repo OR the user's global scope.\n- **Tool economy**: did the agent make expensive tool calls that could be streamlined? Is there any custom tooling (CLI's, MCP's) that is particularly token-inefficient? _Use when_ the agent made an expensive tool call.\n- **No-ops**: look for instructions in steering files that don't modify the agent's behavior. _Use when_ the steering files are large and unwieldy.\n- **Information access**: look for opportunities to increase the agent's access to information. Teeing dev server logs, readonly access to third-party services. _Use when_ a crucial piece of information was not available to the agent.\n\n4. Present these candidates to the user, in order of severity.\n\n## Reference\n\n### Implementation vs Review\n\nRemember that all work goes through two stages: implementation and review. The implementation agent has the most **context pressure**. They are responsible for exploration, writing code, and debugging failures.\n\nThe review agent has the least context pressure - it receives a diff, so no exploration needed. It often does not need to write code or debug.\n\nThis means that the review agent should be responsible for imposing coding standards, not the implementation agent.\n\n### Files\n\nYou have access to several files in the repo:\n\n- `CLAUDE.md`/`AGENTS.md`: these files are pushed to the context window of any agent working in this repo. They should be used incredibly sparingly, usually only for **navigation pointers** to other files.\n- `CODING_STANDARDS.md`: this file is read during review, not implementation. Add **navigation pointers** to docs folders if the standards file gets more than 1,000 lines long.\n- Docs: use docs as references files, pointed to by other files. Look for existing docs before writing new ones.\n- Skills: use skills for docs (since their description goes into the agent's context window), or for user-invoked commands. Follow the advice in the `writing-for-agents` skill.\n",
+ "body_lines": 39,
+ "bytes": 3388,
+ "code_blocks": 0,
+ "description": "Conduct a retrospective on a coding session.",
+ "dir_name": "retro",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "disable-model-invocation": true,
+  "name": "retro"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/in-progress/retro",
+ "grade": "D",
+ "group": "in-progress",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "264f3330f1e2382a",
+ "heading_count": 4,
+ "id": "mattpocock--retro",
+ "languages": [],
+ "name": "retro",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/retro/SKILL.md",
+ "score": 48,
+ "score_breakdown": {
+  "body": 13,
+  "description": 2,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/in-progress/retro",
+ "tags": [
+  "domain:agent-workflow",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 516
+}

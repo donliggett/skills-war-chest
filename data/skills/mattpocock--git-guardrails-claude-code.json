@@ -1,0 +1,56 @@
+{
+ "also_at": [],
+ "body": "# Setup Git Guardrails\n\nSets up a PreToolUse hook that intercepts and blocks dangerous git commands before Claude executes them.\n\n## What Gets Blocked\n\n- `git push` (all variants including `--force`)\n- `git reset --hard`\n- `git clean -f` / `git clean -fd`\n- `git branch -D`\n- `git checkout .` / `git restore .`\n\nWhen blocked, Claude sees a message telling it that it does not have authority to access these commands.\n\n## Steps\n\n### 1. Ask scope\n\nAsk the user: install for **this project only** (`.claude/settings.json`) or **all projects** (`~/.claude/settings.json`)?\n\n### 2. Copy the hook script\n\nThe bundled script is at: [scripts/block-dangerous-git.sh](scripts/block-dangerous-git.sh)\n\nCopy it to the target location based on scope:\n\n- **Project**: `.claude/hooks/block-dangerous-git.sh`\n- **Global**: `~/.claude/hooks/block-dangerous-git.sh`\n\nMake it executable with `chmod +x`.\n\n### 3. Add hook to settings\n\nAdd to the appropriate settings file:\n\n**Project** (`.claude/settings.json`):\n\n```json\n{\n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"Bash\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"\\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/block-dangerous-git.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}\n```\n\n**Global** (`~/.claude/settings.json`):\n\n```json\n{\n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"Bash\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"~/.claude/hooks/block-dangerous-git.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}\n```\n\nIf the settings file already exists, merge the hook into the existing `hooks.PreToolUse` array. Don't overwrite other settings.\n\n### 4. Ask about customization\n\nAsk if user wants to add or remove any patterns from the blocked list. Edit the copied script accordingly.\n\n### 5. Verify\n\nRun a quick test:\n\n```bash\necho '{\"tool_input\":{\"command\":\"git push origin main\"}}' | <path-to-script>\n```\n\nShould exit with code 2 and print a BLOCKED message to stderr.\n",
+ "body_lines": 91,
+ "bytes": 2313,
+ "code_blocks": 6,
+ "description": "Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute. Use when user wants to prevent destructive git operations, add git safety hooks, or block git push/reset in Claude Code.",
+ "dir_name": "git-guardrails-claude-code",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml",
+  "scripts/block-dangerous-git.sh"
+ ],
+ "file_count": 3,
+ "frontmatter": {
+  "name": "git-guardrails-claude-code"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/misc/git-guardrails-claude-code",
+ "grade": "A",
+ "group": "misc",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": true,
+ "hash": "69b291d655626a01",
+ "heading_count": 8,
+ "id": "mattpocock--git-guardrails-claude-code",
+ "languages": [
+  "bash",
+  "json"
+ ],
+ "name": "git-guardrails-claude-code",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/misc/git-guardrails-claude-code/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 8,
+  "spec": 30
+ },
+ "source_path": "skills/misc/git-guardrails-claude-code",
+ "tags": [
+  "agent:claude-code",
+  "stack:git",
+  "stack:react",
+  "trait:code-heavy",
+  "trait:has-scripts",
+  "trait:spec-clean"
+ ],
+ "words": 257
+}

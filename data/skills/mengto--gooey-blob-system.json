@@ -1,0 +1,61 @@
+{
+ "also_at": [],
+ "body": "# Gooey Blob System Skill\n\n## Use When\n- A page needs organic fluid shapes that visually merge, separate, and move as one soft system.\n\n## Workflow\n1. Build the effect with SVG filters: Gaussian blur followed by a color matrix threshold.\n2. Animate multiple overlapping circles or blobs so they approach and separate naturally.\n3. Keep boundaries soft and continuous; the visual should feel fluid rather than like separate circles.\n4. Use the blob system as a background accent, loader, cursor field, or hero atmosphere.\n5. Tune blur, contrast, and shape spacing together so merging remains visible.\n\n## Guardrails\n- Do not fake gooey behavior with plain blurred circles that never merge.\n- Do not add fast jittery motion; keep it smooth and cohesive.\n- Provide a static or simplified fallback for low-motion contexts.\n",
+ "body_lines": 17,
+ "bytes": 1361,
+ "code_blocks": 0,
+ "description": "Create a gooey blob system using SVG filters where multiple shapes merge into a single fluid form. Use overlapping circles combined with a Gaussian blur and color matrix filter to produce a continuous, organic mass. The forms should visually fuse and separate based on proximity. Focus on filter-driven merging (blur + threshold effect), soft organic boundaries with no hard edges, multiple independent shapes behaving as one system, and smooth continuous motion that feels fluid and cohesive.",
+ "dir_name": "gooey-blob-system",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-0d868fef-f560-45ca-ab35-5dad4fc29059-3840w.webp",
+  "demo/assets/page-02-3186f9ea-5f5a-49f7-8fcf-568ad52f515e-3840w.webp",
+  "demo/assets/page-03-2f563338-39fa-47ea-9761-658d4f3f84db-1600w.jpg",
+  "demo/assets/page-04-65695f80-23f9-46ee-8487-cbb6c93cc48b-3840w.webp",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 10,
+ "frontmatter": {
+  "name": "gooey-blob-system"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/gooey-blob-system",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "48cef691946621cb",
+ "heading_count": 4,
+ "id": "mengto--gooey-blob-system",
+ "languages": [],
+ "name": "gooey-blob-system",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/gooey-blob-system/SKILL.md",
+ "score": 57,
+ "score_breakdown": {
+  "body": 13,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/gooey-blob-system",
+ "tags": [
+  "capability:build",
+  "domain:animation",
+  "domain:design",
+  "domain:web",
+  "format:image",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 135
+}

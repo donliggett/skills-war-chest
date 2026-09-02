@@ -1,0 +1,62 @@
+{
+ "also_at": [],
+ "body": "# Number Details Skill\n\n## Use When\n- A section needs subtle 01, 02, 03 markers for process steps, feature groups, cards, or editorial rhythm.\n\n## Workflow\n1. Add numeric markers as secondary visual structure, not primary content.\n2. Use two-digit numbers such as 01, 02, 03 for consistency.\n3. Place markers in predictable positions: card corners, section gutters, timeline rails, or beside headings.\n4. Use mono or narrow uppercase typography with low contrast so the detail feels architectural.\n5. Keep spacing and alignment consistent across all numbered elements.\n\n## Guardrails\n- Do not let decorative numbers compete with headings or CTAs.\n- Do not mix numbering styles in the same section.\n",
+ "body_lines": 16,
+ "bytes": 793,
+ "code_blocks": 0,
+ "description": "Add decorative 01, 02, 03 numeric detail markers.",
+ "dir_name": "number-details",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-photo-1542224566-6e85f2e6772f.jpg",
+  "demo/assets/page-02-photo-1518732714860-b62714ce0c59.jpg",
+  "demo/assets/page-03-photo-1596394516093-501ba68a0ba6.jpg",
+  "demo/assets/page-04-photo-1587061949409-02df41d5e562.jpg",
+  "demo/assets/page-05-photo-1522708323590-d24dbb6b0267.jpg",
+  "demo/assets/page-06-photo-1464822759023-fed622ff2c3b.jpg",
+  "demo/assets/page-07-photo-1544161515-4ab6ce6db874.jpg",
+  "demo/assets/page-08-photo-1555396273-367ea4eb4db5.jpg",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 14,
+ "frontmatter": {
+  "name": "number-details"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/number-details",
+ "grade": "D",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "bd526d953244b8f0",
+ "heading_count": 4,
+ "id": "mengto--number-details",
+ "languages": [],
+ "name": "number-details",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/number-details/SKILL.md",
+ "score": 48,
+ "score_breakdown": {
+  "body": 13,
+  "description": 2,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/number-details",
+ "tags": [
+  "domain:design",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 112
+}

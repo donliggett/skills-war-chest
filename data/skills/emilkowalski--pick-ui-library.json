@@ -1,0 +1,49 @@
+{
+ "also_at": [],
+ "body": "# Picking The Right Library\n\nA lookup skill. When invoked with a task (\"I need toasts\", \"what should I use for drag and drop?\"), match the task to the curated list below and recommend the library. These are deliberate, taste-driven picks — don't substitute alternatives outside this list unless the user asks for one or the task genuinely isn't covered.\n\n## How to use this\n\n1. **Identify the task**, not the library the user named. \"I need to show a dropdown\" is a UI-primitives task (base-ui), even if they asked about something else.\n2. **Check what's already installed.** Look at `package.json` first. If the project already uses a listed library, use it. If it uses a competitor (e.g. react-window instead of Virtuoso), flag the recommendation but don't churn the dependency without being asked.\n3. **Recommend one library**, state what it's for in one sentence, and install/wire it up if that's part of the request. Don't present a menu of options when the list has a clear answer.\n4. If the task isn't covered by the list, say so explicitly and recommend from your own knowledge — but be clear you've left the curated list.\n\n## The list\n\n### UI components & primitives\n\n| Task | Library |\n| --- | --- |\n| Unstyled, accessible UI components (dialogs, popovers, menus, selects…) | [base-ui](https://base-ui.com) |\n| Command menus (⌘K palettes) | [cmdk](https://cmdk.paco.me) |\n| Toasts / notifications | [Sonner](https://sonner.emilkowal.ski) |\n| One-time password / verification code inputs | [input-otp](https://input-otp.rodz.dev) |\n| Customizable GUIs / control panels | [Leva](https://github.com/pmndrs/leva) — [dialkit](https://joshpuckett.me/dialkit) is an alternative |\n\n### Motion & visuals\n\n| Task | Library |\n| --- | --- |\n| General-purpose animation (springs, layout animations, enter/exit) | [motion](https://motion.dev) (Framer Motion) |\n| Animating numbers (counters, prices, stats) | [NumberFlow](https://number-flow.barvian.me) |\n| Animated text components | [torph](https://torph.lochie.me/) |\n| 3D globes | [Cobe](https://cobe.vercel.app) |\n| Dynamic OG images (HTML/CSS → SVG/PNG) | [Satori](https://github.com/vercel/satori) |\n| Syntax highlighting | [shiki](https://shiki.style) |\n\nReach for motion when you need springs, layout animations, exit animations, or gesture-driven values. A simple hover or fade doesn't need it — plain CSS transitions are the right tool there.\n\n### Charts\n\n| Task | Library |\n| --- | --- |\n| Real-time / streaming charts | [Liveline](https://github.com/benjitaylor/liveline) |\n| General charts (static or interactive dashboards) | [recharts](https://recharts.org) |\n\nThe split: if data points arrive live and the chart scrolls with time, use Liveline. Everything else is recharts.\n\n### Interaction & performance\n\n| Task | Library |\n| --- | --- |\n| Drag and drop | [dnd kit](https://dndkit.com) |\n| Virtualization (long lists, large tables) | [Virtuoso](https://virtuoso.dev) |\n\n### State & styling\n\n| Task | Library |\n| --- | --- |\n| State management | [zustand](https://zustand.docs.pmnd.rs) |\n| Constructing `className` strings conditionally | [clsx](https://github.com/lukeed/clsx) |\n| Type-safe, variant-driven styling for Tailwind | [cva](https://cva.style) |\n| Theme switching / dark mode (no flash on load) | [next-themes](https://github.com/pacocoursey/next-themes) |\n\nThe styling split: clsx for ad-hoc conditional classes; cva when a component has real variants (size, intent, state) that deserve a typed API. They compose — cva uses clsx-style inputs internally.\n\n## Common mismatches to catch\n\n- **Toasts built by hand or with a modal library** → Sonner exists for exactly this.\n- **A `<div>`-based dropdown/dialog with manual focus handling** → base-ui, which handles accessibility, focus trapping, and dismissal.\n- **Animating a number by re-rendering text** → NumberFlow handles digit transitions properly.\n- **Rendering a 1,000+ row list directly** → Virtuoso before reaching for pagination hacks.\n- **A `useState`-per-component web of props for shared state** → zustand.\n- **Template-literal className ternaries three conditions deep** → clsx (or cva if it's variant-shaped).\n",
+ "body_lines": 72,
+ "bytes": 4514,
+ "code_blocks": 0,
+ "description": "Pick the right library for a given frontend task from a curated, opinionated list — numbers, OTP inputs, charts, command menus, virtualization, drag and drop, toasts, state, styling, and more. Only runs when explicitly invoked; it does not trigger on its own.",
+ "dir_name": "pick-ui-library",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "disable-model-invocation": true,
+  "name": "pick-ui-library"
+ },
+ "github_url": "https://github.com/emilkowalski/skills/tree/HEAD/skills/pick-ui-library",
+ "grade": "B",
+ "group": "",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "4b889bd6c0835849",
+ "heading_count": 9,
+ "id": "emilkowalski--pick-ui-library",
+ "languages": [],
+ "name": "pick-ui-library",
+ "origin": "emilkowalski",
+ "origin_author": "Emil Kowalski",
+ "origin_license": "MIT",
+ "origin_repo": "emilkowalski/skills",
+ "origin_url": "https://github.com/emilkowalski/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/pick-ui-library/SKILL.md",
+ "score": 71,
+ "score_breakdown": {
+  "body": 18,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/pick-ui-library",
+ "tags": [
+  "domain:ui-ux",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 609
+}

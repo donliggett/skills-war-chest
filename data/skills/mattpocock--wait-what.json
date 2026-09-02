@@ -1,0 +1,49 @@
+{
+ "also_at": [],
+ "body": "Wait, I don't understand where you've got to here. Re-pitch that: give me a little bit of context, talk in ASD-STE100 Simplified Technical English, and use the ubiquitous language from `CONTEXT.md` (follow `CONTEXT-MAP.md` to the right one if the repo has more than one).\n",
+ "body_lines": 2,
+ "bytes": 394,
+ "code_blocks": 0,
+ "description": "Stop. That last message did not land: re-pitch it.",
+ "dir_name": "wait-what",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "disable-model-invocation": true,
+  "name": "wait-what"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/productivity/wait-what",
+ "grade": "D",
+ "group": "productivity",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "e3f44e3ccbc0e7b6",
+ "heading_count": 0,
+ "id": "mattpocock--wait-what",
+ "languages": [],
+ "name": "wait-what",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/wait-what/SKILL.md",
+ "score": 38,
+ "score_breakdown": {
+  "body": 3,
+  "description": 2,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/productivity/wait-what",
+ "tags": [
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 44
+}

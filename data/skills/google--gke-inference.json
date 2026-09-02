@@ -1,0 +1,57 @@
+{
+ "also_at": [],
+ "body": "# GKE AI/ML Inference\n\nThis reference covers deploying AI/ML inference workloads on GKE using Google's\nInference Quickstart (GIQ) and best practices for LLM serving.\n\n> **MCP Tools:** `apply_k8s_manifest`, `get_k8s_resource`, `get_k8s_logs`,\n> `get_k8s_rollout_status`, `describe_k8s_resource`, `list_k8s_events`.\n> **CLI-only:** `gcloud container ai profiles *`\n\n## When to Use\n\n-   Deploy an AI model (Llama, Gemma, Mistral, etc.) to GKE\n-   Generate optimized Kubernetes manifests for inference\n-   Select GPU/TPU accelerators for model serving\n-   Configure autoscaling for LLM inference\n\n## Prerequisites\n\n-   A golden path GKE Autopilot cluster (GPU workloads are supported via\n    ComputeClasses and NAP)\n-   `gcloud` CLI authenticated\n-   Sufficient GPU/TPU quota in the target region\n\n## Workflow\n\n### 1. Discovery: Find Models and Hardware\n\n```bash\n# List all supported models\ngcloud container ai profiles models list --quiet\n\n# Find valid accelerator/server combinations for a model\ngcloud container ai profiles list --model=<MODEL_NAME> --quiet\n\n# Example: what can run Gemma 2 9B?\ngcloud container ai profiles list --model=gemma-2-9b-it --quiet\n```\n\n### 2. Generate Manifest\n\n```bash\ngcloud container ai profiles manifests create \\\n  --model=<MODEL_NAME> \\\n  --model-server=<SERVER> \\\n  --accelerator-type=<ACCELERATOR> \\\n  --target-ntpot-milliseconds=<NTPOT> --quiet > inference.yaml\n```\n\n**Parameters:**\n\n-   `--model`: Model ID (e.g., `gemma-2-9b-it`, `llama-3-8b`)\n-   `--model-server`: Inference server (`vllm`, `tgi`, `triton`, `tensorrt-llm`)\n-   `--accelerator-type`: GPU/TPU type (`nvidia-l4`, `nvidia-tesla-a100`,\n    `nvidia-h100-80gb`)\n-   `--target-ntpot-milliseconds`: Target Normalized Time Per Output Token\n    (optional, for latency optimization)\n\n**Example:**\n\n```bash\ngcloud container ai profiles manifests create \\\n  --model=gemma-2-9b-it \\\n  --model-server=vllm \\\n  --accelerator-type=nvidia-l4 \\\n  --target-ntpot-milliseconds=50 --quiet > inference.yaml\n```\n\n### 3. Review and Deploy\n\n```bash\n# Review for placeholders (HF tokens, PVCs)\ncat inference.yaml\n\n# Deploy\nkubectl apply -f inference.yaml\n\n# Monitor\nkubectl get pods -w\nkubectl logs -f <POD_NAME>\n```\n\n> Some models require Hugging Face tokens. Create a Kubernetes Secret and\n> reference it in the manifest.\n\n## GPU ComputeClass for Inference\n\nFor Autopilot clusters, create a ComputeClass to target GPU nodes:\n\n```yaml\napiVersion: cloud.google.com/v1\nkind: ComputeClass\nmetadata:\n  name: l4-inference\nspec:\n  priorities:\n  - machineFamily: g2\n    gpu:\n      type: nvidia-l4\n      count: 1\n    minCores: 4\n    minMemoryGb: 16\n```\n\n## Accelerator Selection Guide\n\n| Accelerator         | Best For                 | Memory      | Relative Cost |\n| ------------------- | ------------------------ | ----------- | ------------- |\n| NVIDIA T4           | Budget inference,        | 16 GB       | Lowest        |\n:                     : lightweight legacy       :             :               :\n:                     : models                   :             :               :\n| NVIDIA L4 (G2)      | Small-medium model       | 24 GB       | Low           |\n:                     : inference, video,        :             :               :\n:                     : graphics                 :             :               :\n| NVIDIA RTX PRO 6000 | Multimodal AI,           | 96 GB       | Medium        |\n: (G4)                : high-fidelity 3D,        :             :               :\n:                     : fine-tuning              :             :               :\n| Cloud TPU v5e       | Cost-effective           | Varies      | Medium        |\n:                     : transformer inference    :             :               :\n| Cloud TPU v5p       | High-performance         | Varies      | High          |\n:                     : training                 :             :               :\n| Cloud TPU v6e       | High-efficiency next-gen | 32 GB/chip  | Medium-High   |\n: (Trillium)          : training & serving       :             :               :\n| Cloud TPU v7x       | Ultra-scale inference &  | 192 GB/chip | High          |\n: (Ironwood)          : agentic workflows        :             :               :\n| NVIDIA A100         | Large model inference,   | 40/80 GB    | High          |\n:                     : enterprise ML            :             :               :\n| NVIDIA H100 / H200  | Frontier model training, | 80/141 GB   | Highest       |\n:                     : high throughput          :             :               :\n| NVIDIA B200 (A4)    | Blackwell-scale          | 192 GB      | Highest       |\n:                     : training, FP4 precision  :             :               :\n| NVIDIA GB200 (A4X)  | Rack-scale AI (Grace     | Massive     | Highest       |\n:                     : Blackwell Superchip)     :             :               :\n\n## Autoscaling LLM Inference\n\n### GPU-based autoscaling\n\nUse custom metrics for GPU utilization:\n\n```yaml\napiVersion: autoscaling/v2\nkind: HorizontalPodAutoscaler\nmetadata:\n  name: llm-hpa\nspec:\n  scaleTargetRef:\n    apiVersion: apps/v1\n    kind: Deployment\n    name: llm-server\n  minReplicas: 1\n  maxReplicas: 10\n  metrics:\n  - type: Pods\n    pods:\n      metric:\n        name: gpu_duty_cycle\n      target:\n        type: AverageValue\n        averageValue: \"80\"\n```\n\n### Best practices for inference autoscaling\n\n1.  **Use DCGM metrics**: Golden path enables DCGM monitoring for GPU\n    utilization metrics\n2.  **Set appropriate minReplicas**: At least 1 for always-on serving; 0 for\n    batch/on-demand\n3.  **Tune scale-down delay**: LLM model loading is slow; use longer\n    stabilization windows\n4.  **Consider queue depth**: Scale on pending requests rather than pure GPU\n    utilization for latency-sensitive workloads\n\n## Optimization Tips\n\n-   **Quantization**: Use quantized models (GPTQ, AWQ) to reduce GPU memory and\n    increase throughput\n-   **Batching**: Configure model server batch size for throughput vs latency\n    trade-off\n-   **Tensor parallelism**: Split large models across multiple GPUs within a\n    node\n-   **KV cache optimization**: Tune `--gpu-memory-utilization` in vLLM for KV\n    cache allocation\n\n## Troubleshooting\n\n| Issue              | Cause                    | Fix                         |\n| ------------------ | ------------------------ | --------------------------- |\n| Invalid            | Unsupported tuple        | Re-run `gcloud container ai |\n: model/accelerator  :                          : profiles list               :\n: combination        :                          : --model=<MODEL>`            :\n| GPU quota exceeded | Regional quota limit     | Request quota increase or   |\n:                    :                          : try a different region      :\n| OOM on GPU         | Model too large for      | Use larger GPU, enable      |\n:                    : accelerator              : quantization, or use tensor :\n:                    :                          : parallelism                 :\n| Slow cold start    | Large model loading from | Use local SSD for model     |\n:                    : registry                 : caching; pre-pull images    :\n",
+ "body_lines": 198,
+ "bytes": 7526,
+ "code_blocks": 12,
+ "description": "Deploys and optimizes AI/ML inference workloads on GKE, using GPUs, TPUs, and model servers. Use when deploying GKE inference servers, configuring GKE GPU resources for inference, or deploying LLMs on GKE. Don't use for generic batch jobs or HPC task queues (use gke-batch-hpc instead).",
+ "dir_name": "gke-inference",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-inference"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-inference",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "050cda071d12fba3",
+ "heading_count": 20,
+ "id": "google--gke-inference",
+ "languages": [
+  "bash",
+  "yaml"
+ ],
+ "name": "gke-inference",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-inference/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-inference",
+ "tags": [
+  "capability:optimize",
+  "domain:automation",
+  "domain:cloud-infra",
+  "domain:ml-ai",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 864
+}

@@ -1,0 +1,59 @@
+{
+ "also_at": [],
+ "body": "# Google Mobile Ads SDK - Rewarded Ads\n\nRewarded ads reward users with in-app items for interacting with full-screen\nads. Rewarded ads are served after a user explicitly opts in to view a rewarded\nad.\n\n## Workflow\n\n1.  **Determine the user's platform**: Identify if the project is Android,\n    iOS, or Unity. If unclear, ask before proceeding.\n\n2.  **Read the platform guide** for implementation details:\n    -   Android: `references/android-rewarded.md`\n    -   iOS: `references/ios-rewarded.md`\n    -   Unity: `references/unity-rewarded.md`\n\n3.  **Follow these steps in order**:\n    -   [ ] Load the ad\n    -   [ ] Register for ad event callbacks\n    -   [ ] Add a UI element to view the ad for a reward\n    -   [ ] Show the ad\n    -   [ ] Verify the implementation",
+ "body_lines": 22,
+ "bytes": 1132,
+ "code_blocks": 0,
+ "description": "Provides instructions for implementing, integrating, or configuring Google Mobile Ads (GMA) SDK rewarded ads in Android, iOS, or Unity mobile applications. Use when the task involves setting up rewarded ads. Don't use for \"rewarded interstitial\" ads.",
+ "dir_name": "google-mobile-ads-rewarded",
+ "dup_cluster": "google--google-mobile-ads-banner",
+ "extra_files": [
+  "references/android-rewarded.md",
+  "references/ios-rewarded.md",
+  "references/unity-rewarded.md"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "metadata": {
+   "category": "GoogleAds",
+   "version": "1.1.0"
+  },
+  "name": "google-mobile-ads-rewarded"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/ads/google-mobile-ads-rewarded",
+ "grade": "B",
+ "group": "ads",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "879dda6089b7f4c2",
+ "heading_count": 2,
+ "id": "google--google-mobile-ads-rewarded",
+ "languages": [],
+ "name": "google-mobile-ads-rewarded",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-mobile-ads-rewarded/SKILL.md",
+ "score": 75,
+ "score_breakdown": {
+  "body": 10,
+  "description": 25,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/ads/google-mobile-ads-rewarded",
+ "tags": [
+  "domain:marketing",
+  "domain:mobile",
+  "stack:android",
+  "stack:ios",
+  "trait:has-references",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 119
+}

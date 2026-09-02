@@ -1,0 +1,65 @@
+{
+ "also_at": [],
+ "body": "# Getting Started with Google Analytics Admin API\n\nThe Google Analytics Admin API provides programmatic access to Google Analytics\naccount and property configuration. It lets you automate account management,\nmanage data streams, configure custom dimensions, and handle product\nintegrations.\n\n## Enabling the API via Cloud CLI\n\nBefore making API calls, ensure the Google Analytics Admin API is enabled in\nyour Google Cloud project.\n\nIf `gcloud` is not found, prompt the user to install the Google Cloud CLI before\nrunning these commands.\n\n1.  **Enable the API:** Use the Cloud CLI (`gcloud`) to enable\n    `analyticsadmin.googleapis.com`.\n\n    ```bash\n    gcloud services enable analyticsadmin.googleapis.com --quiet\n    ```\n\n    *Why: Enabling the API ensures your Cloud project has the necessary quota\n    and permissions allocated for managing Google Analytics configurations.*\n\n2.  **Verify API Enablement:**\n\n    ```bash\n    gcloud services list --enabled --filter=\"analyticsadmin.googleapis.com\"\n    ```\n\n## Authentication\n\nTo authenticate your API requests, you must generate Application Default\nCredentials (ADC) and give your account the necessary scopes. Run the following\ncommand in your terminal:\n\n```bash\ngcloud auth application-default login --scopes=\"https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/analytics.readonly\"\n```\n\n*Why: This configures ADC in your local environment with the required Cloud\nPlatform and Google Analytics read-only scopes, allowing the client library to\nautomatically authenticate your requests.*\n\n> [!NOTE] **Configuration Changes**: Methods changing the Google Analytics\n> account/property configuration will need the\n> `https://www.googleapis.com/auth/analytics.edit` scope.\n\n## Admin API Use Cases\n\nYou can use the Google Analytics Admin API to:\n\n*   Run Data Access reports (see\n    https://developers.google.com/analytics/devguides/config/admin/v1/access-api.md.txt\n    for more info)\n*   Create Account summaries\n*   Manage accounts\n*   Provision new accounts\n*   Search account change history events\n*   Manage and create properties\n*   Manage property data retention settings\n*   Manage conversion events\n*   Manage custom dimensions and metrics\n*   Manage data streams and configure measurement protocol secrets\n*   Manage Firebase links\n*   Manage Google Ads links\n*   Manage key events\n\n### v1alpha-Only Use Cases\n\nThe following capabilities are currently available only in the `v1alpha` version\nof the Admin API:\n\n*   Manage account and property access bindings\n*   Create and manage rollup properties\n*   Create and manage subproperties\n*   Acknowledge user data collection\n*   Change property attribution, data retention, Google signals, reporting\n    identity, and User Provided Data settings\n*   Manage AdSense links\n*   Manage BigQuery links\n*   Manage audiences\n*   Manage channel groups\n*   Manage calculated metrics\n*   Manage DisplayVideo360Advertiser links\n*   Manage expanded data sets\n*   Manage reporting data annotations\n*   Manage SearchAds360 links\n*   Manage event create rules for a data stream\n*   Manage SKAdNetwork conversion value schema of an iOS stream\n*   Submit a request for user deletion for a Google Analytics property.\n\n## Calling the Admin API\n\nTo interact with the Admin API, use the official Google Analytics Admin client\nlibrary. Note that `v1beta` is the most stable version of the Admin API. For the\nlatest features, consider using `v1alpha`.\n\n> [!IMPORTANT] **Mandatory Agent Directive:** When the user selects or requires\n> a specific programming language, read the corresponding client library setup\n> reference guide in `references/` listed below.\n\n### Supported Client Libraries\n\n#### Python\n\nIf you need to install or set up the Google Analytics Admin API client library\nfor Python, read the setup guide:\n\n*   [Python Installation Reference](references/python.md) *(Package:\n    `google-analytics-admin`)*\n\n#### Java\n\nIf you need to install or set up the Google Analytics Admin API client library\nfor Java, read the setup guide:\n\n*   [Java Installation Reference](references/java.md) *(Artifact:\n    `com.google.cloud:google-cloud-analytics-admin`)*\n\n#### PHP\n\nIf you need to install or set up the Google Analytics Admin API client library\nfor PHP, read the setup guide:\n\n*   [PHP Installation Reference](references/php.md) *(Package:\n    `google/analytics-admin`)*\n\n#### Node.js\n\nIf you need to install or set up the Google Analytics Admin API client library\nfor Node.js, read the setup guide:\n\n*   [Node.js Installation Reference](references/nodejs.md) *(Package:\n    `@google-analytics/admin`)*\n\n#### Go\n\nIf you need to install or set up the Google Analytics Admin API client library\nfor Go, read the setup guide:\n\n*   [Go Installation Reference](references/go.md) *(Package:\n    `cloud.google.com/go/analytics/admin/apiv1beta`)*\n\n#### .NET\n\nIf you need to install or set up the Google Analytics Admin API client library\nfor .NET / C#, read the setup guide:\n\n*   [.NET Installation Reference](references/dotnet.md) *(Package:\n    `Google.Analytics.Admin.V1Beta`)*\n\n#### Ruby\n\nIf you need to install or set up the Google Analytics Admin API client library\nfor Ruby, read the setup guide:\n\n*   [Ruby Installation Reference](references/ruby.md) *(Gem:\n    `google-analytics-admin-v1alpha`)*\n\n> [!NOTE] **Additional Resources**: For further examples of calling the Admin\n> API with Java, PHP, Node.js, .NET, Python, and REST, as well as hints on\n> authentication with a service account, refer to the official\n> [Admin API Quickstart](https://developers.google.com/analytics/devguides/config/admin/v1/quickstart).\n> For complete API reference documentation for both `v1alpha` and `v1beta`, see\n> the\n> [Admin API Reference](https://developers.google.com/analytics/devguides/config/admin/v1/rest).\n\n### Python Quick Start\n\n1.  **Install the Client Library:**\n\n    ```bash\n    pip install google-analytics-admin\n    ```\n\n    If `pip` is not available, prompt the user to install `pip` before\n    installing the client library.\n\n2.  **List Accounts and Properties:** Below is a complete example demonstrating\n    how to call the Admin API to list all available accounts and their child\n    properties for the current user using `list_account_summaries()`.\n\n    ```python\n    from google.analytics.admin import AnalyticsAdminServiceClient\n\n    def sample_list_account_summaries():\n        # Initialize the client.\n        # Assumes Application Default Credentials (ADC) are configured in your environment.\n        client = AnalyticsAdminServiceClient()\n\n        # list_account_summaries returns a summary of all accounts accessible to the\n        # user and their child properties.\n        account_summaries = client.list_account_summaries()\n\n        print(\"Available Google Analytics Accounts and Properties:\")\n        for summary in account_summaries:\n            print(f\"Account: {summary.display_name} ({summary.account})\")\n            for property_summary in summary.property_summaries:\n                print(f\"  Property: {property_summary.display_name} ({property_summary.property})\")\n\n    if __name__ == \"__main__\":\n        sample_list_account_summaries()\n    ```\n",
+ "body_lines": 206,
+ "bytes": 7717,
+ "code_blocks": 2,
+ "description": "Manages Google Analytics account and property settings, enables the Analytics Admin API via the Cloud CLI, lists accounts and properties, and manages data streams, custom dimensions, conversion events, and integrations. Use when you need to programmatically configure Google Analytics accounts, provision properties, manage data retention, configure Measurement Protocol secrets, or manage Firebase and Google Ads links.",
+ "dir_name": "google-analytics-admin-api-basics",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/dotnet.md",
+  "references/go.md",
+  "references/java.md",
+  "references/nodejs.md",
+  "references/php.md",
+  "references/python.md",
+  "references/ruby.md"
+ ],
+ "file_count": 8,
+ "frontmatter": {
+  "metadata": {
+   "category": "GoogleAnalytics"
+  },
+  "name": "google-analytics-admin-api-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/analytics/google-analytics-admin-api-basics",
+ "grade": "A",
+ "group": "analytics",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "e2fed3747a40387d",
+ "heading_count": 15,
+ "id": "google--google-analytics-admin-api-basics",
+ "languages": [
+  "bash"
+ ],
+ "name": "google-analytics-admin-api-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/analytics/google-analytics-admin-api-basics/SKILL.md",
+ "score": 82,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/analytics/google-analytics-admin-api-basics",
+ "tags": [
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:data",
+  "format:cli",
+  "stack:firebase",
+  "stack:google-ads",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 888
+}

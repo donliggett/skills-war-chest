@@ -1,0 +1,60 @@
+{
+ "also_at": [],
+ "body": "# Google Mobile Ads SDK - Banner Ads\n\nBanner ads are rectangular image or text ads that occupy a spot within an app's\nlayout. They remain on screen during user interaction and can refresh\nautomatically.\n\n### Banner Ad Types\n\nDefault to **Large Anchored Adaptive Banner** if the user says \"banner\" without\ndefining a type. If the user suggests or asks about other banner ad types,\nrecommend large anchored adaptive banners.\n\n| Banner Type | Description |\n| :--- | :--- |\n| **Large Anchored Adaptive** | **Default**. Can be anchored to the top or bottom of the screen. |\n| **Anchored Adaptive** | Can be anchored to the top or bottom of the screen. |\n| **Inline Adaptive** | **ONLY** available to use for **Android and iOS**. Placed within content. |\n\n## Workflow\n\n1.  **Determine the user's platform**: Identify if the project is Android, iOS,\n    or Unity. If unclear, ask before proceeding.\n\n2.  **Read the platform guide** for implementation details:\n    -   Android: `references/android-banner.md`\n    -   iOS: `references/ios-banner.md`\n    -   Unity: `references/unity-banner.md`\n\n3.  **Follow these steps in order**:\n    -   [ ] Define the ad view\n    -   [ ] Set the ad size\n    -   [ ] Register for ad load events\n    -   [ ] Load the banner ad\n    -   [ ] Verify the implementation\n\n4.  After the banner ad is successfully implemented, remind the user to replace\n  the test ad unit ID with their own.",
+ "body_lines": 37,
+ "bytes": 1803,
+ "code_blocks": 0,
+ "description": "Provides instructions to implement, integrate, or configure Google Mobile Ads (GMA) banner ads in Android, iOS, or Unity mobile applications. Use when the task involves setting up banner ads in a mobile application. Don't use for other ad formats like interstitial or rewarded ads.",
+ "dir_name": "google-mobile-ads-banner",
+ "dup_cluster": "google--google-mobile-ads-banner",
+ "extra_files": [
+  "references/android-banner.md",
+  "references/ios-banner.md",
+  "references/unity-banner.md"
+ ],
+ "file_count": 4,
+ "frontmatter": {
+  "metadata": {
+   "category": "GoogleAds",
+   "version": "1.1.0"
+  },
+  "name": "google-mobile-ads-banner"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/ads/google-mobile-ads-banner",
+ "grade": "A",
+ "group": "ads",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "b2e9654757e8fbfb",
+ "heading_count": 3,
+ "id": "google--google-mobile-ads-banner",
+ "languages": [],
+ "name": "google-mobile-ads-banner",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-mobile-ads-banner/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 13,
+  "description": 25,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/ads/google-mobile-ads-banner",
+ "tags": [
+  "capability:build",
+  "domain:marketing",
+  "domain:mobile",
+  "stack:android",
+  "stack:ios",
+  "trait:has-references",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 231
+}

@@ -1,0 +1,177 @@
+{
+ "clusters": {
+  "google--agent-platform-tuning": [
+   "google--agent-platform-tuning",
+   "google--agent-platform-tuning-management"
+  ],
+  "google--bigtable-basics": [
+   "google--bigtable-basics",
+   "google--spanner-basics"
+  ],
+  "google--cloud-monitoring-list-time-series-request": [
+   "google--cloud-monitoring-list-time-series-request",
+   "google--cloud-monitoring-promql-query"
+  ],
+  "google--data-manager-api-audience-ingestion": [
+   "google--data-manager-api-audience-ingestion",
+   "google--data-manager-api-event-ingestion"
+  ],
+  "google--genkit-js": [
+   "google--genkit-js",
+   "google--genkit-python"
+  ],
+  "google--google-cloud-waf-operational-excellence": [
+   "google--google-cloud-waf-cost-optimization",
+   "google--google-cloud-waf-operational-excellence",
+   "google--google-cloud-waf-performance-optimization",
+   "google--google-cloud-waf-security",
+   "google--google-cloud-waf-sustainability"
+  ],
+  "google--google-mobile-ads-banner": [
+   "google--google-mobile-ads-banner",
+   "google--google-mobile-ads-interstitial",
+   "google--google-mobile-ads-rewarded"
+  ],
+  "mattpocock--grill-me": [
+   "mattpocock--grill-me",
+   "mattpocock--grill-with-docs"
+  ],
+  "mengto--aura-asset-images": [
+   "mengto--aura-asset-images",
+   "mengto--unsplash-asset-images"
+  ],
+  "mengto--landing-page": [
+   "mengto--landing-page",
+   "mengto--pricing-page"
+  ]
+ },
+ "pairs": [
+  {
+   "a": "google--google-mobile-ads-interstitial",
+   "b": "google--google-mobile-ads-rewarded",
+   "cross_repo": false,
+   "similarity": 1.0
+  },
+  {
+   "a": "google--genkit-js",
+   "b": "google--genkit-python",
+   "cross_repo": false,
+   "similarity": 0.65
+  },
+  {
+   "a": "google--google-cloud-waf-cost-optimization",
+   "b": "google--google-cloud-waf-sustainability",
+   "cross_repo": false,
+   "similarity": 0.645
+  },
+  {
+   "a": "google--google-cloud-waf-operational-excellence",
+   "b": "google--google-cloud-waf-performance-optimization",
+   "cross_repo": false,
+   "similarity": 0.618
+  },
+  {
+   "a": "google--google-cloud-waf-operational-excellence",
+   "b": "google--google-cloud-waf-security",
+   "cross_repo": false,
+   "similarity": 0.606
+  },
+  {
+   "a": "google--google-cloud-waf-performance-optimization",
+   "b": "google--google-cloud-waf-sustainability",
+   "cross_repo": false,
+   "similarity": 0.588
+  },
+  {
+   "a": "google--google-cloud-waf-performance-optimization",
+   "b": "google--google-cloud-waf-security",
+   "cross_repo": false,
+   "similarity": 0.576
+  },
+  {
+   "a": "google--google-cloud-waf-security",
+   "b": "google--google-cloud-waf-sustainability",
+   "cross_repo": false,
+   "similarity": 0.576
+  },
+  {
+   "a": "google--google-cloud-waf-operational-excellence",
+   "b": "google--google-cloud-waf-sustainability",
+   "cross_repo": false,
+   "similarity": 0.571
+  },
+  {
+   "a": "google--google-mobile-ads-banner",
+   "b": "google--google-mobile-ads-interstitial",
+   "cross_repo": false,
+   "similarity": 0.571
+  },
+  {
+   "a": "google--google-mobile-ads-banner",
+   "b": "google--google-mobile-ads-rewarded",
+   "cross_repo": false,
+   "similarity": 0.571
+  },
+  {
+   "a": "google--google-cloud-waf-cost-optimization",
+   "b": "google--google-cloud-waf-performance-optimization",
+   "cross_repo": false,
+   "similarity": 0.545
+  },
+  {
+   "a": "mattpocock--grill-me",
+   "b": "mattpocock--grill-with-docs",
+   "cross_repo": false,
+   "similarity": 0.545
+  },
+  {
+   "a": "google--data-manager-api-audience-ingestion",
+   "b": "google--data-manager-api-event-ingestion",
+   "cross_repo": false,
+   "similarity": 0.5
+  },
+  {
+   "a": "google--google-cloud-waf-cost-optimization",
+   "b": "google--google-cloud-waf-operational-excellence",
+   "cross_repo": false,
+   "similarity": 0.486
+  },
+  {
+   "a": "google--google-cloud-waf-cost-optimization",
+   "b": "google--google-cloud-waf-security",
+   "cross_repo": false,
+   "similarity": 0.485
+  },
+  {
+   "a": "mengto--landing-page",
+   "b": "mengto--pricing-page",
+   "cross_repo": false,
+   "similarity": 0.467
+  },
+  {
+   "a": "google--bigtable-basics",
+   "b": "google--spanner-basics",
+   "cross_repo": false,
+   "similarity": 0.462
+  },
+  {
+   "a": "google--agent-platform-tuning",
+   "b": "google--agent-platform-tuning-management",
+   "cross_repo": false,
+   "similarity": 0.429
+  },
+  {
+   "a": "mengto--aura-asset-images",
+   "b": "mengto--unsplash-asset-images",
+   "cross_repo": false,
+   "similarity": 0.426
+  },
+  {
+   "a": "google--cloud-monitoring-list-time-series-request",
+   "b": "google--cloud-monitoring-promql-query",
+   "cross_repo": false,
+   "similarity": 0.425
+  }
+ ],
+ "threshold": 0.42
+}

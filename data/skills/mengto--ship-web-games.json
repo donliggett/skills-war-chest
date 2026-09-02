@@ -1,0 +1,55 @@
+{
+ "also_at": [],
+ "body": "# Ship Web Games\n\nRelease only a verified commit and prove the deployed game, not merely the local build.\n\n## Release sequence\n\n1. Confirm the exact integration commit and preserve unrelated work.\n2. Run focused tests, lint/type checks, production build, and diff checks.\n3. Package and deploy the exact validated commit.\n4. Poll deployment status and open the production game in the repository-approved browser.\n\n## Production proof\n\nVerify load, first input, one combat or core interaction, assets, save/settings if applicable, responsive view, console health, and representative performance. Report the deployed state separately from local readiness.\n\n## Finish cleanly\n\nRecord release evidence and rollback target. Close temporary dev servers, benchmarks, and QA tabs once no longer needed; do not terminate resources owned by another active task.\n",
+ "body_lines": 19,
+ "bytes": 1136,
+ "code_blocks": 0,
+ "description": "Package, deploy, and verify a playable Three.js or web game. Use for release builds, asset delivery, private/public deployment, production smoke tests, browser proof, release notes, rollback readiness, and cleanup of temporary QA resources.",
+ "dir_name": "ship-web-games",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "ship-web-games"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/game-development/ship-web-games",
+ "grade": "B",
+ "group": "game-development",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "519256cb8d557d77",
+ "heading_count": 4,
+ "id": "mengto--ship-web-games",
+ "languages": [],
+ "name": "ship-web-games",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/ship-web-games/SKILL.md",
+ "score": 66,
+ "score_breakdown": {
+  "body": 13,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/game-development/ship-web-games",
+ "tags": [
+  "capability:audit",
+  "capability:build",
+  "capability:deploy",
+  "domain:devops",
+  "domain:game-dev",
+  "domain:web",
+  "stack:threejs",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 125
+}

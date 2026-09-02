@@ -1,0 +1,57 @@
+{
+ "also_at": [],
+ "body": "# GKE TPU Dynamic Slices Monitoring & Management\n\nMonitors the status of TPU Slice custom resources, troubleshoots provisioning\nfailures, validates workload manifests on dynamic slices, and performs cleanups.\n\n## Prerequisites\n\n-   Cloud Logging enabled for the project.\n-   `kubectl` and `gcloud` CLIs configured to access the GKE cluster.\n\n## Diagnostic Workflow\n\n### Step 0: Context Acquisition & Time Window Definition\n\nGather project, cluster, and slice context using cluster tools or the following\nparameters:\n\n-   **Project ID**: `{project_id}` (e.g., `my-gcp-project`)\n-   **Cluster Name**: `{cluster_name}` (e.g., `tpu-cluster`)\n-   **Region/Zone**: `{location}` (e.g., `us-central1-a`)\n-   **Slice Name**: `{slice_name}` (e.g., `test-slice`)\n-   **Issue Time**: `{timestamp}` (Optional; default to the last 30 minutes\n    window `[T - 30m]` to `[T + 30m]`)\n\n--------------------------------------------------------------------------------\n\n### Step 1: Describe the Slice Custom Resource [Low Risk]\n\nWhen asked to inspect, troubleshoot, or check a slice status, immediately execute `kubectl describe slice {slice_name}` using available cluster tools to perform the inspection. Parse the resulting `Status.Conditions` output against the condition table below to diagnose the exact state and provide concrete recommendations.\n\n-   **Command**:\n\n    ```bash\n    kubectl describe slice {slice_name}\n    ```\n\n#### State & Reason Analysis\n\nAnalyze the `Status.Conditions` (especially `Type: Ready` and its `Reason` and\n`Status`):\n\n| Lifecycle State / Reason | Meaning | Recommended Action |\n| :--- | :--- | :--- |\n| **`SliceNotCreated`** | GKE Slice Controller is initializing the slice and performing resource checks. | Wait a few minutes and re-check slice status. |\n| **`SliceCreationFailed`** | Prerequisites validation failed (e.g., selected nodes don't exist, nodes are already used by another slice, or the topology doesn't match the number of partitions). | Verify selected nodes exist, are unallocated, and topology matches partition count. |\n| **`ACTIVATING`** | GKE is actively forming and provisioning the TPU slice. | Monitor node provisioning. |\n| **`ACTIVE`** | The TPU slice is successfully formed and ready to host workloads. | Proceed to deploy or check workloads. |\n| **`ACTIVE_DEGRADED`** | The slice is usable, but one or more sub-blocks are degraded. | Monitor workload logs for interconnect or device errors. Check faulty node VMs. |\n| **`FAILED`** | GKE failed to form the TPU slice (e.g., selected nodes are not part of the same reservation block). | Ensure all selected nodes belong to the same reservation block. |\n| **`DEACTIVATING`** | The slice is dismantling (triggered by user deletion or a critical systemic failure). | Wait for dismantling to finish, or patch finalizers if stuck. |\n| **`INCOMPLETE`** | The terminal phase before the Slice CR is deleted from the cluster. | No action required; the resource will be removed shortly. |\n\n#### Provisioning Failure Troubleshooting Checklist\n\nWhen investigating slice creation or provisioning failures (`SliceCreationFailed` or `FAILED`), perform the following verification steps:\n\n1. **Node Existence & Allocation Check**: Verify that the selected TPU nodes exist in the cluster and are not already allocated to another slice (`kubectl get nodes -l cloud.google.com/gke-tpu-slice`, `kubectl get slice -A`).\n2. **Topology Alignment**: Confirm that the partition count matches the requested topology dimensions (e.g. topology `2x2` requires 4 nodes).\n3. **Reservation Block Alignment Check**: Confirm that all selected TPU nodes belong to the same reservation and reservation block.\n\n--------------------------------------------------------------------------------\n\n### Step 2: Verify Workload Specification [Low Risk]\n\nEnsure workload manifests are configured correctly to target the dynamic slice.\n\n#### 1. Single-Slice Workload Requirements\n\nCheck that the Pod template contains the following annotations and selectors:\n\n-   **Annotations**:\n    -   `cloud.google.com/gke-tpu-slice-topology: \"{topology}\"` (e.g.,\n        `\"4x4x4\"`)\n-   **NodeSelector**:\n    -   `cloud.google.com/gke-tpu-topology: \"{topology}\"` (e.g., `\"4x4x4\"`)\n    -   `cloud.google.com/gke-tpu-accelerator: \"{accelerator_type}\"` (e.g.,\n        `\"tpu7x\"`)\n    -   `cloud.google.com/gke-tpu-slice: \"{slice_name}\"` (e.g., `\"test-slice\"`)\n\n#### 2. Multi-Slice (JobSet) Workload Requirements\n\nIf deploying a multi-slice JobSet, verify:\n\n-   **JobSet Annotation**:\n    -   `alpha.jobset.sigs.k8s.io/exclusive-topology:\n        cloud.google.com/gke-tpu-slice`\n-   **Pod Template Annotations**:\n    -   `cloud.google.com/gke-tpu-slice-topology: \"{topology}\"`\n-   **Pod Template NodeSelector**:\n    -   `cloud.google.com/gke-tpu-topology: \"{topology}\"`\n    -   `cloud.google.com/gke-tpu-accelerator: \"{accelerator_type}\"`\n    -   *Note: Do NOT manually specify `cloud.google.com/gke-tpu-slice` in the\n        nodeSelector; JobSet handles slice assignment automatically.*\n\n--------------------------------------------------------------------------------\n\n## Resolution & Management Workflow\n\n### Resolution 1: Force Delete a Stuck Slice [High Risk]\n\nIf a slice is stuck in `DEACTIVATING` or deletion hangs indefinitely due to stuck finalizers:\n\n1. **Identify Cause**: Explain that finalizers on the slice resource (`metadata.finalizers`) are preventing Kubernetes from completing resource deletion.\n2. **Propose Resolution**: Propose removing finalizers from the metadata path (`/metadata/finalizers`) using a JSON patch operation:\n\n    ```bash\n    kubectl patch slice {slice_name} --type json -p='[{\"op\": \"remove\", \"path\": \"/metadata/finalizers\"}]'\n    ```\n\n3. **Provide Warning**: Explicitly warn the user that removing finalizers bypasses standard controller dismantling and may leave underlying VM, network, or accelerator resources uncleaned or orphaned.\n4. **CRITICAL SAFETY MANDATE**: The response MUST explicitly ask the user for confirmation (e.g. *\"Removing finalizers on `/metadata/finalizers` via JSON patch is a high-risk operation that may leave orphaned resources. Do you confirm you want to apply this patch to slice `{slice_name}`?\"*) and pause for user confirmation before applying or executing the patch.\n\n--------------------------------------------------------------------------------\n\n### Resolution 2: Disable and Clean Up Slice Controller [High Risk]\n\nIf dynamic slicing needs to be disabled:\n\n1.  **Check for existing Slices**:\n\n    ```bash\n    kubectl get slice -A\n    ```\n\n    Ensure all slices are deleted before disabling the controller.\n\n2.  **Disable Slice Controller via gcloud**:\n\n    ```bash\n    gcloud container clusters update {cluster_name} \\\n        --location={location} \\\n        --no-enable-slice-controller\n    ```\n\n3.  **Delete the Slice CRD**:\n\n    ```bash\n    kubectl delete crd slices.accelerator.gke.io\n    ```\n\n4.  **Clean up Node Labels**: Remove GKE TPU Slice labels from all nodes in the\n    cluster:\n\n    ```bash\n    kubectl label nodes --all cloud.google.com/gke-tpu-slice- cloud.google.com/gke-tpu-slice-topology-\n    ```\n\n-   **Safety Rule**: Propose the exact commands and confirm before executing\n    disabling or destructive cleanup steps.\n",
+ "body_lines": 150,
+ "bytes": 7813,
+ "code_blocks": 0,
+ "description": "Monitors, troubleshoots, and manages GKE TPU Dynamic Slices custom resources. Use when checking TPU slice lifecycle states, troubleshooting slice provisioning failures, validating single-slice or multi-slice (JobSet) workload manifests, or safely patching stuck finalizers and disabling the slice controller. Don't use for generic GKE cluster node pool creation or standard non-TPU workload management (use gke-basics or gke-cluster-creation instead).",
+ "dir_name": "gke-ai-troubleshooting-tpu-dynamic-slices-monitoring",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/failure_signatures.md",
+  "scripts/validate_queries.sh"
+ ],
+ "file_count": 3,
+ "frontmatter": {
+  "metadata": {
+   "category": "Containers"
+  },
+  "name": "gke-ai-troubleshooting-tpu-dynamic-slices-monitoring"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-ai-troubleshooting-tpu-dynamic-slices-monitoring",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": true,
+ "hash": "ab0e95d89f6bc690",
+ "heading_count": 13,
+ "id": "google--gke-ai-troubleshooting-tpu-dynamic-slices-monitoring",
+ "languages": [],
+ "name": "gke-ai-troubleshooting-tpu-dynamic-slices-monitoring",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-ai-troubleshooting-tpu-dynamic-slices-monitoring/SKILL.md",
+ "score": 85,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 12,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-ai-troubleshooting-tpu-dynamic-slices-monitoring",
+ "tags": [
+  "capability:audit",
+  "domain:cloud-infra",
+  "domain:devops",
+  "stack:kubernetes",
+  "trait:has-references",
+  "trait:has-scripts",
+  "trait:spec-clean"
+ ],
+ "words": 893
+}

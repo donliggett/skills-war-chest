@@ -1,0 +1,51 @@
+{
+ "also_at": [],
+ "body": "Implement the work described by the user in the spec or tickets.\n\nUse /tdd where possible, at pre-agreed seams.\n\nRun typechecking regularly, single test files regularly, and the full test suite once at the end.\n\nOnce done, use /code-review to review the work.\n\nCommit your work to the current branch.\n",
+ "body_lines": 10,
+ "bytes": 433,
+ "code_blocks": 0,
+ "description": "Implement a piece of work based on a spec or set of tickets.",
+ "dir_name": "implement",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "disable-model-invocation": true,
+  "name": "implement"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/engineering/implement",
+ "grade": "D",
+ "group": "engineering",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "6d3fd9e83b8f36e5",
+ "heading_count": 0,
+ "id": "mattpocock--implement",
+ "languages": [],
+ "name": "implement",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/implement/SKILL.md",
+ "score": 42,
+ "score_breakdown": {
+  "body": 3,
+  "description": 6,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/engineering/implement",
+ "tags": [
+  "capability:build",
+  "capability:plan",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 50
+}

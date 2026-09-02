@@ -1,0 +1,67 @@
+{
+ "also_at": [],
+ "body": "# GKE Service Networking Skill\n\nThis skill provides workflows for exposing applications running on GKE securely\nto the internet or internal networks.\n\nDeployable manifest templates live in `assets/` — edit the `# Replace ...`\nplaceholders before applying.\n\n## Workflows\n\n### 1. Configure Gateway API (Recommended)\n\nThe Gateway API is the modern way to manage routing in Kubernetes.\n\n**Prerequisites**: Gateway API must be enabled on the cluster (enabled by\ndefault on new clusters running GKE 1.26+; on older supported versions enable it\nwith `--gateway-api=standard`).\n\n**Templates:**\n\n-   `assets/gateway.yaml` — external Gateway using the\n    `gke-l7-global-external-managed` GatewayClass with an HTTP listener.\n-   `assets/httproute.yaml` — HTTPRoute attaching to the Gateway via\n    `parentRefs` and routing a path prefix to a Service `backendRef`.\n-   `assets/httproute-traffic-split.yaml` — HTTPRoute demonstrating weighted\n    traffic splitting (e.g. 90/10) for canary deployments across backend\n    services.\n\n```bash\nkubectl apply -f assets/gateway.yaml\nkubectl apply -f assets/httproute.yaml\n```\n\n**Traffic Splitting (Canary Deployments):**\n\nHTTPRoute supports weighted traffic splitting across multiple backend Services\nfor canary rollouts:\n\n```yaml\nspec:\n  rules:\n    - backendRefs:\n        - name: app-v1\n          port: 80\n          weight: 90\n        - name: app-v2\n          port: 80\n          weight: 10\n```\n\n### 2. Configure Standard GKE Ingress\n\nUse standard Ingress for simpler use cases or legacy setups.\n\n**Template:** `assets/ingress.yaml` — GCE Ingress (`kubernetes.io/ingress.class:\n\"gce\"` annotation) routing to a Service.\n\n### 3. Secure with Cloud Armor\n\nCloud Armor provides WAF and DDoS protection.\n\n1.  Create a Security Policy in Cloud Armor:\n\n    ```bash\n    gcloud compute security-policies create {security_policy_name} \\\n      --description \"WAF policy for {app_name}\"\n\n    # Example rule: block an abusive IP range\n    gcloud compute security-policies rules create 1000 \\\n      --security-policy {security_policy_name} \\\n      --action deny-403 \\\n      --src-ip-ranges \"203.0.113.0/24\" \\\n      --description \"Block abusive range\"\n    ```\n\n2.  Reference it in a `BackendConfig`: `assets/backendconfig.yaml` (sets\n    `spec.securityPolicy.name`).\n\n3.  Associate the `BackendConfig` with your `Service` via annotations:\n\n    ```yaml\n    # In your Kubernetes Service manifest metadata.annotations:\n    cloud.google.com/backend-config: '{\"default\": \"{backend_config_name}\"}'\n    # Or for specific port mappings:\n    cloud.google.com/backend-config: '{\"ports\": {\"80\": \"{backend_config_name}\"}}'\n    ```\n\n### 4. Configure Google-Managed SSL Certificates\n\nAutomatically provision and renew SSL certificates.\n\n**Legacy Ingress approach:** apply `assets/managed-certificate.yaml` (a\n`ManagedCertificate` listing your domains), then reference it in the Ingress\nannotations:\n\n```yaml\nnetworking.gke.io/managed-certificates: {certificate_name}\n```\n\n**Gateway API approach:** for standard Certificate Manager integration, create a\n`CertificateMap` and reference it in the Gateway metadata annotations using the\nexact annotation `networking.gke.io/certmap` (spelled without any hyphens in\n`certmap`):\n\n```yaml\nmetadata:\n  annotations:\n    networking.gke.io/certmap: {certificate_map_name}\n```\n\n> [!IMPORTANT] The annotation key is strictly `networking.gke.io/certmap` (do\n> not use `cert-map` or `certificate-map`).\n\nAlternatively, reference a Kubernetes Secret in the HTTPS listener's\n`tls.certificateRefs`. Both variants are in `assets/gateway-https.yaml`.\n\n### 5. Enable Container-Native Load Balancing (Recommended)\n\nContainer-native load balancing allows load balancers to target Kubernetes Pods\ndirectly, rather than targeting nodes. This improves latency and distribution.\n\n**Prerequisites**: Cluster must be VPC-native.\n\n**How it works**: the `cloud.google.com/neg` annotation on a Service triggers\ncreation of a NEG that mirrors the Pod IPs. GKE often adds it for you — but not\nalways, and knowing which case you are in is the whole point.\n\n```yaml\n# In your Kubernetes Service manifest metadata.annotations:\ncloud.google.com/neg: '{\"ingress\": true}'\n```\n\n**When the annotation is automatic** (do not add it by hand):\n\n-   **Internal Ingress** — container-native load balancing is *always* used, not\n    optional. Internal Ingress always uses `GCE_VM_IP_PORT` NEGs and requires a\n    VPC-native cluster.\n-   **External Ingress**, but only when all four hold: the cluster is\n    VPC-native, is not on Shared VPC, does not use GKE Network Policy, and has\n    the `HttpLoadBalancing` add-on enabled (on by default — do not disable it).\n    GKE then annotates Services automatically.\n\n**When you must add it explicitly**:\n\n-   **Standalone NEGs** — you manage the load balancer yourself instead of\n    letting Ingress own it. Required if the LB must be configured outside GKE,\n    since Ingress overwrites managed load balancer settings on sync or upgrade.\n    You become responsible for every part of the load balancer.\n-   **Any external-Ingress cluster failing one of the four conditions above** —\n    Shared VPC, GKE Network Policy, or non-VPC-native. Enable per Service.\n-   **Legacy configurations** — some older external Ingress objects created on\n    VPC-native clusters still use instance group backends.\n\n**Not supported / no NEG fallback**:\n\n-   Windows Server node pools.\n-   Routes-based (non-VPC-native) clusters with external Ingress — the Ingress\n    controller falls back to unmanaged instance groups spanning all nodes.\n\n> **Scale consequence**: without NEGs a cluster is capped at 1,000 nodes, and\n> non-NEG Services behind Ingress stop functioning correctly beyond that. With\n> NEGs there is no GKE node limit.\n\n### 6. Configure Private Service Connect (PSC)\n\nPrivate Service Connect allows you to expose services in one VPC to consumers in\nanother VPC securely, without VPC peering.\n\n**Prerequisite**: The backing Service must be an internal passthrough Network\nLoad Balancer — i.e. `type: LoadBalancer` with the\n`networking.gke.io/load-balancer-type: \"Internal\"` annotation. The\n`ServiceAttachment` requires this; a ClusterIP or external LoadBalancer Service\nwill not work.\n\n**Steps:**\n\n1.  Create an internal LoadBalancer Service for your workload.\n2.  Create a `ServiceAttachment` referencing that Service:\n    `assets/service-attachment.yaml` (sets `connectionPreference`, the PSC NAT\n    subnet, and the Service `resourceRef`).\n3.  Share the `ServiceAttachment` URI with consumers to create a PSC endpoint in\n    their VPC.\n\n### 7. Topology Aware Routing (Cost & Latency Optimization)\n\nTo minimize cross-zone data transfer costs and network latency, configure\nKubernetes Services with Topology Aware Routing. This routes traffic to Pods in\nthe same zone as the originating client:\n\n```yaml\n# In your Kubernetes Service manifest metadata.annotations:\nservice.kubernetes.io/topology-mode: auto\n```\n\n## Gotchas\n\n1.  **Certificate Manager API must be enabled** for the\n    `networking.gke.io/certmap` annotation to work (`gcloud services enable\n    certificatemanager.googleapis.com`); without it the Gateway fails to\n    provision the certificate map.\n2.  **Regional Gateway classes need a proxy-only subnet**: classes like\n    `gke-l7-regional-external-managed` and `gke-l7-rilb` require a subnet with\n    `--purpose=REGIONAL_MANAGED_PROXY` in the region; the Gateway stays\n    unprogrammed without it.\n3.  **ManagedCertificate provisioning depends on DNS**: the certificate stays in\n    `Provisioning` until the domain's A/AAAA records point at the load balancer\n    IP, and can take 15-60 minutes after DNS is correct.\n",
+ "body_lines": 208,
+ "bytes": 8224,
+ "code_blocks": 12,
+ "description": "Configures GKE edge networking, traffic routing, load balancing, and private service endpoints. Use when configuring Gateway API manifests, standard Ingress, Cloud Armor WAF security policies, Container-Native Load Balancing (NEGs), Private Service Connect (PSC), or Google-managed SSL certificates on GKE. Don't use for core cluster IP planning, Dataplane V2 network policies, or node NAT egress (use gke-networking instead).",
+ "dir_name": "gke-service-networking",
+ "dup_cluster": null,
+ "extra_files": [
+  "assets/backendconfig.yaml",
+  "assets/gateway-https.yaml",
+  "assets/gateway.yaml",
+  "assets/httproute-traffic-split.yaml",
+  "assets/httproute.yaml",
+  "assets/ingress.yaml",
+  "assets/managed-certificate.yaml",
+  "assets/service-attachment.yaml"
+ ],
+ "file_count": 9,
+ "frontmatter": {
+  "metadata": {
+   "category": "Networking"
+  },
+  "name": "gke-service-networking"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/gke-service-networking",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": true,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "faa379de2963a549",
+ "heading_count": 12,
+ "id": "google--gke-service-networking",
+ "languages": [
+  "bash",
+  "yaml"
+ ],
+ "name": "gke-service-networking",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-service-networking/SKILL.md",
+ "score": 86,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 6,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/gke-service-networking",
+ "tags": [
+  "capability:plan",
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:security",
+  "stack:kubernetes",
+  "trait:code-heavy",
+  "trait:has-assets",
+  "trait:spec-clean"
+ ],
+ "words": 963
+}

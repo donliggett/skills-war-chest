@@ -1,0 +1,55 @@
+{
+ "also_at": [],
+ "body": "# Agent Platform Tuning Management\n\nThis skill provides instructions on how to manage GenAI Tuning Jobs using the\nAgent Platform Python SDK. Use this skill when a user wants to check the status\nof their tuning runs, find an active tuning job, or cancel a job that is running\ntoo long.\n\n## Safety & Confirmation Tiers (CRITICAL)\n\nBefore executing any commands on behalf of the user, you MUST adhere to the\nfollowing safety tiers based on the action requested:\n\n1.  **Tier R: Read-only (`list`, `get`)**\n    *   **Rule**: No confirmation needed. You may execute these commands\n        immediately to gather information for the user.\n2.  **Tier D: Destructive & Interruptive (`cancel`)**\n    *   **Rule**: This requires **explicit typed confirmation**. You MUST output\n        a text message to the user explaining that this will stop the tuning\n        process and any progress will be lost, and asking them to type \"I\n        confirm\" or \"Yes, cancel it\". You MUST ask for this confirmation\n        IMMEDIATELY, before executing the cancel command.\n\n## Phase 0: Environment Setup\n\n**CRITICAL**: Before running any of the Python snippets below, you MUST ensure\nthe environment is correctly initialized by following these steps:\n\n1.  **Google Cloud Authentication**: Authenticate with your Google Cloud account\n    and configure active Application Default Credentials (ADC) for Agent\n    Platform access:\n\n    ```bash\n    gcloud auth login\n    gcloud auth application-default login\n    ```\n\n2.  **Python Dependencies**: This skill needs `google-cloud-aiplatform`. Do\n    **not** create a virtual environment — it starts empty and hides packages\n    the environment already provides, forcing a redundant install. Probe, and\n    install only what is missing:\n\n    ```bash\n    python3 -c \"import vertexai\" || pip install google-cloud-aiplatform\n    ```\n\n3.  **Execution**: Run Python snippets with a plain `python3`. There is no\n    environment to activate first.\n\n## Workflow Decision Tree\n\n1.  **Information Gathering**: Do you have a Project ID and Region?\n\n    *   **No** -> You **MUST** ask the user for the missing Project ID and\n        Region in plain text, or advise them to check their gcloud\n        configuration. If neither location has this information, then ask the\n        user to provide it. Do not attempt to search random regions on your own.\n    *   **Yes** -> Proceed to Step 2.\n\n2.  **Task Type**: What does the user want to do?\n\n    *   **Find or List Jobs** -> Use the Python SDK to list tuning jobs. (Tier\n        R)\n    *   **Check Status / Inspect a Specific Job** -> Use the Python SDK to get\n        tuning job details. (Tier R)\n    *   **Cancel a Job** -> Ask for confirmation, then use the Python SDK to\n        cancel the tuning job. (Tier D)\n\n## Using the Python SDK\n\n> [!NOTE]\n>\n> **Resource Verification & Missing Projects/Jobs:** If the execution of the\n> Python snippet fails with an error (such as `403 Permission Denied`, `404 Not\n> Found`, `INVALID_ARGUMENT`, or indicating a dummy/missing project or job ID),\n> you **MUST** inform the user that the project or tuning job does not exist or\n> cannot be accessed. You **MUST** prompt the user to provide a valid Project ID\n> or Job ID, and stop tool execution immediately to wait for their response. Do\n> **NOT** retry or loop, do **NOT** assume the resource is valid, and do **NOT**\n> execute further scripts before receiving valid details from the user.\n\n### 1. Listing Tuning Jobs (Tier R)\n\nIf the user asks \"What tuning jobs do I have running?\" or wants to find a\nspecific job ID:\n\n```python\nfrom google.cloud import aiplatform_v1\n\nproject_id = \"YOUR_PROJECT_ID\"\nregion = \"YOUR_REGION\"\nparent = f\"projects/{project_id}/locations/{region}\"\n\nclient = aiplatform_v1.GenAiTuningServiceClient(\n    client_options={\"api_endpoint\": f\"{region}-aiplatform.googleapis.com\"}\n)\n\njobs = client.list_tuning_jobs(parent=parent)\nfor job in jobs:\n    print(f\"Name: {job.name}\")\n    print(f\"Base Model: {job.base_model}\")\n    print(f\"State: {job.state}\")\n```\n\n### 2. Getting Details for a Specific Job (Tier R)\n\nIf the user provides a Tuning Job ID and asks for its status:\n\n```python\nfrom google.cloud import aiplatform_v1\n\nproject_id = \"YOUR_PROJECT_ID\"\nregion = \"YOUR_REGION\"\njob_id = \"YOUR_JOB_ID\"  # 19-digit ID\nname = f\"projects/{project_id}/locations/{region}/tuningJobs/{job_id}\"\n\nclient = aiplatform_v1.GenAiTuningServiceClient(\n    client_options={\"api_endpoint\": f\"{region}-aiplatform.googleapis.com\"}\n)\n\njob = client.get_tuning_job(name=name)\nprint(f\"Name: {job.name}\")\nprint(f\"Base Model: {job.base_model}\")\nprint(f\"State: {job.state}\")\nprint(f\"Tuning Model: {job.tuned_model_display_name}\")\n```\n\n### 3. Canceling a Job (Tier D)\n\nIf the user explicitly requests to stop, abort, or cancel a running tuning job:\n\n**Safety Check**: **Action requires explicit typed confirmation before\nproceeding.** You MUST ask the user for confirmation before generating or\nproviding this script, even if they provided the job ID, unless they explicitly\nuse confirming language like \"Yes, I confirm, cancel tuning job 123456\".\n\n> [!IMPORTANT]\n>\n> **NEVER pre-emptively provide or execute any cancellation code before\n> receiving the user's response in a new turn.** You must never speculate or\n> assume that confirmation will be given. Asking for confirmation and providing\n> the code in a single parallel turn is a severe safety violation.\n\n```python\nfrom google.cloud import aiplatform_v1\n\nproject_id = \"YOUR_PROJECT_ID\"\nregion = \"YOUR_REGION\"\njob_id = \"YOUR_JOB_ID\"  # 19-digit ID\nname = f\"projects/{project_id}/locations/{region}/tuningJobs/{job_id}\"\n\nclient = aiplatform_v1.GenAiTuningServiceClient(\n    client_options={\"api_endpoint\": f\"{region}-aiplatform.googleapis.com\"}\n)\n\nclient.cancel_tuning_job(name=name)\nprint(f\"Successfully requested cancellation for {name}\")\n```\n",
+ "body_lines": 158,
+ "bytes": 6266,
+ "code_blocks": 6,
+ "description": "Manages GenAI tuning jobs in Agent Platform. Use this to list, get, or cancel ongoing model tuning jobs. Don't use for fine-tuning models (use `agent-platform-tuning`), deploying models to endpoints (use `agent-platform-deploy`), or managing serving endpoints (use `agent-platform-endpoint-management`).",
+ "dir_name": "agent-platform-tuning-management",
+ "dup_cluster": "google--agent-platform-tuning",
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "AiAndMachineLearning"
+  },
+  "name": "agent-platform-tuning-management"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/agent-platform-tuning-management",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "305b66ed941ee8f3",
+ "heading_count": 8,
+ "id": "google--agent-platform-tuning-management",
+ "languages": [
+  "python"
+ ],
+ "name": "agent-platform-tuning-management",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-tuning-management/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/agent-platform-tuning-management",
+ "tags": [
+  "capability:deploy",
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:ml-ai",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 805
+}

@@ -1,0 +1,55 @@
+{
+ "also_at": [],
+ "body": "# Migrate to Shoehorn\n\n## Why shoehorn?\n\n`shoehorn` lets you pass partial data in tests while keeping TypeScript happy. It replaces `as` assertions with type-safe alternatives.\n\n**Test code only.** Never use shoehorn in production code.\n\nProblems with `as` in tests:\n\n- Trained not to use it\n- Must manually specify target type\n- Double-as (`as unknown as Type`) for intentionally wrong data\n\n## Install\n\n```bash\nnpm i @total-typescript/shoehorn\n```\n\n## Migration patterns\n\n### Large objects with few needed properties\n\nBefore:\n\n```ts\ntype Request = {\n  body: { id: string };\n  headers: Record<string, string>;\n  cookies: Record<string, string>;\n  // ...20 more properties\n};\n\nit(\"gets user by id\", () => {\n  // Only care about body.id but must fake entire Request\n  getUser({\n    body: { id: \"123\" },\n    headers: {},\n    cookies: {},\n    // ...fake all 20 properties\n  });\n});\n```\n\nAfter:\n\n```ts\nimport { fromPartial } from \"@total-typescript/shoehorn\";\n\nit(\"gets user by id\", () => {\n  getUser(\n    fromPartial({\n      body: { id: \"123\" },\n    }),\n  );\n});\n```\n\n### `as Type` → `fromPartial()`\n\nBefore:\n\n```ts\ngetUser({ body: { id: \"123\" } } as Request);\n```\n\nAfter:\n\n```ts\nimport { fromPartial } from \"@total-typescript/shoehorn\";\n\ngetUser(fromPartial({ body: { id: \"123\" } }));\n```\n\n### `as unknown as Type` → `fromAny()`\n\nBefore:\n\n```ts\ngetUser({ body: { id: 123 } } as unknown as Request); // wrong type on purpose\n```\n\nAfter:\n\n```ts\nimport { fromAny } from \"@total-typescript/shoehorn\";\n\ngetUser(fromAny({ body: { id: 123 } }));\n```\n\n## When to use each\n\n| Function        | Use case                                           |\n| --------------- | -------------------------------------------------- |\n| `fromPartial()` | Pass partial data that still type-checks           |\n| `fromAny()`     | Pass intentionally wrong data (keeps autocomplete) |\n| `fromExact()`   | Force full object (swap with fromPartial later)    |\n\n## Workflow\n\n1. **Gather requirements** - ask user:\n   - What test files have `as` assertions causing problems?\n   - Are they dealing with large objects where only some properties matter?\n   - Do they need to pass intentionally wrong data for error testing?\n\n2. **Install and migrate**:\n   - [ ] Install: `npm i @total-typescript/shoehorn`\n   - [ ] Find test files with `as` assertions: `grep -r \" as [A-Z]\" --include=\"*.test.ts\" --include=\"*.spec.ts\"`\n   - [ ] Replace `as Type` with `fromPartial()`\n   - [ ] Replace `as unknown as Type` with `fromAny()`\n   - [ ] Add imports from `@total-typescript/shoehorn`\n   - [ ] Run type check to verify\n",
+ "body_lines": 114,
+ "bytes": 2795,
+ "code_blocks": 14,
+ "description": "Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.",
+ "dir_name": "migrate-to-shoehorn",
+ "dup_cluster": null,
+ "extra_files": [
+  "agents/openai.yaml"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "migrate-to-shoehorn"
+ },
+ "github_url": "https://github.com/mattpocock/skills/tree/HEAD/skills/misc/migrate-to-shoehorn",
+ "grade": "A",
+ "group": "misc",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "de4da4c11d924fac",
+ "heading_count": 9,
+ "id": "mattpocock--migrate-to-shoehorn",
+ "languages": [
+  "bash",
+  "ts"
+ ],
+ "name": "migrate-to-shoehorn",
+ "origin": "mattpocock",
+ "origin_author": "Matt Pocock",
+ "origin_license": "MIT",
+ "origin_repo": "mattpocock/skills",
+ "origin_url": "https://github.com/mattpocock/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/misc/migrate-to-shoehorn/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/misc/migrate-to-shoehorn",
+ "tags": [
+  "capability:migrate",
+  "domain:data",
+  "domain:testing",
+  "stack:typescript",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 385
+}

@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# Working With Sonner\n\nA guide skill for [Sonner](https://sonner.emilkowal.ski), the toast library. When a task involves Sonner — wiring it up, rendering toasts, styling them, or fixing them — answer from this file first. Full prop tables for `<Toaster />` and `toast()` live in [API.md](API.md); read it when you need an exact prop name, type, or default.\n\n## Setup\n\nTwo pieces, and only two:\n\n1. **One `<Toaster />`, mounted once**, as close to the root as possible (in Next.js: `layout.tsx` — it works inside server components). Never render it per-page or conditionally; a second mounted Toaster duplicates every toast.\n2. **`toast()` called from client code** — event handlers, effects, callbacks. It's a plain function, no hook or provider needed, but it does nothing on the server: in a server action, return the result and call `toast()` in the client code that receives it.\n\n```jsx\nimport { Toaster } from 'sonner'; // once, in layout\nimport { toast } from 'sonner';   // anywhere client-side\n```\n\n## Picking the right call\n\n| You want | Call |\n| --- | --- |\n| Plain message | `toast('Title')` — add `{ description }` for a second line |\n| Success / error / info / warning icon | `toast.success('…')`, `toast.error('…')`, etc. |\n| Spinner while you manage state yourself | `toast.loading('…')`, then update it by id |\n| Loading → success/error tied to a promise | `toast.promise(promise, { loading, success, error })` — success/error accept functions receiving the resolved value/error |\n| Button that does something | `{ action: { label, onClick } }` — closes the toast unless `onClick` calls `event.preventDefault()`; `cancel` is the secondary variant |\n| Custom JSX, default toast shell | `toast(<jsx />)` |\n| Custom JSX, no styles at all | `toast.custom((t) => <jsx />)` — headless, `t` gives you the id to dismiss |\n\n## Recipes\n\n**Update a toast** — call `toast()` again with the same `id`; only the props you pass change. Switching to `toast.success(…, { id })` changes the type. This is how loading → success flows work without `toast.promise`:\n\n```jsx\nconst id = toast.loading('Uploading…');\ntoast.success('Uploaded', { id });\n```\n\n**Persist** — `{ duration: Infinity }`. **Dismiss** — `toast.dismiss(id)`, or `toast.dismiss()` for all. **Read active toasts** — `useSonner()` in React, `toast.getActiveToasts()` outside it.\n\n**Links or components in the text** — pass a function for the title or description: `toast(() => <a href=\"…\">View</a>)`.\n\n**Multiple toasters** — give each an `id` and target with `toast('…', { toasterId: 'canvas' })`. Without `toasterId`, every toaster renders the toast.\n\n**Close callbacks** — `onDismiss` fires on close button or swipe; `onAutoClose` fires on timeout. They are separate; there is no single \"closed\" callback.\n\n## Styling — the escalation ladder\n\nClimb only as far as the change requires; jumping to the top rung too early is fine (it's the recommended end state), lingering in the middle is not.\n\n1. **Defaults** — plus `richColors` on the Toaster for colorful success/error, `invert` to flip against the theme.\n2. **Inline tweaks** — `toastOptions={{ style: {…} }}` on the Toaster for all toasts, or `style` per `toast()` call.\n3. **Classes on parts** — `toastOptions={{ classNames: { toast, title, description, actionButton, cancelButton, closeButton } }}`. Sonner's injected styles win the cascade, so every class needs `!important` (Tailwind: `!text-red-900`). If you're marking more than a few things important, stop — go headless.\n4. **Headless** — `toast.custom()` with your own JSX, keeping Sonner's positioning, stacking, and swipe. The recommended approach for a design-system toast: wrap it in your own `toast()` abstraction. (`unstyled: true` exists as a halfway house, but headless gives more control for the same effort.)\n\n**Icons** — swap defaults per-type with the Toaster's `icons` prop, per-toast with `icon`, remove with `null`.\n\n**Theme** — `theme` defaults to `'light'` and does not track the OS. Pass `theme=\"system\"`, or wire your theme provider: `<Toaster theme={resolvedTheme} />` from `next-themes`.\n\n## Troubleshooting\n\n| Symptom | Cause → fix |\n| --- | --- |\n| Toast never appears | No `<Toaster />` mounted, or it unmounted (conditional render, per-page placement). Mount one at the root. If calling from a server action: `toast()` is client-only — call it with the action's result on the client. |\n| Same toast appears twice | Two Toasters mounted (layout **and** page) — keep one. Or `toast()` fired in an effect under React StrictMode's dev double-invoke — fire from the event handler instead, or pass a stable `id` so the second call updates rather than duplicates. |\n| Tailwind/CSS classes have no effect | Default styles override them. Mark them `!important`, or use `unstyled` / headless (see the ladder above). |\n| Toasts render completely unstyled (common in Astro, view transitions) | Sonner's injected stylesheet was lost — import it explicitly in a layout: `import 'sonner/dist/styles.css'`. |\n| Unstyled inside Shadow DOM | Styles land in `document.head`, not the shadow root. Copy the style tag whose text includes `[data-sonner-toaster]` into the shadow root. |\n| Toast behind a modal/overlay, or clipped | An ancestor creates a stacking context (`transform`, `filter`, `overflow`) or the overlay out-z-indexes the toaster. Move `<Toaster />` to the document root, outside any dialog/portal container. |\n| Dark mode ignored | `theme` defaults to `'light'` — set `theme=\"system\"` or pass the resolved theme (see Theme above). |\n| Success/error look gray, not green/red | That's the default. Add `richColors` to the Toaster. |\n| Toast never closes | `duration: Infinity`, `dismissible: false`, or a `toast.promise` whose promise never settles — the loading toast waits forever. |\n| `toast.promise` stuck on loading | It needs a promise (or a function returning one) as its first argument, and the promise must actually resolve/reject. |\n| Swipe-to-dismiss goes the wrong way / doesn't work | Directions derive from `position`. Override with `swipeDirections` on the Toaster. |\n| Toast shows up in every toaster | Multiple toasters need targeting: give each Toaster an `id` and pass `toasterId` in the `toast()` call. |\n| Toasts too close to the screen edge on mobile | `offset` (desktop, default 32px) and `mobileOffset` (<600px, default 16px) — numbers, CSS strings, or per-side objects. |\n",
+ "body_lines": 76,
+ "bytes": 6944,
+ "code_blocks": 4,
+ "description": "Guide to Sonner, the React toast library — install and wire up the Toaster, pick the right toast() call, promise and loading toasts, updating, dismissing and persisting toasts, styling, theming and icons, positioning and multiple toasters. Use when working with Sonner or troubleshooting it — toasts that don't appear, appear twice, lose their styles, ignore Tailwind classes, sit behind a modal, or don't follow dark mode.",
+ "dir_name": "ask-sonner",
+ "dup_cluster": null,
+ "extra_files": [
+  "API.md"
+ ],
+ "file_count": 2,
+ "frontmatter": {
+  "name": "ask-sonner"
+ },
+ "github_url": "https://github.com/emilkowalski/skills/tree/HEAD/skills/ask-sonner",
+ "grade": "A",
+ "group": "",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "be1b04511aadb4d7",
+ "heading_count": 6,
+ "id": "emilkowalski--ask-sonner",
+ "languages": [
+  "jsx"
+ ],
+ "name": "ask-sonner",
+ "origin": "emilkowalski",
+ "origin_author": "Emil Kowalski",
+ "origin_license": "MIT",
+ "origin_repo": "emilkowalski/skills",
+ "origin_url": "https://github.com/emilkowalski/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/ask-sonner/SKILL.md",
+ "score": 78,
+ "score_breakdown": {
+  "body": 25,
+  "description": 20,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/ask-sonner",
+ "tags": [
+  "stack:react",
+  "stack:tailwind",
+  "trait:code-heavy",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 1012
+}

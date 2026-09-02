@@ -1,0 +1,69 @@
+{
+ "also_at": [],
+ "body": "# Cloud Monitoring Chart Generation Skill (`cloud-monitoring-chart-generation`)\n\nTransforms PromQL or ListTimeSeries JSON request payloads and metric metadata\ninto valid Server-Driven UI (SDUI) `google.monitoring.dashboard.v1.Widget`\nProtocol Buffer textprotos. These generated textprotos are designed to be\ningested by the Cloud Monitoring Dashboards API, gcloud CLI, or declarative\ndashboard provisioning pipelines.\n\n> [!IMPORTANT] **Preferred API & Mutually Exclusive Queries**:\n> - **API Preference**: Always prefer generating `ListTimeSeries` (`time_series_filter`) configurations for widgets over PromQL, unless the user explicitly requested PromQL or the metric math strictly requires it.\n> - **Mutually Exclusive**: A widget dataset `time_series_query` must contain **EITHER** a `time_series_filter` OR a `prometheus_query`. You must never populate both fields in the same dataset simultaneously.\n> - **Strict Passthrough**: You MUST copy the provided PromQL query or ListTimeSeries JSON exact filter string character-for-character. DO NOT invent, rewrite, or modify the queries under any circumstances.\n\n> [!CAUTION] **CRITICAL EXECUTION & WORKING DIRECTORY RULES**:\n>\n> -   **DO NOT CHANGE WORKING DIRECTORY**: Keep your working directory at your\n>     workspace root. Do NOT `cd` into skill subdirectories.\n> -   **NO DISCOVERY OR SEARCH RULE**: The metric descriptor, PromQL query,\n>     ListTimeSeries JSON payload, unit, and resource type are ALWAYS present in\n>     the conversation context. **NEVER** run file or codebase search tools,\n>     like grep, find, directory listings, or codebase queries, to discover\n>     metric metadata or inspect repository structures.\n> -   **SCRIPT EXECUTION**: Execute the bundled Python scripts directly using\n>     python3.\n> -   **OUTPUT GENERATION**: The `assemble_widget_proto` script automatically\n>     generates a unique UUID-based filename to prevent parallel execution\n>     collisions. It will print the generated filename to standard error\n>     strongly prefixed with \"Wrote widget textproto to:\". You MUST parse this\n>     exact prefix from the logs to extract the generated path and use it for\n>     validation in Stage 4.\n\n## Prerequisites: Environment Setup\n\nInstall the required dependencies in your environment or sandbox:\n\n```bash\npip install -r scripts/requirements.txt\n```\n\n## Follow the workflow pipeline\n\n```\n[ Stage 1: compute_labels ]  --->  [ Stage 2: LLM Synthesis ]  --->  [ Stage 3: assemble_widget_proto ]\n  Generates candidate labels         Formulates SemanticPlotSpec       Emits validated widget textproto\n```\n\n### Stage 1: Baseline Candidate Synthesis\n\nRun Stage 1 using python3:\n\n```bash\n# For PromQL:\npython3 scripts/compute_labels.py \\\n  --metric_display_name \"METRIC_DISPLAY_NAME\" \\\n  --resource_type \"RESOURCE_TYPE\" \\\n  --metric_unit \"UNIT\" \\\n  --promql_query 'PROMQL_QUERY'\n\n# For ListTimeSeries:\npython3 scripts/compute_labels.py \\\n  --metric_display_name \"METRIC_DISPLAY_NAME\" \\\n  --resource_type \"RESOURCE_TYPE\" \\\n  --metric_unit \"UNIT\" \\\n  --filter_string 'metric.type=\"m\"...' \\\n  --per_series_aligner \"ALIGN_RATE\" \\\n  --cross_series_reducer \"REDUCE_SUM\"\n```\n\n### Stage 2: SemanticPlotSpec Prediction (LLM)\n\nReview the user prompt, PromQL or LTS query structure, and Stage 1 baseline\ncandidates to formulate a 4-key `SemanticPlotSpec` JSON object:\n\n1. **`title`**: Polish `titleCandidate` to ensure it is concise, human-readable,\n   and under 80 characters.\n2.  **`yAxisLabel`**: Set this to a concise, human-readable quantitative\n    descriptor or metric concept, like `\"Utilization\"`, `\"Bytes\"`, or `\"Bytes\n    Rate\"`. Do NOT append unit symbols or suffixes like `\"(%)\"`, `\"(/s)\"`, or\n    `\"(By)\"` to the label, because units are rendered automatically via\n    `unitOverride`.\n3. **`plotType`**: Default to `LINE`. Use `STACKED_AREA` if requested by the\n   user or for distribution queries.\n4.  **`unitOverride`**: Set this to the Unified Code for Units of Measure (UCUM)\n    unit string, derived by applying the corresponding rules below:\n\n#### List Time Series (LTS) Unit Strategy:\n\n-   **Trust the Candidate**: For List Time Series flows, set this directly to\n    the `unitOverrideCandidate` produced by Stage 1. Stage 1 mathematically\n    processes `ALIGN_RATE`, for example producing `By/s`, forces `%` for\n    `ALIGN_PERCENT_CHANGE`, and correctly outputs native normalizations\n    unconditionally.\n\n#### PromQL Unit Strategy (LLM Manual Override):\n\nBecause PromQL expressions can geometrically compose, for example\n`histogram_quantile(..., rate(...))`, rely on your own semantic reasoning to\ngovern the final unit:\n\n-   **Rate Functions (`rate(...)`, `irate(...)`)**: Convert cumulative counters\n    into per-second rates. Append `/s` to the raw metric unit. For example, a\n    raw metric unit of `By` with `rate(...)` results in `unitOverride: \"By/s\"`.\n    -   **Exception**: If `rate()` is evaluated inside a `histogram_quantile()`,\n        the output is the raw bucket unit like `\"s\"`, not a rate.\n-   **Ratios & Percentages (`100 * (A / B)`)**: Ratios of identical metric units\n    typically represent percentages, resulting in `unitOverride: \"%\"`.\n-   **Normalizations**: Normalize `10^2.%` to `\"%\"`.\n-   **Preserved Units**: For simple aggregation functions like\n    `avg_over_time(...)` or `sum by (...)`, retain and output the underlying\n    metric unit without modification.\n\n-   **Legend Template**: Do NOT configure the `legend_template` field. It is\n    intentionally omitted so that the Cloud Monitoring frontend dynamically\n    renders its multi-column table legend at runtime.\n\nExample `SemanticPlotSpec`:\n\n```json\n{\n  \"title\": \"VM CPU Utilization us-central1-a\",\n  \"yAxisLabel\": \"Utilization\",\n  \"plotType\": \"LINE\",\n  \"unitOverride\": \"%\"\n}\n```\n\n### Stage 3: Protobuf Assembly & Output\n\nRun Stage 3 using python3 to generate and save the widget textproto. Use\n`--promql_query` for PromQL, or `--lts_request_json` for ListTimeSeries:\n\n```bash\n# For PromQL:\npython3 scripts/assemble_widget_proto.py \\\n  --promql_query 'PROMQL_QUERY' \\\n  --spec_json 'SEMANTIC_PLOT_SPEC_JSON'\n\n# For ListTimeSeries:\npython3 scripts/assemble_widget_proto.py \\\n  --lts_request_json '{\"filter\": \"...\", \"aggregation\": {...}}' \\\n  --spec_json 'SEMANTIC_PLOT_SPEC_JSON'\n```\n\n> [!IMPORTANT] **MANDATORY FILE OUTPUT CONTRACT**: Do not attempt to guess or\n> enforce the output filename. The script will automatically generate a\n> guaranteed-unique filename and print it to standard error. Search stderr for\n> the explicit prefix \"Wrote widget textproto to:\" to deterministically capture\n> this filename, and then target it in Stage 4 validation.\n\n-   **Assigned Filename Feedback**: Whenever an output file is saved, the script\n    logs the file path to stderr. Read your command execution logs for the exact\n    filename created so you can target it in Stage 4 validation.\n-   **Text Chat Output**: Enclose the generated SDUI widget textproto inside\n    a ```` ```textproto```` code block in your response:\n\n```textproto\ntitle: \"...\"\nxy_chart {\n  ...\n}\n```\n\n### Verify and auto-retry\n\n> [!CAUTION] **DO NOT FINISH YOUR TURN UNTIL FILE VERIFICATION PASSES**: 1.\n> **Validate Artifact**: Execute the validator script against the generated file\n> output from Stage 3:\n>\n> ```bash\n>    # For PromQL charts:\n>    python3 scripts/validate_chart.py --input_file \"GENERATED_FILE.textproto\" \\\n>       --expected_promql_substring \"SOME_IDENTIFYING_SUBSTRING_FROM_QUERY\" \\\n>       --expected_unit_override \"UNIT_OVERRIDE_CANDIDATE\"\n>\n>    # For ListTimeSeries (LTS) charts:\n>    python3 scripts/validate_chart.py --input_file \"GENERATED_FILE.textproto\" \\\n>       --expected_lts_filter_substring \"SOME_IDENTIFYING_SUBSTRING_FROM_FILTER\" \\\n>       --expected_unit_override \"UNIT_OVERRIDE_CANDIDATE\"\n>\n>    # ALWAYS provide an identifying substring and the Stage 1 unit override candidate to verify you didn't mutate the data.\n    \n>    # CRITICAL: If you generated multiple charts for multiple metrics, you MUST run this validation script independently for EACH file generated to ensure every chart is correct!\n> ```\n>\n> 2.  **Auto-Retry if Missing or Failed**: If `validate_chart` reports that the\n>     file is missing or invalid, verify your script parameters and immediately\n>     re-run Stage 3:\n>\n>     ```bash\n>     python3 scripts/assemble_widget_proto.py \\\n>       --promql_query 'PROMQL_QUERY' \\\n>       --spec_json 'SEMANTIC_PLOT_SPEC_JSON'\n>     # Or use --lts_request_json if applicable\n>     ```\n> 3. **Validation & Retries**: Run `validate_chart` to verify the generated\n>    textproto. If validation fails due to a schema or syntax error, correct\n>    the parameters and retry up to 2 times. If validation still fails after 2\n>    retries, stop retrying, notify the user of the validation error, and\n>    present the best-effort textproto.\n> 4.  **Execution vs. Validation Errors**: Note that schema/syntax validation\n>     errors from `validate_chart.py` are distinct from OS or environment\n>     execution restrictions, which are handled below in **Graceful Sandbox\n>     Fallback**.\n\n#### Perform graceful sandbox fallback\n\nIf `compute_labels.py`, `assemble_widget_proto.py`, or `validate_chart.py`\ncannot be executed due to environment or sandbox restrictions, do the\nfollowing:\n\n1. Notify the user which script cannot be executed and why.\n2. **Synthesize and output the complete widget textproto directly in your\n   response**, following all formatting and unit rules.\n3. Provide a **\"Local Verification\"** section containing the standalone python3\n   commands so the user can run and validate the schema locally if desired.\n\n## Supporting Links\n\n- [Dashboards API](https://docs.cloud.google.com/monitoring/dashboards/api-dashboard)\n- [Prometheus Docs](https://prometheus.io/docs/prometheus/latest/querying/)\n",
+ "body_lines": 221,
+ "bytes": 10647,
+ "code_blocks": 12,
+ "description": "Generates Google Cloud Monitoring Server-Driven UI (SDUI) Widget and XyChart Protocol Buffer textprotos from resolved PromQL or ListTimeSeries queries. Use when:\n  - Generating valid google.monitoring.dashboard.v1.Widget textprotos,\n    containing PrometheusQuery or TimeSeriesFilter datasets, for use with the Cloud Monitoring\n    Dashboards API, gcloud CLI, or declarative dashboard definitions.\n  - Synthesizing Server-Driven UI (SDUI) widget titles, axis labels, and\n    plot types for Prometheus or ListTimeSeries queries.\nDon't use for:\n  - Metric discovery or PromQL query generation. For those tasks, use the\n    cloud-monitoring-metric-selection or cloud-monitoring-promql-query skills.",
+ "dir_name": "cloud-monitoring-chart-generation",
+ "dup_cluster": null,
+ "extra_files": [
+  "scripts/assemble_widget_proto.py",
+  "scripts/assemble_widget_proto_test.py",
+  "scripts/compute_labels.py",
+  "scripts/compute_labels_test.py",
+  "scripts/requirements.txt",
+  "scripts/textproto_util.py",
+  "scripts/textproto_util_test.py",
+  "scripts/validate_chart.py",
+  "scripts/validate_chart_test.py"
+ ],
+ "file_count": 10,
+ "frontmatter": {
+  "metadata": {
+   "category": "CloudObservabilityAndMonitoring"
+  },
+  "name": "cloud-monitoring-chart-generation"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/cloud-monitoring-chart-generation",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": true,
+ "hash": "fa274c7fd9cbde0f",
+ "heading_count": 15,
+ "id": "google--cloud-monitoring-chart-generation",
+ "languages": [
+  "bash",
+  "json",
+  "textproto"
+ ],
+ "name": "cloud-monitoring-chart-generation",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-monitoring-chart-generation/SKILL.md",
+ "score": 88,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 8,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/cloud-monitoring-chart-generation",
+ "tags": [
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:devops",
+  "format:cli",
+  "stack:gcp",
+  "trait:code-heavy",
+  "trait:has-scripts",
+  "trait:spec-clean"
+ ],
+ "words": 1264
+}

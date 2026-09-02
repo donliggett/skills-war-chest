@@ -1,0 +1,58 @@
+{
+ "also_at": [],
+ "body": "# BigFrames (BigQuery DataFrame) basics\nBigFrames is a Python library that lets you take advantage of BigQuery\ndata processing by using familiar Python APIs.\n\n## Dataframe API best practices\n* **Stay in the Cloud**: Perform data cleaning, transformation, and analysis\n  via BigFrames methods to leverage BigQuery's scale rather than downloading\n  data.\n* **Prefer partial ordering mode**: Enable partial ordering mode right after\n  importing BigFrames. This speeds up data processing significantly by relaxing\n  row-sequence constraints.\n  ```python\n  import bigframes.pandas as bpd\n  bpd.options.bigquery.ordering_mode = 'partial'\n  ```\n* **Use `peek()` for data preview**: Use `peek(n)` to preview data instead of\n  `head(n)`. `peek(n)` randomly samples `n` rows and is significantly faster.\n  `head(n)` returns rows in strict order and fails in `partial` ordering mode\n  unless the DataFrame has been explicitly sorted.\n* **Avoid materializing data locally**: Methods like `to_pandas()` download all\n  data to client memory, bypassing BigQuery’s distributed computation and\n  risking Out of Memory (OOM) errors. Do not materialize data locally unless:\n  * The dataset is small enough to fit safely in memory.\n  * An error message explicitly requires local materialization.\n* **Prefer Dataframe API over SQL queries**: Do not write raw SQL queries via\n  `read_gbq()` if a DataFrame/Series method achieves the same result, as it\n  breaks the Pandas abstraction and prevents lazy query execution.\n* **Accessors over UDFs/Lambdas**:\n    * Use built-in accessors (e.g., `df.col.str.*`, `df.col.dt.*`) instead of\n      remote User Defined Functions (UDFs). UDFs require extra resources and\n      time to deploy.\n    * Do not use lambdas with `Series.map()` or `DataFrame.apply()`. These\n      methods do not accept functions without `udf` or `remote_function`\n      decorators.\n    ```python\n    # Avoid:\n    df[\"upper\"] = df[\"name\"].map(lambda x: x.upper())\n\n    # Prefer:\n    df[\"upper\"] = df[\"name\"].str.upper()\n    ```\n* **Schema Verification**: Do not assume the schema of intermediate outputs.\n  Proactively verify schemas using `.dtypes` and inspect sample records using\n  `display()` with `.peek()`.\n* **Visualization**: Plot directly from the BigFrames DataFrame/Series when\n  possible. BigFrames is compatible with Matplotlib and Seaborn. If direct\n  plotting fails, use the `.plot` accessor. If the dataset is too large to plot,\n  aggregate or sample the data before calling\n  `.to_pandas()` to plot locally.\n\n## Machine Learning\n* **Use `bigframes.bigquery.ml` package**: Do not use Scikit-learn or other ML\n  libraries with BigQuery DataFrames. Standard Scikit-learn models require\n  bringing data into local client memory, whereas `bigframes.bigquery.ml`\n  delegates training directly to BigQuery's scalable ML engine. Import functions\n  from `bigframes.bigquery.ml`.\n\n### Reference Directory\n* [Linear Regression](references/linear_regression.md): Train a linear\n  regression model to predict numerical values.\n* [Logistic Regression](references/logistic_regression.md): Train a logistic\n  regression model to predict boolean values.\n\n## BigFrames ML (Legacy)\n\nThe BigFrames ML package (`bigframes.ml`) is a legacy package that mimics the\nscikit-learn API but is no longer recommended for new projects. Only use this\npackage if the user explicitly requests BigFrames ML.\n\n* **Legacy Imports**: When legacy BigFrames ML is requested, import tools and\n  classes from `bigframes.ml` instead of `bigframes.bigquery.ml`.\n* **DataFrame Return on Prediction**: Unlike Scikit-learn, BigFrames'\n  `predict()` method always returns a **DataFrame** containing both predictions\n  and features, rather than a single series of predictions.\n* **No `random_state`**: Do not pass a `random_state` argument when\n  instantiating BigFrames ML models, as this parameter is not supported in the\n  BigFrames ML package.\n* **Automatic Scaling**: Do not use `OneHotEncoder` or `StandardScaler` unless\n  explicitly requested, as scaling is handled automatically.\n* **Hyperparameter Tuning**: Write custom loops for hyperparameter tuning, as\n  BigFrames lacks `GridSearchCV` or `RandomizedSearchCV`.\n* **ARIMA Plus** (Forecasting):\n    * Import from `bigframes.ml.forecasting`.\n    * Sort data chronologically and split around a timepoint before training.\n    * Ensure the prediction horizon is less than or equal to the training\n      horizon.\n* **PCA**: BigFrames' PCA class lacks a `transform()` method. Use `predict()`\n  instead.\n* **Model Persistence**: To persist a model, use `model.to_gbq()`. To load a\n  persisted model, use `bpd.read_gbq_model()`.\n",
+ "body_lines": 91,
+ "bytes": 5063,
+ "code_blocks": 0,
+ "description": "Generates Python code using BigQuery DataFrames (BigFrames), the pandas/scikit-learn-style API over BigQuery. Use when writing BigFrames code or doing pandas-style dataframe/ML work against BigQuery (e.g. in a notebook). Don't use for SQL-first workflows or the google-cloud-bigquery client library — use bigquery-basics.",
+ "dir_name": "bigquery-bigframes",
+ "dup_cluster": null,
+ "extra_files": [
+  "references/linear_regression.md",
+  "references/logistic_regression.md"
+ ],
+ "file_count": 3,
+ "frontmatter": {
+  "metadata": {
+   "category": "BigDataAndAnalytics"
+  },
+  "name": "bigquery-bigframes"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/bigquery-bigframes",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "9324abde305e88ce",
+ "heading_count": 5,
+ "id": "google--bigquery-bigframes",
+ "languages": [],
+ "name": "bigquery-bigframes",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/bigquery-bigframes/SKILL.md",
+ "score": 80,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/bigquery-bigframes",
+ "tags": [
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:ml-ai",
+  "stack:gcp",
+  "stack:python",
+  "stack:sql",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 605
+}

@@ -1,0 +1,58 @@
+{
+ "also_at": [],
+ "body": "# Book Serif Index Skill\n\n## Use When\n- Create an archival book-reader design system with serif-led pages, mono index navigation, aged paper surfaces, margin notes, and a premium catalog frame.\n\n## Workflow\n\n## Scope\n- Apply this as a full design-system direction when the interface should feel like a curated archival reader, manuscript viewer, or premium literary catalog.\n- Use it for editorial experiences, story-driven product pages, archives, research interfaces, lore systems, or reading-centric layouts that need bookish structure and index navigation.\n- This is not generic blog styling; it should combine immersive book surfaces with a technical or catalog-like outer frame.\n\n## Visual target\n- Create a central reading surface that feels like an open book, folio spread, or archival document laid within a darker surrounding interface shell.\n- Let typography lead the experience: display serif or gothic-inspired headings, readable serif body text, and mono utility labels for navigation, metadata, and indexing.\n- Use aged paper tones, subtle texture, crease shadows, edge shading, and light wear so the main content surface feels tactile and collected.\n- Surround the reading area with restrained index or catalog UI: sidebar sections, chapter markers, section lists, archive labels, or mono navigation rails.\n- Keep the palette restrained and atmospheric: dark outer shell, warm paper interior, muted ink tones, and one selective accent color derived from the design. If no brand accent exists, a subdued oxblood, bronze, or antique gold is acceptable.\n\n## Implementation guidance\n- Prefer a two-zone composition: a darker outer interface frame plus a lighter book-like content surface centered inside it.\n- Use serif body copy with generous line height for readability, then pair it with mono labels, tracking-heavy section names, and quiet metadata for contrast.\n- Build the book surface with gradients, inset shadows, subtle center crease treatment, edge shadows, and light paper texture so it reads as layered material rather than a flat beige card.\n- Include index-like navigation patterns such as chapter lists, section trees, archive groupings, or sidebar entries with active states and small markers.\n- Add scholarly details like drop caps, marginalia boxes, block labels, annotations, citations, folio markers, or footer metadata to reinforce the editorial system.\n- Motion should stay calm and literary: masked text reveals, gentle entrance motion, slow ambient background drift, and restrained hover cues.\n\n## Recommended patterns\n- Outer shell: dark full-screen container with thin frame lines, subtle vertical rails, and muted corner markers.\n- Book spread: two-page or dual-panel reading region with center crease, paper gradients, soft edge shadows, and slight tonal variation between pages.\n- Index navigation: mono sidebar with grouped headings, active bullets, archive sections, or chapter entries arranged like a catalog.\n- Reading details: drop caps, pull quotes, annotation cards, marginal notes, image plates with thin framed borders, and bottom folio labels.\n- Typography system: decorative serif display, highly readable serif body, and mono metadata used sparingly for structure.\n\n## Tuning knobs\n- Antiquity: increase or reduce the amount of paper texture, warm tint, and wear depending on how historical versus contemporary the interface should feel.\n- Technical overlay: add or remove catalog rails, index labels, and metadata so the design can lean more archival or more system-like.\n- Book realism: tune crease depth, page shadows, and paper contrast so the surface feels tactile without becoming skeuomorphic overload.\n- Accent use: keep accent color concentrated in headings, active index states, callouts, or notes instead of spreading it across the whole spread.\n- Density: choose between airy museum-like composition or denser scholarly indexing depending on the content.\n\n## Avoid\n- Flat cream cards with serif text but no convincing book or archive structure.\n- Generic publishing layouts that omit index rails, metadata, and material depth.\n- Bright modern SaaS color systems that break the archival tone.\n- Excessive distressed effects that make the interface dirty or hard to read.\n- Overly ornate fantasy styling without the disciplined catalog and editorial framework.\n",
+ "body_lines": 48,
+ "bytes": 4526,
+ "code_blocks": 0,
+ "description": "Create an archival book-reader design system with serif-led pages, mono index navigation, aged paper surfaces, margin notes, and a premium catalog frame.",
+ "dir_name": "book-serif-index",
+ "dup_cluster": null,
+ "extra_files": [
+  "demo/PROMPT.md",
+  "demo/assets/page-01-e534354d-c5f2-4399-a1d9-2f50338e8c47-1600w.jpg",
+  "demo/assets/page-02-724142aa-44a6-48d3-9cf3-761e00d05b78-1600w.jpg",
+  "demo/assets/source-preview.jpg",
+  "demo/index.html",
+  "demo/preview.jpg",
+  "demo/source.json"
+ ],
+ "file_count": 8,
+ "frontmatter": {
+  "name": "book-serif-index"
+ },
+ "github_url": "https://github.com/MengTo/Skills/tree/HEAD/agent-skills/web-design/book-serif-index",
+ "grade": "C",
+ "group": "web-design",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "d53a95a47bb0fc7b",
+ "heading_count": 9,
+ "id": "mengto--book-serif-index",
+ "languages": [],
+ "name": "book-serif-index",
+ "origin": "mengto",
+ "origin_author": "Meng To",
+ "origin_license": "MIT",
+ "origin_repo": "MengTo/Skills",
+ "origin_url": "https://github.com/MengTo/Skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/book-serif-index/SKILL.md",
+ "score": 62,
+ "score_breakdown": {
+  "body": 18,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "agent-skills/web-design/book-serif-index",
+ "tags": [
+  "capability:build",
+  "domain:design",
+  "domain:ui-ux",
+  "domain:web",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 653
+}

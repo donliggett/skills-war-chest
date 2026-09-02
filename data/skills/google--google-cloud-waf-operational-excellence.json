@@ -1,0 +1,53 @@
+{
+ "also_at": [],
+ "body": "# Google Cloud Well-Architected Framework skill for the Operational Excellence pillar\n\n## Overview\n\nThe operational excellence pillar in the Google Cloud Well-Architected Framework\nprovides recommendations to operate workloads efficiently on Google Cloud.\nOperational excellence in the cloud involves designing, implementing, and\nmanaging cloud solutions that provide value, performance, security, and\nreliability. The recommendations in this pillar help you to continuously improve\nand adapt workloads to meet the dynamic and ever-evolving needs in the cloud.\n\n## Core principles\n\nThe recommendations in the operational excellence pillar of the Well-Architected\nFramework are aligned with the following core principles:\n\n-   **Ensure operational readiness**: Define and measure criteria for a workload\n    to be considered ready for production, including staffing, processes, and\n    governance. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/operational-excellence/operational-readiness-and-performance-using-cloudops.md.txt\n\n-   **Manage incidents and problems**: Establish structured processes for\n    incident response, communication, and root cause analysis to minimize impact\n    and prevent recurrence. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/operational-excellence/manage-incidents-and-problems.md.txt\n\n-   **Manage and optimize cloud resources**: Monitor resource utilization and\n    right-size environments to maintain performance while ensuring operational\n    efficiency. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/operational-excellence/manage-and-optimize-cloud-resources.md.txt\n\n-   **Automate and manage change**: Use Infrastructure as Code (IaC) and CI/CD\n    pipelines to ensure consistent, repeatable, and low-risk deployments and\n    configuration changes. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/operational-excellence/automate-and-manage-change.md.txt\n\n-   **Continuously improve and innovate**: Regularly review architectures,\n    monitor industry trends, and adapt operations to meet evolving business\n    needs. Grounding document:\n    https://docs.cloud.google.com/architecture/framework/operational-excellence/continuously-improve-and-innovate.md.txt\n\n## Relevant Google Cloud products\n\nThe following are _examples_ of Google Cloud products and features that are\nrelevant to operational excellence:\n\n-   **Observability and monitoring**\n    -   **Cloud Monitoring**: Full-stack observability for Google Cloud and\n        hybrid environments.\n    -   **Cloud Logging**: Real-time log management and analysis at scale.\n    -   **Error Reporting**: Aggregates and displays errors for running cloud\n        services.\n    -   **Service Monitoring**: Tools for defining and tracking Service Level\n        Objectives (SLOs).\n\n-   **Automation and CI/CD**\n    -   **Cloud Build**: Serverless platform for building, testing, and\n        deploying software.\n    -   **Cloud Deploy**: Managed continuous delivery service for GKE, Cloud\n        Run, and GCE.\n    -   **Terraform / Infrastructure Manager**: Managed service for\n        Infrastructure as Code (IaC) automation.\n    -   **Artifact Registry**: Central repository for managing build artifacts\n        and container images.\n\n-   **Resource management and optimization**\n    -   **Recommender (Active Assist)**: Automatically identifies idle resources\n        and right-sizing opportunities.\n    -   **Resource Manager**: Hierarchical management of resources across\n        organizations, folders, and projects.\n\n-   **Incident response**\n    -   **Incident response & management (IRM)**: Structured tools and processes\n        for managing operational disruptions.\n\n## Workload assessment questions\n\nAsk appropriate questions to understand operations-related requirements and\nconstraints of the workload and the user's organization. Choose questions from\nthe following list:\n\n-   **Operational readiness and performance**\n    -   How do you define and measure operational readiness for your cloud\n        workloads and what specific criteria or metrics do you use?\n    -   Describe your process for defining, tracking, and achieving SLOs for\n        your critical workloads.\n\n-   **Incident and problem management**\n    -   Describe your incident management process, including roles,\n        responsibilities, and communication channels.\n    -   How do you conduct post-incident reviews (PIRs) to identify root causes\n        and implement preventive measures?\n\n-   **Resource management and optimization**\n    -   How do you ensure that your cloud resources are right-sized for your\n        workloads, and what tools or techniques do you use?\n\n-   **Change automation**\n    -   Describe your change management process, including approval workflows,\n        testing procedures, and deployment strategies.\n    -   How do you automate deployments, ensure their consistency and manage\n        configuration?\n\n-   **Continuous improvement**\n    -   How do you ensure that your cloud operations are continuously adapting\n        to meet evolving business needs and technological advancements?\n\n## Validation checklist\n\nUse the following checklist to evaluate the architecture's alignment with\noperational excellence recommendations:\n\n-   **Operational readiness**\n    -   [ ] A formal framework or set of criteria exists to assess operational\n        readiness before production deployment.\n    -   [ ] Service Level Objectives (SLOs) are explicitly defined and monitored\n        using automated tools.\n\n-   **Incident management**\n    -   [ ] Incident response roles and communication channels are clearly\n        defined and documented.\n    -   [ ] A structured, blameless post-mortem process is followed for all\n        major incidents.\n\n-   **Change automation**\n    -   [ ] All infrastructure changes are performed using Infrastructure as\n        Code (IaC) to ensure consistency.\n    -   [ ] CI/CD pipelines are integrated with automated testing for all\n        deployment changes.\n\n-   **Resource optimization**\n    -   [ ] Resource utilization is regularly reviewed using recommendations\n        from Active Assist or performance data.\n\n-   **Culture of improvement**\n    -   [ ] A documented strategy is in place for regularly reviewing and\n        adapting cloud operations to industry advancements.\n",
+ "body_lines": 138,
+ "bytes": 6921,
+ "code_blocks": 0,
+ "description": "Generates operations-focused guidance for Google Cloud workloads based on the design principles and recommendations in the Operational Excellence pillar of the Google Cloud Well-Architected Framework (WAF). Use this skill to evaluate a workload, identify operational requirements, and provide actionable recommendations for deployment, monitoring, and incident management.",
+ "dir_name": "google-cloud-waf-operational-excellence",
+ "dup_cluster": "google--google-cloud-waf-operational-excellence",
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "WellArchitectedFramework"
+  },
+  "name": "google-cloud-waf-operational-excellence"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/google-cloud-waf-operational-excellence",
+ "grade": "C",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "519aaf57bfacf495",
+ "heading_count": 6,
+ "id": "google--google-cloud-waf-operational-excellence",
+ "languages": [],
+ "name": "google-cloud-waf-operational-excellence",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-operational-excellence/SKILL.md",
+ "score": 62,
+ "score_breakdown": {
+  "body": 18,
+  "description": 11,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/google-cloud-waf-operational-excellence",
+ "tags": [
+  "capability:plan",
+  "domain:cloud-infra",
+  "domain:devops",
+  "domain:research",
+  "stack:gcp",
+  "trait:spec-clean"
+ ],
+ "words": 719
+}

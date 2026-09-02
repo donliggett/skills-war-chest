@@ -1,0 +1,54 @@
+{
+ "also_at": [],
+ "body": "# Data Manager API Event Ingestion\n\n## Implementation Workflow\n\n### Prerequisites\n\n-   **Authentication & Library Installation**: If you need to set up access to\n    the Data Manager API or install the client and utility libraries, refer to\n    the `data-manager-api-setup` skill.\n\n### Step 1: Identify Use Case & Read Documentation\n\n-   **Determine Destination Account Type**: [CRITICAL] If it's not\n    explicitly stated, STOP and CLARIFY with the user where the data is being\n    sent (e.g., Google Ads, Floodlight, Google Analytics)\n    BEFORE generating any code. Do not assume Google Ads by default. This maps\n    to the `account_type` field of the `operating_account` in the `Destination`,\n    and also determines valid event identifiers and requirements.\n-   **Read Documentation**: [CRITICAL] Follow the\n    [Send events guide](https://developers.google.com/data-manager/api/devguides/events/send-events.md.txt)\n    to implement the integration, as steps for configuring and sending the\n    request may vary between destinations.\n\n### Step 2: Retrieve Code Sample\n\n> [!IMPORTANT]\n> If writing or updating an ingestion script, ALWAYS retrieve the\n> relevant code sample to use as a reference:\n\n| Language | Sample |\n| :--- | :--- |\n| **Python** | [`ingest_events.py`](https://github.com/googleads/data-manager-python/blob/main/samples/events/ingest_events.py) |\n| **Java** | [`IngestEvents.java`](https://github.com/googleads/data-manager-java/blob/main/data-manager-samples/src/main/java/com/google/ads/datamanager/samples/IngestEvents.java) |\n| **PHP** | [`ingest_events.php`](https://github.com/googleads/data-manager-php/blob/main/samples/events/ingest_events.php) |\n| **Node** | [`ingest_events.ts`](https://github.com/googleads/data-manager-node/blob/main/samples/events/ingest_events.ts) |\n| **.NET**| [`IngestEvents.cs`](https://github.com/googleads/data-manager-dotnet/blob/main/samples/IngestEvents.cs) |\n\n### Step 3: Retrieve Migration Guides\n\n> [!IMPORTANT]\n> If refactoring code to upgrade from another Google API, ALWAYS\n> extract the full contents of the relevant field mapping guide.\n\n#### Google Ads\n\n*   **Google Ads API Offline Conversions**:\n    [Google Ads Offline Conversions Migration Field Mappings](https://developers.google.com/data-manager/api/devguides/events/google-ads/offline/upgrade/field-mappings.md.txt)\n*   **Google Ads API Store Sales**:\n    [Google Ads Store Sales Migration Field Mappings](https://developers.google.com/data-manager/api/devguides/events/google-ads/store-sales/upgrade/field-mappings.md.txt)\n\n#### Google Analytics\n\n*   **Measurement Protocol (Google Analytics)**:\n    [Google Analytics Measurement Protocol Migration Field Mappings](https://developers.google.com/data-manager/api/devguides/events/analytics/measurement-protocol/upgrade/field-mappings.md.txt)\n\n#### Campaign Manager 360 (CM360)\n\n*   **Campaign Manager 360 API Offline Conversions**:\n    [Campaign Manager 360 Offline Conversions Migration Field Mappings](https://developers.google.com/data-manager/api/devguides/events/cm360/offline/upgrade/field-mappings.md.txt)\n\n### Step 4: Implementation\n\nImplement the ingestion logic using the following checkpoints:\n\n-   [ ] **Initialize Client**: Instantiate the Data Manager client\n    (`IngestionServiceClient`).\n-   [ ] **Define Destinations**: Build the `Destination` object using the\n    `product_destination_id` and the appropriate account configurations:\n    `operating_account` (target account receiving data), `login_account` (if\n    authenticating using a manager account or a data partner account), and\n    `linked_account` (if you're a data partner accessing the account via a\n    partner link to a manager account). **STRONGLY RECOMMENDED**: Refer to the\n    [Configure destinations and headers](https://developers.google.com/data-manager/api/devguides/concepts/destinations.md.txt)\n    guide for more details on configuring destinations.\n-   [ ] **Prepare Event Data**: Use the utility library helpers to format and\n    normalize user identifiers correctly.\n-   [ ] **Construct Payload**: Build the request payload\n    (`IngestEventsRequest`) containing the destinations, event records, and\n    consent permissions.\n-   [ ] **Support Validation**: Support sending the `validate_only` boolean\n    option on the `IngestEventsRequest` to allow developers to validate schemas\n    without actually uploading data.\n-   [ ] **Send Request**: Execute `ingest_events` and record the returned\n    `request_id` for later diagnostics.\n-   [ ] **Check for Ingestion Warnings**: If any non-required field had a\n    validation failure, the response from `ingest_events` will also\n    include `field_warnings`, a list of `FieldWarning` objects detailing the\n    issues.\n-   [ ] **Retrieve Request Status**: Check the status of the ingestion request\n    using diagnostics. Since request processing is asynchronous, a\n    successful ingestion response (HTTP 200 OK returning a `request_id`) only\n    indicates the payload was received. To check if the records actually\n    succeeded, partially succeeded, or failed to process, query the\n    `client.retrieve_request_status` endpoint using the `request_id`. Skipping\n    this step is a common user mistake.\n\n## Formatting\n\n*   Fetch the [Format user data](https://developers.google.com/data-manager/api/devguides/concepts/formatting.md.txt)\n    guide and use that as the source of truth for formatting and\n    normalization rules.\n\n*   Use the utility library to format, hash, and encrypt user data\n    (emails, phone numbers, addresses).\n\n    **Python Example:**\n\n    ```python\n    from google.ads.datamanager_util import Formatter\n    from google.ads.datamanager_util.format import Encoding\n\n    formatter: Formatter = Formatter()\n\n    processed_email: str = formatter.process_email_address(\n        email, Encoding.HEX\n    )\n    ```\n\n## Critical Gotchas\n\n*   Format `product_destination_id` as a numeric string. It is NOT a resource\n    name path.\n*   Format `event_timestamp` strictly in RFC 3339 format. Use the SDK's typed\n    timestamp object instead of a raw string where available.\n*   Nest click identifiers (`gclid`, `gbraid`, `wbraid`) inside the\n    `ad_identifiers` block, not directly on the base event payload.\n*   The enum values for `ConsentStatus` are `CONSENT_GRANTED` and\n    `CONSENT_DENIED`. Do not use the values `GRANTED` and `DENIED`.\n*   Note that `consent` can be set globally on the `IngestEventsRequest` or on\n    individual `Event`s.\n*   Verify that `UserIdentifier` uses `email_address` and `phone_number`.\n    Do not use the Google Ads API fields `hashed_email` and\n    `hashed_phone_number`.\n*   Ensure the currency field on the event is named `currency`, not\n    `currency_code`.\n*   Do not call the diagnostics endpoint (`retrieve_request_status`) if\n    `validate_only` is set to `true`.\n\n## Error Handling & Troubleshooting\n\n### Inspecting Error Payloads & Ingestion Warnings\n\n> [!IMPORTANT]\n> Refer to [Understand API Errors](https://developers.google.com/data-manager/api/devguides/concepts/understand-errors.md.txt)\n> for a detailed guide on how to understand the structure of errors and warnings\n> returned by the API.\n\n### Retrieving Request Status (Diagnostics)\n\nPeriodically poll for status using exponential backoff, starting at least\n30 minutes after sending the `IngestEventsRequest`.\n\n1.  Call `client.retrieve_request_status` using\n    `RetrieveRequestStatusRequest(request_id=...)`.\n2.  Loop through `request_status_per_destination` in the response to inspect\n    each target's `request_status`.\n3.  If processing is complete and `request_status` is `SUCCESS`,\n    `PARTIAL_SUCCESS`, or `FAILED`, inspect diagnostic values:\n    *   **Event Record Counts**: Check `events_ingestion_status.record_count`\n        (includes both success and failure).\n    *   **Error Details**: If status is `FAILED` or `PARTIAL_SUCCESS`, inspect\n        each error's `reason` and `record_count` under\n        `error_info.error_counts`.\n    *   **Warning Details**: Inspect each warning's `reason` and `record_count`\n        under `warning_info.warning_counts` (even if the destination status is\n        `SUCCESS`).\n\n## API Reference\n\n*   [REST API Reference](https://developers.google.com/data-manager/api/reference/rest/v1/events/ingest.md.txt)\n*   [Diagnostics Guide](https://developers.google.com/data-manager/api/devguides/diagnostics.md.txt)\n",
+ "body_lines": 172,
+ "bytes": 9017,
+ "code_blocks": 0,
+ "description": "Guides developers through implementing event and conversion ingestion to Google products using the Data Manager API /v1/events/ingest endpoint and its associated client libraries. Use this skill when the user wants to upload offline conversions, enhanced conversions for leads, click conversions, Google Analytics web or app events, or any other event ingestion use case supported by the Data Manager API. Don't use for uploading audience members (use the data-manager-api-audience-ingestion skill).",
+ "dir_name": "data-manager-api-event-ingestion",
+ "dup_cluster": "google--data-manager-api-audience-ingestion",
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "GoogleAds",
+   "version": 1.1
+  },
+  "name": "data-manager-api-event-ingestion"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/ads/data-manager-api-event-ingestion",
+ "grade": "A",
+ "group": "ads",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "e34283f870888400",
+ "heading_count": 16,
+ "id": "google--data-manager-api-event-ingestion",
+ "languages": [],
+ "name": "data-manager-api-event-ingestion",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/data-manager-api-event-ingestion/SKILL.md",
+ "score": 79,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 6,
+  "spec": 30
+ },
+ "source_path": "skills/ads/data-manager-api-event-ingestion",
+ "tags": [
+  "capability:extract",
+  "domain:backend",
+  "domain:data",
+  "domain:marketing",
+  "stack:google-ads",
+  "trait:spec-clean"
+ ],
+ "words": 896
+}

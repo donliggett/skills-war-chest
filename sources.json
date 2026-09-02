@@ -1,0 +1,83 @@
+{
+  "_doc": "field reference: docs/ARCHITECTURE.md#data-contracts",
+  "version": 1,
+  "sources": [
+    {
+      "id": "mattpocock",
+      "repo": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "author": "Matt Pocock",
+      "author_url": "https://github.com/mattpocock",
+      "license": "MIT",
+      "blurb": "TypeScript, testing and repo-hygiene skills from the Total TypeScript author.",
+      "roots": ["skills"],
+      "accent": "#4fa3d1"
+    },
+    {
+      "id": "emilkowalski",
+      "repo": "emilkowalski/skills",
+      "url": "https://github.com/emilkowalski/skills",
+      "author": "Emil Kowalski",
+      "author_url": "https://github.com/emilkowalski",
+      "license": "MIT",
+      "blurb": "Animation and design-engineering skills from the author of Sonner and Vaul.",
+      "roots": ["skills"],
+      "accent": "#c98bdb"
+    },
+    {
+      "id": "google",
+      "repo": "google/skills",
+      "url": "https://github.com/google/skills",
+      "author": "Google",
+      "author_url": "https://github.com/google",
+      "license": "Apache-2.0",
+      "blurb": "Official Google skills for Ads, Cloud, Android, Firebase and Gemini surfaces.",
+      "roots": ["skills", "plugins"],
+      "accent": "#e0a34a"
+    },
+    {
+      "id": "slavingia",
+      "repo": "slavingia/skills",
+      "url": "https://github.com/slavingia/skills",
+      "author": "Sahil Lavingia",
+      "author_url": "https://github.com/slavingia",
+      "license": "Unspecified",
+      "blurb": "Founder-oriented skills on shipping MVPs, pricing and solo operating.",
+      "roots": ["skills"],
+      "accent": "#e07a5f"
+    },
+    {
+      "id": "huggingface",
+      "repo": "huggingface/skills",
+      "url": "https://github.com/huggingface/skills",
+      "author": "Hugging Face",
+      "author_url": "https://github.com/huggingface",
+      "license": "Apache-2.0",
+      "blurb": "Model, dataset, Space and MCP workflow skills for the Hugging Face ecosystem.",
+      "roots": ["skills", "hf-mcp"],
+      "accent": "#f2c14e"
+    },
+    {
+      "id": "mengto",
+      "repo": "MengTo/Skills",
+      "url": "https://github.com/MengTo/Skills",
+      "author": "Meng To",
+      "author_url": "https://github.com/MengTo",
+      "license": "MIT",
+      "blurb": "Design-heavy skills for UI craft, web motion, game development and media pipelines.",
+      "roots": ["agent-skills"],
+      "accent": "#6fbf8e"
+    },
+    {
+      "id": "addyosmani",
+      "repo": "addyosmani/agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "author": "Addy Osmani",
+      "author_url": "https://github.com/addyosmani",
+      "license": "MIT",
+      "blurb": "Engineering-discipline skills: performance, code review, migrations, architecture.",
+      "roots": ["skills"],
+      "accent": "#7f9cf5"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+ "also_at": [],
+ "body": "# Bigtable Basics\n\nThis skill provides core workflows and guidance for administering and developing\nwith Google Bigtable.\n\n## Core Principles\n\n-   **Control Plane vs. Data Plane:**\n    -   Use **`gcloud`** for Control Plane operations: Manage Instances,\n        Clusters, App Profiles, Backups and IAM. Create Tables, Logical Views,\n        Materialized Views and Authorized Views.\n    -   Use **`cbt`** for Data Plane operations: Update Tables, Column Families,\n        and reading/writing data.\n-   **Performance First:** Bigtable is a NoSQL database. Efficiency is tied to\n    Row Key design. Always warn about Full Table Scans.\n-   **Client Selection:** For production use cases, prefer **Java** or **Go**\n    for their superior performance and feature coverage compared to other\n    languages.\n-   **Observability:** When diagnosing performance or hotspotting, **always**\n    mention **Key Visualizer** (via Cloud Console) as the primary diagnostic\n    tool because it provides the most granular view of access patterns across\n    row keys. This should be followed by the hot-tablets tool and table stats\n    in gcloud CLI and `include-stats=full` option under `cbt read` to diagnose\n    slow queries.\n\n> [!IMPORTANT] **Safety Rule:** You MUST obtain explicit user confirmation before\n> making non-emulator database changes. You MUST mention this safety requirement\n> when providing commands or instructions that modify the database structure or\n> data.\n\n## Quick Recipes\n\n### 1. Querying Data\n\nUse SQL for complex transforms or aggregations and key-value APIs for simpler\nquery patterns. *Note: Use exact match, prefix (`_key LIKE 'myprefix%'`), or\nrange predicates on `_key` to avoid expensive unbounded scans. Recommend\nexplicit row ranges (`_key BETWEEN 'start' AND 'end'`) as a more performant\nalternative to prefix matches where possible.*\n\nIf expensive scans (either unbounded or prefix or range queries scanning a large\nrange) are unavoidable due to multiple access patterns that can’t all be\naccommodated in a single schema, consider one of these two options:\n\n-   If the query will be used in user facing and/or latency sensitive\n    applications, use continuous materialized views with keys optimized for the\n    additional access patterns.\n-   If secondary access patterns are infrequent, batch patterns like ETL, ML\n    model training or analytical read-only tasks, use Bigtable Data Boost\n    instead.\n\n### 2. Manipulating Data\n\nUse key-value APIs for insert, update, increment and delete operations. SQL API\nis read-only.\n\n### 3. Data Model Definition (DDL)\n\nSQL API doesn't support DDL operations. Table creation, deletion, updates should\nbe made using gcloud CLI. Logical Views and Continuous Materialized Views are\ndefined as SQL queries but they must be created using gcloud CLI.\n\n## Reference Guides\n\n-   **CLI Operations**:\n    -   [infrastructure_management.md](references/infrastructure_management.md):\n        Provisioning instances, clusters, and table schemas.\n    -   [cli_data_access.md](references/cli_data_access.md): Reading and writing\n        data via the `cbt` CLI.\n-   **Design & Discovery**:\n    -   [schema_design.md](references/schema_design.md): Best practices for row\n        keys and performance with tables and continuous materialized views.\n    -   [dataplex.md](references/dataplex.md): Data catalog search for Bigtable\n        assets.\n-   **Querying & Code**:\n    -   [sql_guide.md](references/sql_guide.md): Querying structured row keys\n        via SQL and CLI.\n    -   [client_libraries.md](references/client_libraries.md): Patterns for\n        high-performance Go/Java/Python code.\n\n## Common Workflows\n\n### Schema Evolution (DevOps)\n\n1.  **Prefer Terraform** for production schema changes to prevent accidental\n    data loss.\n2.  For manual `cbt` changes, first check the existing state by listing the table's column families and GC policies before proposing any modifications:\n\n    ```bash\n    cbt ls {table}\n    ```\n\n    If modifications are needed, create the family or update the GC policy:\n\n    ```bash\n    cbt createfamily {table} {family}\n    cbt setgcpolicy {table} {family} \"maxversions=5 AND maxage=30d\"\n    ```\n\n3.  Reference\n    [infrastructure_management.md](references/infrastructure_management.md) for\n    full syntax.\n\n## External Resources\n\n*   [Cloud Bigtable Documentation](https://cloud.google.com/bigtable/docs)\n*   [Bigtable SQL Reference](https://cloud.google.com/bigtable/docs/reference/sql)\n*   [cbt CLI Reference](https://cloud.google.com/bigtable/docs/cbt-reference)\n*   [gcloud bigtable Reference](https://cloud.google.com/sdk/gcloud/reference/bigtable)\n",
+ "body_lines": 110,
+ "bytes": 5130,
+ "code_blocks": 0,
+ "description": "Assists in provisioning instances/tables, designing performant schemas, and querying data in Bigtable. Use when designing Bigtable row keys, configuring column families, writing SQL queries or client library code (Java, Go, Python) for Bigtable, or diagnosing performance/hotspotting issues. Also use when provisioning Bigtable clusters using gcloud or cbt CLIs. Don't use for generic Cloud SQL administration.",
+ "dir_name": "bigtable-basics",
+ "dup_cluster": "google--bigtable-basics",
+ "extra_files": [
+  "assets/row_key_schema.yaml",
+  "references/cli_data_access.md",
+  "references/client_libraries.md",
+  "references/dataplex.md",
+  "references/infrastructure_management.md",
+  "references/schema_design.md",
+  "references/sql_guide.md"
+ ],
+ "file_count": 8,
+ "frontmatter": {
+  "metadata": {
+   "category": "Databases"
+  },
+  "name": "bigtable-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/bigtable-basics",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": true,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "979515bd16dc88cd",
+ "heading_count": 10,
+ "id": "google--bigtable-basics",
+ "languages": [],
+ "name": "bigtable-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/bigtable-basics/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 18,
+  "description": 25,
+  "packaging": 10,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/bigtable-basics",
+ "tags": [
+  "capability:debug",
+  "capability:optimize",
+  "domain:cloud-infra",
+  "domain:data",
+  "domain:docs-writing",
+  "stack:python",
+  "stack:sql",
+  "trait:has-assets",
+  "trait:has-references",
+  "trait:spec-clean"
+ ],
+ "words": 570
+}

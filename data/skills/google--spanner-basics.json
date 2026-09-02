@@ -1,0 +1,65 @@
+{
+ "also_at": [],
+ "body": "# Spanner Basics\n\nThis skill provides core workflows and guidance for administering and developing with Google Cloud Spanner, a fully managed, mission-critical database service offering global transactional consistency and automatic, synchronous replication for high availability.\n\n## Core Principles\n\n-   **Performance First:** Spanner scales horizontally. Efficiency is tied to\n    Primary Key design. Always warn against using monotonically increasing/decreasing\n    values (like sequential timestamps) as the first part of a primary key to avoid hotspots.\n-   **Schema Design:** Prefer interleaved tables for strongly related parent-child data\n    that is frequently accessed together.\n\n## Safety\n\n> [!CAUTION] **CRITICAL INSTRUCTION:** You MUST obtain explicit user confirmation before making any non-emulator database changes (DML or DDL) or destructive operations (such as dropping tables, indexes, or any other Spanner resources). Do not execute them automatically; instead, output the command (e.g., `gcloud spanner databases ddl update`) and ask for explicit user approval.\n> When database access is unavailable or authentication fails, do not block on trying to verify the existence of the instance, database, or table. Assume the provided resources exist and directly generate the DDL commands.\n\n## Common Workflows\n\n### Schema Evolution & DDL\n\n1.  Use `gcloud spanner databases ddl update` to apply schema updates (such as CREATE, ALTER, or DROP tables and indexes).\n2.  Reference [schema-design.md](references/schema-design.md) for guidelines on primary key selection and interleaved tables.\n\n### Diagnosing Performance Issues\n\n1.  Use `SPANNER_SYS` tables to identify slow or resource-intensive queries.\n2.  For example, query `SPANNER_SYS.QUERY_STATS_TOP_HOUR` to find queries with the highest CPU usage.\n\n## Reference Directory\n\n- [Core Concepts](references/core-concepts.md): Explanation of Spanner internals, architecture, and design.\n- [CLI Usage](references/cli-usage.md): Essential `gcloud spanner` command-line operations for managing instances and databases.\n- [IAM Security](references/iam-security.md): Roles, permissions, and data governance best practices for Spanner.\n- [Client Library Usage](references/client-library-usage.md): Using Google Cloud client libraries for Spanner (Java, Go, Python, Node.js).\n- [Terraform Usage](references/terraform-usage.md): Infrastructure as Code examples for provisioning Spanner instances and databases.\n- [MCP Usage](references/mcp-usage.md): Using the Spanner remote MCP server.\n- [PostgreSQL Dialect](references/postgresql-dialect.md): Best practices and examples for using the PostgreSQL interface in Spanner.\n- [Schema Design](references/schema-design.md): Guidelines on primary key selection and interleaved tables for performance.\n\nIf you need product information that's not found in these references, use the\n`search_documents` tool of the Developer Knowledge MCP server.\n",
+ "body_lines": 43,
+ "bytes": 3246,
+ "code_blocks": 0,
+ "description": "Assists in provisioning instances and databases, designing performant schemas, and querying data in Spanner. Use when designing primary keys, writing SQL queries or client library code, or diagnosing performance issues.",
+ "dir_name": "spanner-basics",
+ "dup_cluster": "google--bigtable-basics",
+ "extra_files": [
+  "references/cli-usage.md",
+  "references/client-library-usage.md",
+  "references/core-concepts.md",
+  "references/iam-security.md",
+  "references/mcp-usage.md",
+  "references/postgresql-dialect.md",
+  "references/schema-design.md",
+  "references/terraform-usage.md"
+ ],
+ "file_count": 9,
+ "frontmatter": {
+  "metadata": {
+   "category": "Databases"
+  },
+  "name": "spanner-basics"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/spanner-basics",
+ "grade": "B",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": true,
+ "has_scripts": false,
+ "hash": "69360a0086f0b65d",
+ "heading_count": 7,
+ "id": "google--spanner-basics",
+ "languages": [],
+ "name": "spanner-basics",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/spanner-basics/SKILL.md",
+ "score": 75,
+ "score_breakdown": {
+  "body": 18,
+  "description": 20,
+  "packaging": 7,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/spanner-basics",
+ "tags": [
+  "capability:debug",
+  "capability:optimize",
+  "domain:cloud-infra",
+  "domain:data",
+  "domain:docs-writing",
+  "stack:sql",
+  "trait:has-references",
+  "trait:quick-ref",
+  "trait:spec-clean"
+ ],
+ "words": 368
+}

@@ -1,0 +1,55 @@
+{
+ "also_at": [],
+ "body": "# Agent Platform Endpoint Management\n\n## Overview\n\nThis skill provides procedural knowledge for managing Agent Platform Endpoints.\nEndpoints are logical serving hosts that provide a stable URL for online\npredictions. You must create an endpoint before you can deploy a model to it.\n\n## Safety & Confirmation Tiers (CRITICAL)\n\nBefore executing any commands on behalf of the user, you MUST adhere to the\nfollowing safety tiers based on the action requested:\n\n1.  **Tier R: Read-only (`list`, `describe`, `get`)**\n    *   No confirmation needed. Execute immediately to gather information.\n2.  **Tier M: Mutating & Reversible (`create`, `update`)**\n    *   Requires **interactive confirmation** with 'Yes'/'No' options. The\n        confirmation prompt MUST contain the exact, literal command string with\n        all required flags (e.g. `--region=us-central1`, `--display-name=\"...\"`)\n        — natural-language paraphrases are NOT sufficient.\n    *   **Same-turn restriction**: NEVER execute the command in the same turn as\n        presenting the confirmation prompt. Stop and wait for the user's reply;\n        only execute after explicit 'Yes' / approval.\n3.  **Tier D: Destructive & Irreversible (`delete`)**\n    *   Requires **explicit typed confirmation** (e.g. \"I confirm\" or \"Yes,\n        delete it\"). Ask for confirmation IMMEDIATELY — before any pre-flight\n        checks (don't `describe` first, don't check if the endpoint is empty\n        first).\n    *   **Same-turn restriction**: NEVER execute in the same turn as asking for\n        typed confirmation. Wait for the user to reply in a new turn.\n\n## Phase 0: Environment Setup\n\n**CRITICAL**: Before running any commands, you MUST ensure the environment is\ncorrectly initialized by following these steps:\n\n1.  **Google Cloud Authentication**: Authenticate with your Google Cloud\n    credentials and configure active Application Default Credentials (ADC) for\n    Agent Platform access:\n\n    ```bash\n    gcloud auth login\n    gcloud auth application-default login\n    ```\n\n2.  **Set Project**: Configure the active project for subsequent commands:\n\n    ```bash\n    gcloud config set project $PROJECT_ID\n    ```\n\n3.  **Region**: Always specify `--region=$LOCATION_ID` on each command below. Do\n    NOT use `global`. Ask the user to specify the region if not provided.\n\n## 1. Listing Endpoints (Tier R)\n\nUse this command to discover existing endpoints in a specific region and\nretrieve their IDs. No confirmation is required.\n\n```bash\ngcloud ai endpoints list \\\n    --region=$LOCATION_ID\n```\n\n*(Optional)* For pagination, you MUST use `--limit=$LIMIT` to restrict the total\nnumber of returned endpoints. You can also append `--page-size=$PAGE_SIZE` to\ncontrol API chunking, or `--page-token=$PAGE_TOKEN` for next pages.\n\n> [!IMPORTANT]\n>\n> Always specify the `--region`. Do NOT use 'global'. Ask the user to specify if\n> not provided.\n\n## 2. Describing an Endpoint (Tier R)\n\nRetrieve the full metadata for a specific endpoint. No confirmation is required.\n\n```bash\ngcloud ai endpoints describe $ENDPOINT_ID \\\n    --region=$LOCATION_ID\n```\n\n## 3. Creating an Endpoint (Tier M)\n\nCreate a new endpoint resource. The parent resource is the location. **Action\nrequires an inline confirmation card before proceeding.**\n\n```bash\ngcloud ai endpoints create \\\n    --region=$LOCATION_ID \\\n    --display-name=\"my-endpoint\"\n```\n\n> [!IMPORTANT]\n>\n> **You MUST seek interactive confirmation first.** Your confirmation prompt\n> **MUST** show the literal command string. For example:\n>\n> ```bash\n> gcloud ai endpoints create --region=$LOCATION_ID --display-name=\"my-endpoint\"\n> ```\n>\n> Or the exact flags. Do not execute this command in the same turn as proposing\n> the confirmation.\n\n## 4. Updating an Endpoint (Tier M)\n\nUpdate endpoint metadata such as display name or labels. **Action requires an\ninline confirmation card before proceeding.**\n\n```bash\ngcloud ai endpoints update $ENDPOINT_ID \\\n    --region=$LOCATION_ID \\\n    --display-name=\"new-display-name\"\n```\n\nCheck if the endpoint exists first by either listing or describing the endpoint.\n\n> [!IMPORTANT]\n>\n> **You MUST seek interactive confirmation first.** Your confirmation prompt\n> **MUST** show the literal command string. For example:\n>\n> ```bash\n> gcloud ai endpoints update $ENDPOINT_ID --region=$LOCATION_ID --display-name=\"new-display-name\"\n> ```\n>\n> Or the exact flags. **CRITICAL:** You are strictly prohibited from executing\n> this command in the same turn as asking for confirmation. When you ask for\n> confirmation, you MUST stop immediately and wait for the user to reply.\n\n## 5. Deleting an Endpoint (Tier D)\n\nPermanently delete an endpoint resource. **Action requires explicit typed\nconfirmation before proceeding.**\n\n```bash\ngcloud ai endpoints delete $ENDPOINT_ID \\\n    --region=$LOCATION_ID\n```\n\n> [!WARNING]\n>\n> All models must be **undeployed** from the endpoint before it can be deleted.\n> Do not run `describe` until AFTER you have received typed confirmation to\n> delete.\n\n## 6. Traffic Splitting (Tier M)\n\nYou can manage traffic split between different models deployed on the same\nendpoint during an update. **Action requires an inline confirmation card before\nproceeding.**\n\n```bash\n# Example: Deploying a model with a specific traffic split is usually done\n# via 'gcloud ai endpoints deploy-model'.\n```\n\nRefer to the `agent-platform-deploy` skill for instructions on deploying and\nundeploying models.\n\n## Troubleshooting\n\n-   **403 Permission Denied**: Ensure `aiplatform.admin` or `owner` role is\n    assigned.\n-   **Quota Exceeded**: Verify the region's endpoint quota in the Cloud Console.\n-   **Resource Busy**: If a deletion fails, check if models are still being\n    undeployed.\n",
+ "body_lines": 169,
+ "bytes": 6160,
+ "code_blocks": 12,
+ "description": "Manages Agent Platform serving endpoints. Use when you need to create, list, describe, update, or delete serving endpoints for model deployment on Agent Platform. Also use when troubleshooting endpoint permission, quota, or resource busy errors. Don't use for deploying models to endpoints or for running model evaluations.",
+ "dir_name": "agent-platform-endpoint-management",
+ "dup_cluster": null,
+ "extra_files": [],
+ "file_count": 1,
+ "frontmatter": {
+  "metadata": {
+   "category": "AiAndMachineLearning"
+  },
+  "name": "agent-platform-endpoint-management"
+ },
+ "github_url": "https://github.com/google/skills/tree/HEAD/skills/cloud/agent-platform-endpoint-management",
+ "grade": "A",
+ "group": "cloud",
+ "has_assets": false,
+ "has_references": false,
+ "has_scripts": false,
+ "hash": "480857f137b94ecb",
+ "heading_count": 13,
+ "id": "google--agent-platform-endpoint-management",
+ "languages": [
+  "bash"
+ ],
+ "name": "agent-platform-endpoint-management",
+ "origin": "google",
+ "origin_author": "Google",
+ "origin_license": "Apache-2.0",
+ "origin_repo": "google/skills",
+ "origin_url": "https://github.com/google/skills",
+ "parse_error": null,
+ "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-endpoint-management/SKILL.md",
+ "score": 83,
+ "score_breakdown": {
+  "body": 25,
+  "description": 25,
+  "packaging": 3,
+  "spec": 30
+ },
+ "source_path": "skills/cloud/agent-platform-endpoint-management",
+ "tags": [
+  "capability:build",
+  "domain:backend",
+  "domain:cloud-infra",
+  "domain:ml-ai",
+  "trait:code-heavy",
+  "trait:spec-clean"
+ ],
+ "words": 797
+}
