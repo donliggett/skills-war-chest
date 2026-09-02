@@ -34,6 +34,7 @@
  "origin_url": "https://github.com/google/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/data-manager-api-event-ingestion/SKILL.md",
+ "redistributable": true,
  "score": 79,
  "score_breakdown": {
   "body": 18,

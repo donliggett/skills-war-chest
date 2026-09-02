@@ -40,6 +40,7 @@
  "origin_url": "https://github.com/MengTo/Skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/article-prompts-to-skills/SKILL.md",
+ "redistributable": true,
  "score": 82,
  "score_breakdown": {
   "body": 25,

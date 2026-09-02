@@ -32,6 +32,7 @@
  "origin_url": "https://github.com/huggingface/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-papers/SKILL.md",
+ "redistributable": true,
  "score": 78,
  "score_breakdown": {
   "body": 25,

@@ -38,6 +38,7 @@
  "origin_url": "https://github.com/google/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-agentic-ai-borderless-data-lakehouse/SKILL.md",
+ "redistributable": true,
  "score": 83,
  "score_breakdown": {
   "body": 18,

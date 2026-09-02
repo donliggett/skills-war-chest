@@ -42,6 +42,8 @@
       "author": "Sahil Lavingia",
       "author_url": "https://github.com/slavingia",
       "license": "Unspecified",
+      "redistribute": false,
+      "license_note": "No LICENSE file upstream, and the skills are derived from Sahil Lavingia's book The Minimalist Entrepreneur. No license means all rights reserved, so this chest indexes these skills but does not carry their text.",
       "blurb": "Founder-oriented skills on shipping MVPs, pricing and solo operating.",
       "roots": ["skills"],
       "accent": "#e07a5f"

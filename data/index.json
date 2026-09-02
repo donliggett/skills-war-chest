@@ -23,6 +23,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/api-and-interface-design/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -66,6 +67,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/browser-testing-with-devtools/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -112,6 +114,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/ci-cd-and-automation/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -155,6 +158,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/code-review-and-quality/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -196,6 +200,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/code-simplification/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -236,6 +241,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/constraint-driven-development/SKILL.md",
+  "redistributable": true,
   "score": 77,
   "score_breakdown": {
    "body": 25,
@@ -277,6 +283,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/context-engineering/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -318,6 +325,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/debugging-and-error-recovery/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -359,6 +367,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/deprecation-and-migration/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -400,6 +409,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/documentation-and-adrs/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -440,6 +450,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/doubt-driven-development/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -483,6 +494,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/frontend-ui-engineering/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -525,6 +537,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/git-workflow-and-versioning/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -570,6 +583,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/idea-refine/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -611,6 +625,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/incremental-implementation/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -648,6 +663,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/interview-me/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -690,6 +706,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/observability-and-instrumentation/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -736,6 +753,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/performance-optimization/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -780,6 +798,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/planning-and-task-breakdown/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -821,6 +840,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/security-and-hardening/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -864,6 +884,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/shipping-and-launch/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -905,6 +926,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/source-driven-development/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -944,6 +966,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/spec-driven-development/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -983,6 +1006,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/test-driven-development/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1022,6 +1046,7 @@
   "origin_license": "MIT",
   "origin_repo": "addyosmani/agent-skills",
   "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/using-agent-skills/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1062,6 +1087,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/animate/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1106,6 +1132,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/animate-expo/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1150,6 +1177,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/animation-vocabulary/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1193,6 +1221,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/apple-design/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1235,6 +1264,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/ask-sonner/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1278,6 +1308,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/emil-design-eng/SKILL.md",
+  "redistributable": true,
   "score": 65,
   "score_breakdown": {
    "body": 21,
@@ -1318,6 +1349,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/find-animation-opportunities/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -1358,6 +1390,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/improve-animations/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -1397,6 +1430,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/pick-ui-library/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -1435,6 +1469,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/prototype/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -1474,6 +1509,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/review-animations/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -1514,6 +1550,7 @@
   "origin_license": "MIT",
   "origin_repo": "emilkowalski/skills",
   "raw_url": "https://raw.githubusercontent.com/emilkowalski/skills/HEAD/skills/write-swift/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1559,6 +1596,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-alert-configuration/SKILL.md",
+  "redistributable": true,
   "score": 94,
   "score_breakdown": {
    "body": 25,
@@ -1605,6 +1643,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-deploy/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -1653,6 +1692,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-endpoint-management/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -1696,6 +1736,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-eval-flywheel/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -1745,6 +1786,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-inference/SKILL.md",
+  "redistributable": true,
   "score": 84,
   "score_breakdown": {
    "body": 21,
@@ -1796,6 +1838,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-migrate-from-ai-studio/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -1839,6 +1882,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-model-registry/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -1879,6 +1923,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-prompt-management/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -1923,6 +1968,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-rag-engine-management/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -1964,6 +2010,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-skill-registry/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -2008,6 +2055,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-troubleshooting/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -2051,6 +2099,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-tuning/SKILL.md",
+  "redistributable": true,
   "score": 88,
   "score_breakdown": {
    "body": 21,
@@ -2097,6 +2146,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-tuning-management/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -2137,6 +2187,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/alloydb-basics/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -2179,6 +2230,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/application-design-center-design-deploy/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -2223,6 +2275,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/bigquery-ai-ml/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -2267,6 +2320,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/bigquery-basics/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -2308,6 +2362,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/bigquery-bigframes/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -2350,6 +2405,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/bigtable-basics/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -2396,6 +2452,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-build-basics/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -2441,6 +2498,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-databases-onboarding/SKILL.md",
+  "redistributable": true,
   "score": 92,
   "score_breakdown": {
    "body": 25,
@@ -2485,6 +2543,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-logging-configuration-basics/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -2527,6 +2586,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-logging-cross-project-configuration/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -2567,6 +2627,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-logging-query-generation/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -2611,6 +2672,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-monitoring-chart-generation/SKILL.md",
+  "redistributable": true,
   "score": 88,
   "score_breakdown": {
    "body": 25,
@@ -2655,6 +2717,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-monitoring-list-time-series-request/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -2697,6 +2760,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-monitoring-metric-selection/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -2740,6 +2804,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-monitoring-promql-query/SKILL.md",
+  "redistributable": true,
   "score": 92,
   "score_breakdown": {
    "body": 25,
@@ -2783,6 +2848,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-run-basics/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -2824,6 +2890,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/cloud-sql-basics/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 18,
@@ -2865,6 +2932,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/data-manager-api-audience-ingestion/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -2905,6 +2973,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/data-manager-api-event-ingestion/SKILL.md",
+  "redistributable": true,
   "score": 79,
   "score_breakdown": {
    "body": 18,
@@ -2945,6 +3014,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/data-manager-api-setup/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -2986,6 +3056,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/datalineage-bigquery-asset-impact-analysis/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -3027,6 +3098,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/datalineage-summary/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -3071,6 +3143,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/detection-engineering-coverage-evaluation/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 18,
@@ -3111,6 +3184,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/developer-device-platform-basics/SKILL.md",
+  "redistributable": true,
   "score": 85,
   "score_breakdown": {
    "body": 18,
@@ -3154,6 +3228,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/genkit-dart/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 25,
@@ -3196,6 +3271,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/genkit-go/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 25,
@@ -3240,6 +3316,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/genkit-js/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 25,
@@ -3285,6 +3362,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/genkit-python/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 25,
@@ -3326,6 +3404,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/developers/finding-google-skills/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 18,
@@ -3370,6 +3449,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/firebase-basics/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -3414,6 +3494,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gcloud/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -3462,6 +3543,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gemini-agents-api/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -3509,6 +3591,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gemini-api/SKILL.md",
+  "redistributable": true,
   "score": 84,
   "score_breakdown": {
    "body": 25,
@@ -3558,6 +3641,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gemini-interactions-api/SKILL.md",
+  "redistributable": true,
   "score": 74,
   "score_breakdown": {
    "body": 21,
@@ -3598,6 +3682,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gemini-live-api/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -3641,6 +3726,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-ai-troubleshooting-handle-disruption-gpu-tpu/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 18,
@@ -3681,6 +3767,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-ai-troubleshooting-jobset-interruption/SKILL.md",
+  "redistributable": true,
   "score": 85,
   "score_breakdown": {
    "body": 18,
@@ -3723,6 +3810,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-ai-troubleshooting-tpu-dynamic-slices-monitoring/SKILL.md",
+  "redistributable": true,
   "score": 85,
   "score_breakdown": {
    "body": 18,
@@ -3764,6 +3852,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-ai-troubleshooting-tpu-metrics-monitoring/SKILL.md",
+  "redistributable": true,
   "score": 85,
   "score_breakdown": {
    "body": 18,
@@ -3808,6 +3897,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-ai-troubleshooting-tpu-vbar-oom/SKILL.md",
+  "redistributable": true,
   "score": 92,
   "score_breakdown": {
    "body": 25,
@@ -3852,6 +3942,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-alert-configuration/SKILL.md",
+  "redistributable": true,
   "score": 92,
   "score_breakdown": {
    "body": 25,
@@ -3900,6 +3991,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-app-onboarding/SKILL.md",
+  "redistributable": true,
   "score": 90,
   "score_breakdown": {
    "body": 25,
@@ -3943,6 +4035,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-backup-dr/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -3982,6 +4075,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-basics/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -4025,6 +4119,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-batch-hpc/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4065,6 +4160,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-cluster-autoscaler/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -4109,6 +4205,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-cluster-creation/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4150,6 +4247,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-compute-classes/SKILL.md",
+  "redistributable": true,
   "score": 90,
   "score_breakdown": {
    "body": 25,
@@ -4192,6 +4290,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-cost-analysis/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -4240,6 +4339,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-cost-optimization/SKILL.md",
+  "redistributable": true,
   "score": 86,
   "score_breakdown": {
    "body": 25,
@@ -4280,6 +4380,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-custom-golden-image-discovery/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 13,
@@ -4320,6 +4421,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-golden-path/SKILL.md",
+  "redistributable": true,
   "score": 79,
   "score_breakdown": {
    "body": 18,
@@ -4361,6 +4463,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-inference/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4402,6 +4505,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-manifest-generation/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -4446,6 +4550,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-multitenancy/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4487,6 +4592,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-networking/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4528,6 +4634,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-observability/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4570,6 +4677,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-platform-security/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4610,6 +4718,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-productionize/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 18,
@@ -4654,6 +4763,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-reliability/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4696,6 +4806,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-service-networking/SKILL.md",
+  "redistributable": true,
   "score": 86,
   "score_breakdown": {
    "body": 25,
@@ -4741,6 +4852,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-storage/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4780,6 +4892,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-upgrades/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -4825,6 +4938,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-workload-scaling/SKILL.md",
+  "redistributable": true,
   "score": 86,
   "score_breakdown": {
    "body": 25,
@@ -4867,6 +4981,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-workload-security/SKILL.md",
+  "redistributable": true,
   "score": 86,
   "score_breakdown": {
    "body": 25,
@@ -4910,6 +5025,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/gke-workload-troubleshooting/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -4952,6 +5068,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-ads-api-account-diagnostics/SKILL.md",
+  "redistributable": true,
   "score": 86,
   "score_breakdown": {
    "body": 25,
@@ -5000,6 +5117,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-ads-api-mcp-setup/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -5047,6 +5165,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-ads-api-quickstart/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -5087,6 +5206,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-agents-cli-onboarding/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -5132,6 +5252,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/analytics/google-analytics-admin-api-basics/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -5177,6 +5298,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/analytics/google-analytics-data-api-basics/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -5223,6 +5345,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-filestore-autoscale/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -5266,6 +5389,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-global-frontend-configuration/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -5311,6 +5435,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-networking-observability/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -5355,6 +5480,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-recipe-auth/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -5395,6 +5521,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-recipe-foundation-builder/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -5439,6 +5566,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-recipe-onboarding/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 18,
@@ -5480,6 +5608,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-scc-query/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -5522,6 +5651,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-slo-alert-configuration/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -5561,6 +5691,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-agentic-ai-bidirectional-streaming/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -5605,6 +5736,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-agentic-ai-borderless-data-lakehouse/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -5647,6 +5779,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-agentic-ai-data-science-workflow/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -5689,6 +5822,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-agentic-analytics-spark-knowledge-catalog/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 18,
@@ -5732,6 +5866,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-architecture/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -5775,6 +5910,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-build-deploy-agents/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -5821,6 +5957,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-guided-gke-ai-migration/SKILL.md",
+  "redistributable": true,
   "score": 86,
   "score_breakdown": {
    "body": 25,
@@ -5866,6 +6003,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-hybrid-search-alloydb/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -5911,6 +6049,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-multi-agent-security/SKILL.md",
+  "redistributable": true,
   "score": 84,
   "score_breakdown": {
    "body": 18,
@@ -5953,6 +6092,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-n-tier-serverless-web-app/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -5998,6 +6138,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-solution-rag-enterprise-search-gke-sqldb/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -6045,6 +6186,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-storage-basics/SKILL.md",
+  "redistributable": true,
   "score": 85,
   "score_breakdown": {
    "body": 25,
@@ -6093,6 +6235,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-storage-fuse/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 18,
@@ -6138,6 +6281,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-cost-optimization/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -6179,6 +6323,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-operational-excellence/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -6219,6 +6364,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-performance-optimization/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -6260,6 +6406,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-reliability/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -6300,6 +6447,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-security/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -6340,6 +6488,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/google-cloud-waf-sustainability/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -6382,6 +6531,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-mobile-ads-android-migrate-to-next-gen/SKILL.md",
+  "redistributable": true,
   "score": 74,
   "score_breakdown": {
    "body": 18,
@@ -6421,6 +6571,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-mobile-ads-banner/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 13,
@@ -6463,6 +6614,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-mobile-ads-get-started/SKILL.md",
+  "redistributable": true,
   "score": 70,
   "score_breakdown": {
    "body": 10,
@@ -6505,6 +6657,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-mobile-ads-interstitial/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 10,
@@ -6546,6 +6699,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/google-mobile-ads-rewarded/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 10,
@@ -6589,6 +6743,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/iam-helper-for-policy-simulator/SKILL.md",
+  "redistributable": true,
   "score": 88,
   "score_breakdown": {
    "body": 25,
@@ -6632,6 +6787,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/iam-helper-for-privileged-access-management/SKILL.md",
+  "redistributable": true,
   "score": 95,
   "score_breakdown": {
    "body": 25,
@@ -6674,6 +6830,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/ima-dai-sdk/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 13,
@@ -6717,6 +6874,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/ads/ima-sdk-client-side/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 13,
@@ -6760,6 +6918,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/managed-airflow-dag-authoring/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -6799,6 +6958,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/managed-airflow-dag-troubleshooting/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 18,
@@ -6839,6 +6999,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/managed-airflow-migrations/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -6882,6 +7043,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/developers/retrieving-developer-knowledge/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -6929,6 +7091,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/spanner-basics/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -6976,6 +7139,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "google/skills",
   "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/workload-manager-basics/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -7024,6 +7188,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cli/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 18,
@@ -7067,6 +7232,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cloud-aws-context-discovery/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -7111,6 +7277,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cloud-python-env-setup/SKILL.md",
+  "redistributable": true,
   "score": 74,
   "score_breakdown": {
    "body": 25,
@@ -7155,6 +7322,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cloud-sagemaker-deployment-planner/SKILL.md",
+  "redistributable": true,
   "score": 64,
   "score_breakdown": {
    "body": 25,
@@ -7201,6 +7369,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cloud-sagemaker-iam-preflight/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -7248,6 +7417,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cloud-sagemaker-production-defaults/SKILL.md",
+  "redistributable": true,
   "score": 73,
   "score_breakdown": {
    "body": 25,
@@ -7296,6 +7466,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cloud-serving-image-selection/SKILL.md",
+  "redistributable": true,
   "score": 73,
   "score_breakdown": {
    "body": 25,
@@ -7341,6 +7512,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/hf-mcp/skills/hf-mcp/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -7382,6 +7554,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-mem/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -7425,6 +7598,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-best/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -7466,6 +7640,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-community-evals/SKILL.md",
+  "redistributable": true,
   "score": 88,
   "score_breakdown": {
    "body": 25,
@@ -7511,6 +7686,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-datasets/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -7553,6 +7729,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-gradio/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -7596,6 +7773,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-llm-trainer/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 21,
@@ -7644,6 +7822,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-local-models/SKILL.md",
+  "redistributable": true,
   "score": 73,
   "score_breakdown": {
    "body": 25,
@@ -7687,6 +7866,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-lora-space-builder/SKILL.md",
+  "redistributable": true,
   "score": 77,
   "score_breakdown": {
    "body": 25,
@@ -7739,6 +7919,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-paper-publisher/SKILL.md",
+  "redistributable": true,
   "score": 74,
   "score_breakdown": {
    "body": 21,
@@ -7784,6 +7965,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-papers/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -7831,6 +8013,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-spaces/SKILL.md",
+  "redistributable": true,
   "score": 73,
   "score_breakdown": {
    "body": 25,
@@ -7879,6 +8062,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-tool-builder/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -7924,6 +8108,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-trackio/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -7972,6 +8157,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-vision-trainer/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 21,
@@ -8021,6 +8207,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/huggingface-zerogpu/SKILL.md",
+  "redistributable": true,
   "score": 77,
   "score_breakdown": {
    "body": 25,
@@ -8065,6 +8252,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/train-sentence-transformers/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -8109,6 +8297,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/transformers-js/SKILL.md",
+  "redistributable": true,
   "score": 74,
   "score_breakdown": {
    "body": 21,
@@ -8160,6 +8349,7 @@
   "origin_license": "Apache-2.0",
   "origin_repo": "huggingface/skills",
   "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/trl-training/SKILL.md",
+  "redistributable": true,
   "score": 72,
   "score_breakdown": {
    "body": 25,
@@ -8199,6 +8389,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/ask-matt/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 18,
@@ -8234,6 +8425,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/claude-handoff/SKILL.md",
+  "redistributable": true,
   "score": 42,
   "score_breakdown": {
    "body": 3,
@@ -8271,6 +8463,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/code-review/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -8308,6 +8501,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/codebase-design/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -8347,6 +8541,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/diagnosing-bugs/SKILL.md",
+  "redistributable": true,
   "score": 76,
   "score_breakdown": {
    "body": 18,
@@ -8385,6 +8580,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/domain-modeling/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -8429,6 +8625,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/misc/git-guardrails-claude-code/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -8469,6 +8666,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/grill-me/SKILL.md",
+  "redistributable": true,
   "score": 38,
   "score_breakdown": {
    "body": 3,
@@ -8508,6 +8706,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/grill-with-docs/SKILL.md",
+  "redistributable": true,
   "score": 42,
   "score_breakdown": {
    "body": 3,
@@ -8548,6 +8747,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/grilling/SKILL.md",
+  "redistributable": true,
   "score": 67,
   "score_breakdown": {
    "body": 14,
@@ -8587,6 +8787,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/handoff/SKILL.md",
+  "redistributable": true,
   "score": 42,
   "score_breakdown": {
    "body": 3,
@@ -8625,6 +8826,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/implement/SKILL.md",
+  "redistributable": true,
   "score": 42,
   "score_breakdown": {
    "body": 3,
@@ -8663,6 +8865,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/implement-spec/SKILL.md",
+  "redistributable": true,
   "score": 45,
   "score_breakdown": {
    "body": 10,
@@ -8701,6 +8904,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/improve-codebase-architecture/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -8742,6 +8946,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/loop-me/SKILL.md",
+  "redistributable": true,
   "score": 52,
   "score_breakdown": {
    "body": 13,
@@ -8783,6 +8988,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/misc/migrate-to-shoehorn/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -8823,6 +9029,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/prototype/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -8864,6 +9071,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/research/SKILL.md",
+  "redistributable": true,
   "score": 56,
   "score_breakdown": {
    "body": 3,
@@ -8904,6 +9112,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/resolving-merge-conflicts/SKILL.md",
+  "redistributable": true,
   "score": 51,
   "score_breakdown": {
    "body": 3,
@@ -8940,6 +9149,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/retro/SKILL.md",
+  "redistributable": true,
   "score": 48,
   "score_breakdown": {
    "body": 13,
@@ -8980,6 +9190,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/misc/scaffold-exercises/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -9019,6 +9230,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -9058,6 +9270,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/misc/setup-pre-commit/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -9097,6 +9310,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/setup-ts-deep-modules/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -9133,6 +9347,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/tdd/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -9173,6 +9388,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/teach/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 18,
@@ -9209,6 +9425,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/to-questionnaire/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 18,
@@ -9245,6 +9462,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/to-spec/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -9283,6 +9501,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/to-tickets/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -9321,6 +9540,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/triage/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -9359,6 +9579,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/wait-what/SKILL.md",
+  "redistributable": true,
   "score": 38,
   "score_breakdown": {
    "body": 3,
@@ -9397,6 +9618,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/wayfinder/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -9434,6 +9656,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/engineering/wizard/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -9474,6 +9697,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/writing-beats/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 18,
@@ -9511,6 +9735,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/productivity/writing-for-agents/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 18,
@@ -9552,6 +9777,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/writing-fragments/SKILL.md",
+  "redistributable": true,
   "score": 60,
   "score_breakdown": {
    "body": 25,
@@ -9589,6 +9815,7 @@
   "origin_license": "MIT",
   "origin_repo": "mattpocock/skills",
   "raw_url": "https://raw.githubusercontent.com/mattpocock/skills/HEAD/skills/in-progress/writing-shape/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 18,
@@ -9628,6 +9855,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/add-mouse-driven-orbit/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -9670,6 +9898,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/add-shader-cursor-trail/SKILL.md",
+  "redistributable": true,
   "score": 85,
   "score_breakdown": {
    "body": 20,
@@ -9715,6 +9944,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/agency-grid-layout-minimal/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -9759,6 +9989,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/ambient-section-particles/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -9800,6 +10031,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/animation-on-scroll/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -9841,6 +10073,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/animation-systems/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -9882,6 +10115,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/article-prompts-to-skills/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -9926,6 +10160,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/atmosphere-background/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 13,
@@ -9967,6 +10202,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/ui/audit-ai-design-slop/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -10009,6 +10245,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/audit-reference-originality/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -10053,6 +10290,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/audit-verify-explain-grade-5/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -10093,6 +10331,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/media/aura-asset-images/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -10135,6 +10374,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/author-game-levels/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -10175,6 +10415,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/background-grid-webgl/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 13,
@@ -10219,6 +10460,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/beam-glow-states/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -10264,6 +10506,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/beautiful-shadows/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -10304,6 +10547,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/blue-cloudy-clean-modern/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -10344,6 +10588,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/blue-laser-clean-glass-layout/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -10384,6 +10629,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/book-serif-index/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -10424,6 +10670,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/bright-green-tech-system-webgl/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -10468,6 +10715,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/browser-video-recording/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -10516,6 +10764,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/build-awwwards-quality-sites/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -10561,6 +10810,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/build-daily-inspiration-sites/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -10603,6 +10853,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-audio-feedback/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -10647,6 +10898,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-camera-controls/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -10687,6 +10939,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-changelog/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -10730,6 +10983,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-inventory/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -10770,6 +11024,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-map-editor/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -10814,6 +11069,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-game-monster-system/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -10858,6 +11114,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-hybrid-game-assets/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -10904,6 +11161,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/build-interactive-particle-trail/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -10944,6 +11202,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-isometric-arpg/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -10987,6 +11246,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-mobile-threejs-games/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -11029,6 +11289,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-rigged-game-assets/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 18,
@@ -11074,6 +11335,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-threejs-enemy-systems/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -11120,6 +11382,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/build-threejs-scroll-worlds/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -11162,6 +11425,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-vesperfall-review-assets/SKILL.md",
+  "redistributable": true,
   "score": 80,
   "score_breakdown": {
    "body": 18,
@@ -11212,6 +11476,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/build-wireframe-scan-reveal/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11261,6 +11526,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/cinematic-gsap-lenis-motion-system/SKILL.md",
+  "redistributable": true,
   "score": 74,
   "score_breakdown": {
    "body": 21,
@@ -11309,6 +11575,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/cinematic-scroll-storytelling/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11352,6 +11619,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/clean-minimal-beige-light-mode/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -11394,6 +11662,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/cobejs/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11435,6 +11704,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/company-logos/SKILL.md",
+  "redistributable": true,
   "score": 52,
   "score_breakdown": {
    "body": 13,
@@ -11476,6 +11746,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/container-lines/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11518,6 +11789,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/corner-diagonals/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11557,6 +11829,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/corner-lasers/SKILL.md",
+  "redistributable": true,
   "score": 52,
   "score_breakdown": {
    "body": 13,
@@ -11596,6 +11869,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/create-game-vfx/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -11641,6 +11915,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/css-alpha-masking/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11685,6 +11960,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/css-border-gradient/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11728,6 +12004,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/daily-ui-inspiration-capture/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11770,6 +12047,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/dark-blue-contrasting-clean/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -11810,6 +12088,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/dark-glass-clean-layout/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -11850,6 +12129,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/design-action-combat/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -11893,6 +12173,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/ui/design-first-ui-prompting/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -11933,6 +12214,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/design-game-encounters/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -11979,6 +12261,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/dither-background/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12019,6 +12302,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/dither-laser-dark-mode/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12059,6 +12343,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/documentary-brutalist-agency/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12099,6 +12384,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/editorial-portfolio-chapters/SKILL.md",
+  "redistributable": true,
   "score": 74,
   "score_breakdown": {
    "body": 18,
@@ -12140,6 +12426,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/editorial-service-booking/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -12179,6 +12466,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/editorial-tech/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12220,6 +12508,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/elevenlabs-tts/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -12265,6 +12554,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/falling-leaves/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12308,6 +12598,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/framed-grid-layout/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12349,6 +12640,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/framed-tech-dark-border-gradient/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12389,6 +12681,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/funky-purple-container-tech/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12431,6 +12724,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/generate-reference-inspired-brand-worlds/SKILL.md",
+  "redistributable": true,
   "score": 85,
   "score_breakdown": {
    "body": 25,
@@ -12475,6 +12769,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/glass-dark-mode-clock/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12518,6 +12813,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/glass-dark-ui/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12560,6 +12856,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/globe-gl/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12606,6 +12903,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/globe-particles/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12647,6 +12945,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/gooey-blob-system/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 13,
@@ -12690,6 +12989,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/gsap/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12735,6 +13035,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/gsap-scrolltrigger-storytelling/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12776,6 +13077,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/high-contrast-skeuomorphic-clean/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12816,6 +13118,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/html-to-interaction-prompts/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -12859,6 +13162,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/image-first-grid-layout/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -12901,6 +13205,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/implement-fog-of-war/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -12947,6 +13252,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/iterate-until-verified/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -12985,6 +13291,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/landing-page/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -13023,6 +13330,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/light-mode-paper-technical/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -13067,6 +13375,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/liquid-metal-border/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -13109,6 +13418,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/marquee-loop/SKILL.md",
+  "redistributable": true,
   "score": 52,
   "score_breakdown": {
    "body": 13,
@@ -13151,6 +13461,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/masked-reveal/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -13194,6 +13505,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/matterjs/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -13237,6 +13549,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/mesh-gradient-dark-blue-clean/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -13277,6 +13590,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/nested-container-clean-agency/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -13317,6 +13631,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/nested-container-frames/SKILL.md",
+  "redistributable": true,
   "score": 57,
   "score_breakdown": {
    "body": 13,
@@ -13357,6 +13672,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/ui/no-ai-design-slop/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -13395,6 +13711,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/number-details/SKILL.md",
+  "redistributable": true,
   "score": 48,
   "score_breakdown": {
    "body": 13,
@@ -13433,6 +13750,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/operational-enterprise-ai/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -13474,6 +13792,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/optimize-threejs-games/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -13520,6 +13839,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/optimize-web-animations/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -13567,6 +13887,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/orange-clean-paper-saas/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -13610,6 +13931,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/performance-profiling/SKILL.md",
+  "redistributable": true,
   "score": 82,
   "score_breakdown": {
    "body": 25,
@@ -13657,6 +13979,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/pointer-trail-emitter/SKILL.md",
+  "redistributable": true,
   "score": 73,
   "score_breakdown": {
    "body": 25,
@@ -13698,6 +14021,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/pricing-page/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -13737,6 +14061,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/product-proof-saas/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -13779,6 +14104,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/progressive-blur/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -13822,6 +14148,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/publish-project-to-github/SKILL.md",
+  "redistributable": true,
   "score": 90,
   "score_breakdown": {
    "body": 25,
@@ -13875,6 +14202,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/reveal-hover-effect/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -13919,6 +14247,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/scroll-progress-timeline/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -13961,6 +14290,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/scroll-scrubbed-visual-sequence/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14006,6 +14336,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/scroll-scrubbed-word-reveal/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14046,6 +14377,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/scroll-world-storytelling/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -14090,6 +14422,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/shaders-cursor-ripples/SKILL.md",
+  "redistributable": true,
   "score": 81,
   "score_breakdown": {
    "body": 25,
@@ -14133,6 +14466,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/ship-web-games/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -14178,6 +14512,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/skeuomorphic-ui/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14218,6 +14553,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/solar-duotone-bold/SKILL.md",
+  "redistributable": true,
   "score": 48,
   "score_breakdown": {
    "body": 13,
@@ -14256,6 +14592,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/split-layout-technical/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -14300,6 +14637,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/staggered-word-reveal/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14342,6 +14680,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/stitched-full-page-capture/SKILL.md",
+  "redistributable": true,
   "score": 83,
   "score_breakdown": {
    "body": 25,
@@ -14390,6 +14729,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/tailwindcss/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14432,6 +14772,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/tech-green-dark-mode-modern/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -14472,6 +14813,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/technical-wireframe-info-layout/SKILL.md",
+  "redistributable": true,
   "score": 62,
   "score_breakdown": {
    "body": 18,
@@ -14514,6 +14856,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/test-playable-web-games/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -14559,6 +14902,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/thinking-orbs/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14602,6 +14946,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/threejs/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14645,6 +14990,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/threejs-landscape/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14689,6 +15035,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/threejs-towers/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14736,6 +15083,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/threejs-weather/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14776,6 +15124,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/tune-enemy-ai/SKILL.md",
+  "redistributable": true,
   "score": 66,
   "score_breakdown": {
    "body": 13,
@@ -14818,6 +15167,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/unicorn-studio/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14859,6 +15209,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/media/unsplash-asset-images/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -14900,6 +15251,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/vantajs/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -14943,6 +15295,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/video-to-superprompt/SKILL.md",
+  "redistributable": true,
   "score": 75,
   "score_breakdown": {
    "body": 18,
@@ -14990,6 +15343,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/web-technique-to-skill/SKILL.md",
+  "redistributable": true,
   "score": 73,
   "score_breakdown": {
    "body": 25,
@@ -15033,6 +15387,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/webgl-3d-object/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -15076,6 +15431,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/webgl-landing-steering/SKILL.md",
+  "redistributable": true,
   "score": 71,
   "score_breakdown": {
    "body": 18,
@@ -15119,6 +15475,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/web-design/webgl-laser/SKILL.md",
+  "redistributable": true,
   "score": 69,
   "score_breakdown": {
    "body": 25,
@@ -15163,6 +15520,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/write-like-meng-on-x/SKILL.md",
+  "redistributable": true,
   "score": 87,
   "score_breakdown": {
    "body": 25,
@@ -15212,6 +15570,7 @@
   "origin_license": "MIT",
   "origin_repo": "MengTo/Skills",
   "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/x-bookmark-quote-posts/SKILL.md",
+  "redistributable": true,
   "score": 78,
   "score_breakdown": {
    "body": 25,
@@ -15253,6 +15612,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/company-values/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15290,6 +15650,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/find-community/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15329,6 +15690,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/first-customers/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15368,6 +15730,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/grow-sustainably/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15405,6 +15768,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/marketing-plan/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15444,6 +15808,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/minimalist-review/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15484,6 +15849,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/mvp/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15522,6 +15888,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/pricing/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15560,6 +15927,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/processize/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,
@@ -15597,6 +15965,7 @@
   "origin_license": "Unspecified",
   "origin_repo": "slavingia/skills",
   "raw_url": "https://raw.githubusercontent.com/slavingia/skills/HEAD/skills/validate-idea/SKILL.md",
+  "redistributable": false,
   "score": 68,
   "score_breakdown": {
    "body": 18,

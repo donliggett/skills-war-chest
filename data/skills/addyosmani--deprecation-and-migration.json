@@ -33,6 +33,7 @@
  "origin_url": "https://github.com/addyosmani/agent-skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/addyosmani/agent-skills/HEAD/skills/deprecation-and-migration/SKILL.md",
+ "redistributable": true,
  "score": 78,
  "score_breakdown": {
   "body": 25,

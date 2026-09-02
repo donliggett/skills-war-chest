@@ -37,6 +37,7 @@
  "origin_url": "https://github.com/google/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/agent-platform-prompt-management/SKILL.md",
+ "redistributable": true,
  "score": 87,
  "score_breakdown": {
   "body": 25,

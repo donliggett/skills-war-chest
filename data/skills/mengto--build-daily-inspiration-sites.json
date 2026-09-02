@@ -36,6 +36,7 @@
  "origin_url": "https://github.com/MengTo/Skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/codex/build-daily-inspiration-sites/SKILL.md",
+ "redistributable": true,
  "score": 87,
  "score_breakdown": {
   "body": 25,

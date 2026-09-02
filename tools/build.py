@@ -25,7 +25,11 @@ import taxonomy  # noqa: E402
 try:
     import yaml
 except ImportError:
-    sys.exit("pyyaml required:  pip install pyyaml")
+    sys.exit(
+        "\n  PyYAML is missing — tools/build.py needs it to parse SKILL.md frontmatter.\n"
+        f"      {Path(sys.executable).name} -m pip install -r requirements.txt\n"
+        "  (or: pip install pyyaml)\n"
+    )
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = ROOT / "sources"
@@ -218,6 +222,7 @@ def build():
                 "origin_author": src["author"],
                 "origin_url": src["url"],
                 "origin_license": src.get("license", "Unspecified"),
+                "redistributable": bool(src.get("redistribute", True)),
                 "source_path": rel,
                 "github_url": f"{src['url']}/tree/HEAD/{rel}",
                 "raw_url": f"https://raw.githubusercontent.com/{src['repo']}/HEAD/{rel}/SKILL.md",
@@ -339,7 +344,13 @@ def build():
     for r in records:
         tag_counts.update(r["tags"])
         full = {k: v for k, v in r.items() if k != "_body"}
-        full["body"] = r["_body"]
+        if r["redistributable"]:
+            full["body"] = r["_body"]
+        else:
+            # Upstream declares no license. We index it; we do not carry its
+            # text. The interface fetches the body from raw_url at open time.
+            full["body"] = None
+            full["body_omitted"] = "upstream declares no license — fetched live from raw_url"
         (DATA / "skills" / f"{r['id']}.json").write_text(
             json.dumps(full, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
         index.append({k: r[k] for k in (
@@ -347,6 +358,7 @@ def build():
             "source_path", "github_url", "raw_url", "group", "tags", "score", "grade",
             "score_breakdown", "body_lines", "words", "bytes", "code_blocks", "languages",
             "file_count", "has_scripts", "has_references", "has_assets", "dup_cluster", "also_at",
+            "redistributable",
         )})
 
     vocab = {f: sorted({t for t in tag_counts if t.startswith(f + ":")}) for f in taxonomy.FACETS}
@@ -359,6 +371,8 @@ def build():
         "sources": [{
             "id": s["id"], "repo": s["repo"], "url": s["url"], "author": s["author"],
             "author_url": s["author_url"], "license": s.get("license", "Unspecified"),
+            "redistribute": bool(s.get("redistribute", True)),
+            "license_note": s.get("license_note", ""),
             "blurb": s.get("blurb", ""), "accent": s.get("accent", "#c79a4b"),
             "commit": s["_git"]["commit"], "committed_at": s["_git"]["committed_at"],
             "count": sum(1 for r in records if r["origin"] == s["id"]),
@@ -378,6 +392,7 @@ def build():
             "with_references": sum(1 for r in records if r["has_references"]),
             "with_assets": sum(1 for r in records if r["has_assets"]),
             "duplicate_clusters": len(clusters),
+            "indexed_only": sum(1 for r in records if not r["redistributable"]),
         },
     }
 

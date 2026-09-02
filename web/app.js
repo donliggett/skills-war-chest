@@ -1,6 +1,6 @@
 /* Skills War Chest — browser interface.
  * Zero dependencies, zero build step. Works three ways:
- *   1. served  : web/index.html beside ../data/*.json   (fetch)
+ *   1. served  : index.html beside a data/ directory        (fetch)
  *   2. bundled : dist/skills-war-chest.html             (window.__WARCHEST__)
  *   3. hosted  : that same bundle published as an Artifact
  * Data contract: docs/ARCHITECTURE.md
@@ -65,6 +65,11 @@ const LS = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: ignore */ } },
 };
 const K_RATE = "warchest.ratings.v1", K_KIT = "warchest.kit.v1", K_PREF = "warchest.prefs.v1";
+
+/* Where data/ sits relative to the document. web/index.html sits one level
+   below it; the static-host build in dist/site/ puts index.html at the root
+   beside data/ and overrides this inline before app.js loads. */
+const DATA_BASE = window.__WARCHEST_DATA_BASE__ || "../data/";
 
 /* ------------------------------------------------------------- state ----- */
 const S = {
@@ -386,10 +391,38 @@ function renderSidebar() {
 function render() { apply(); renderGrid(); renderChips(); renderSidebar(); }
 
 /* ---------------------------------------------------------- skill body --- */
-async function loadSkill(id) {
+async function loadSkill(r) {
+  const id = r.id;
   if (S.bodies && S.bodies[id] != null) return { body: S.bodies[id], extra_files: S.extras[id] };
+
+  // Sources whose upstream declares no license are indexed but not carried:
+  // no copy of their text lives in this project. Fetch it from the source.
+  if (r.redistributable === false) {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 12000);
+    try {
+      const res = await fetch(r.raw_url, { signal: ctl.signal });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      // Upstream gives the whole file; data/ bodies have frontmatter stripped
+      // at build time. Strip it here too so both paths render identically.
+      const body = (await res.text()).replace(/^\uFEFF?---\s*\n[\s\S]*?\n---\s*\n?/, "");
+      (S.bodies ||= {})[id] = body;
+      return { body, extra_files: S.extras[id] || [], remote: true };
+    } catch (e) {
+      if (e && e.name === "AbortError") e = new Error("timed out after 12s");
+      return {
+        body: `_Not carried here — [${r.origin_repo}](${r.github_url}) declares no license, `
+            + `so this chest indexes the skill without copying its text. Fetching it live failed `
+            + `(${String(e)}); read it at the link above._`,
+        extra_files: [], remote: true, failed: true,
+      };
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
   try {
-    const res = await fetch(`../data/skills/${encodeURIComponent(id)}.json`);
+    const res = await fetch(`${DATA_BASE}skills/${encodeURIComponent(id)}.json`);
     if (!res.ok) throw new Error("HTTP " + res.status);
     const j = await res.json();
     (S.bodies ||= {})[id] = j.body;
@@ -429,6 +462,7 @@ async function openSkill(id) {
       from <a href="${esc(r.github_url)}" target="_blank" rel="noopener">${esc(r.origin_repo)}</a>
       by <a href="${esc(src.author_url || src.url || "#")}" target="_blank" rel="noopener">${esc(r.origin_author)}</a>
       · ${esc(r.origin_license)} · <code>${esc(r.source_path)}</code>${src.commit ? ` · @${esc(src.commit)}` : ""}
+      ${r.redistributable === false ? '<span style="color:var(--ember)"> · indexed only</span>' : ""}
     </div>
     <div class="dactions">
       <button class="tbtn" data-act="copy-md">⧉ Copy SKILL.md</button>
@@ -484,9 +518,13 @@ async function openSkill(id) {
     <div class="md" id="dmd">loading…</div>`;
 
   $("#dbody").scrollTop = 0;
-  const { body, extra_files } = await loadSkill(id);
+  const { body, extra_files, remote, failed } = await loadSkill(r);
   if (!S.current || S.current.id !== id) return;      // user moved on
-  $("#dmd").innerHTML = md(body);
+  $("#dmd").innerHTML = (remote && !failed
+    ? `<p style="font:11px/1.6 var(--mono);color:var(--ink-3);border-left:2px solid var(--brass-dim);padding-left:10px;margin:0 0 14px">`
+      + `Fetched live from ${esc(r.origin_repo)} — ${esc(r.origin_author)}'s repository declares no license, `
+      + `so this chest indexes the skill without keeping a copy of its text.</p>`
+    : "") + md(body);
   const files = $("#dfiles");
   if (files) files.innerHTML = (extra_files && extra_files.length) ? extra_files.map(esc).join("<br>") : "—";
 }
@@ -867,7 +905,7 @@ function wire() {
     const act = e.target.closest("[data-act]");
     if (!act) return;
     switch (act.dataset.act) {
-      case "copy-md": copy((await loadSkill(r.id)).body, "SKILL.md copied"); break;
+      case "copy-md": copy((await loadSkill(r)).body, "SKILL.md copied"); break;
       case "copy-install": copy(installCmd(r), "Install command copied"); break;
       case "kit": toggleKit(r.id); act.textContent = S.kit.has(r.id) ? "◆ In kit" : "◇ Add to kit"; renderGrid(); break;
       case "compare": toggleCompare(r.id); act.textContent = S.compare.has(r.id) ? "✓ Comparing" : "⇄ Compare"; renderGrid(); break;
@@ -987,9 +1025,9 @@ async function boot() {
       S.extras = bundled.extras || {};
     } else {
       const [meta, index, dupes] = await Promise.all([
-        fetch("../data/meta.json").then(r => r.json()),
-        fetch("../data/index.json").then(r => r.json()),
-        fetch("../data/duplicates.json").then(r => r.json()).catch(() => S.dupes),
+        fetch(DATA_BASE + "meta.json").then(r => r.json()),
+        fetch(DATA_BASE + "index.json").then(r => r.json()),
+        fetch(DATA_BASE + "duplicates.json").then(r => r.json()).catch(() => S.dupes),
       ]);
       S.meta = meta; S.index = index; S.dupes = dupes;
     }

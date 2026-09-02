@@ -37,6 +37,7 @@
  "origin_url": "https://github.com/MengTo/Skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/MengTo/Skills/HEAD/agent-skills/game-development/build-rigged-game-assets/SKILL.md",
+ "redistributable": true,
  "score": 83,
  "score_breakdown": {
   "body": 18,

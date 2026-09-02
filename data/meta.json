@@ -1,5 +1,5 @@
 {
- "built_at": "2026-09-02T06:42:40+00:00",
+ "built_at": "2026-09-02T08:08:53+00:00",
  "facet_labels": {
   "agent": "Agent",
   "capability": "Capability",
@@ -36,6 +36,8 @@
    "count": 37,
    "id": "mattpocock",
    "license": "MIT",
+   "license_note": "",
+   "redistribute": true,
    "repo": "mattpocock/skills",
    "url": "https://github.com/mattpocock/skills"
   },
@@ -49,6 +51,8 @@
    "count": 12,
    "id": "emilkowalski",
    "license": "MIT",
+   "license_note": "",
+   "redistribute": true,
    "repo": "emilkowalski/skills",
    "url": "https://github.com/emilkowalski/skills"
   },
@@ -62,6 +66,8 @@
    "count": 127,
    "id": "google",
    "license": "Apache-2.0",
+   "license_note": "",
+   "redistribute": true,
    "repo": "google/skills",
    "url": "https://github.com/google/skills"
   },
@@ -75,6 +81,8 @@
    "count": 10,
    "id": "slavingia",
    "license": "Unspecified",
+   "license_note": "No LICENSE file upstream, and the skills are derived from Sahil Lavingia's book The Minimalist Entrepreneur. No license means all rights reserved, so this chest indexes these skills but does not carry their text.",
+   "redistribute": false,
    "repo": "slavingia/skills",
    "url": "https://github.com/slavingia/skills"
   },
@@ -88,6 +96,8 @@
    "count": 26,
    "id": "huggingface",
    "license": "Apache-2.0",
+   "license_note": "",
+   "redistribute": true,
    "repo": "huggingface/skills",
    "url": "https://github.com/huggingface/skills"
   },
@@ -101,6 +111,8 @@
    "count": 132,
    "id": "mengto",
    "license": "MIT",
+   "license_note": "",
+   "redistribute": true,
    "repo": "MengTo/Skills",
    "url": "https://github.com/MengTo/Skills"
   },
@@ -114,6 +126,8 @@
    "count": 25,
    "id": "addyosmani",
    "license": "MIT",
+   "license_note": "",
+   "redistribute": true,
    "repo": "addyosmani/agent-skills",
    "url": "https://github.com/addyosmani/agent-skills"
   }
@@ -128,6 +142,7 @@
    "D": 10,
    "S": 9
   },
+  "indexed_only": 10,
   "median_score": 78,
   "total_bytes": 3140235,
   "total_words": 399259,

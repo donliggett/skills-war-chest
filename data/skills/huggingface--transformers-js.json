@@ -50,6 +50,7 @@
  "origin_url": "https://github.com/huggingface/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/transformers-js/SKILL.md",
+ "redistributable": true,
  "score": 74,
  "score_breakdown": {
   "body": 21,

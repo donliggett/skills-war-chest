@@ -192,6 +192,53 @@ the same `app.js` works from disk, from a local server and hosted. That allowlis
 has no `.sh`, hence the `hostedName` argument that offers `install-kit.txt`
 instead when running hosted.
 
+## 8. Going public
+
+Making the repository public changed what the `data/` directory *is*. Private,
+it was a cache. Public, it redistributes the full text of 369 `SKILL.md` files,
+and the upstream licenses attach.
+
+The audit found three things:
+
+1. **Four MIT and two Apache-2.0 sources** permit redistribution — but both
+   licenses require the license text to travel with the material. Naming the
+   license in `CREDITS.md` does not satisfy either. `tools/gen_docs.py` now
+   copies each upstream `LICENSE` verbatim into `licenses/`, and writes the
+   Apache-2.0 statement of changes (bodies are redistributed unmodified; this
+   project adds only derived metadata beside them).
+2. **`slavingia/skills` has no license at all**, and its content derives from
+   Sahil Lavingia's published book. No license means all rights reserved, not
+   "permissive by default". Carrying those 10 bodies was the one genuinely
+   unsafe thing in the tree.
+3. **The project's own work was unlicensed too** — same trap, one level up.
+   Now MIT, with an explicit scope note: the license covers `tools/`, `web/`,
+   the taxonomy and the score, and expressly *not* the indexed skills.
+
+The fix for (2) is a source-level flag rather than a deletion. `sources.json`
+entries take `"redistribute": false`; `build.py` then writes `"body": null` for
+those records, `bundle.py` never inlines them, and the interface fetches the
+body from `raw_url` when the drawer opens, showing a line that says why. The
+skills keep their card, tags, score and description — everything derived — and
+none of their text lives here. Adding a `LICENSE` upstream would flip them back
+by changing one boolean.
+
+Three defects surfaced while testing that path, all found by stubbing the
+network rather than by reading the code:
+
+- **No timeout on the remote fetch.** A slow or blocked upstream left the
+  drawer on "loading…" forever. Now aborts at 12 s and falls back to an
+  explanation plus a link.
+- **Frontmatter leaked into the rendered body.** `data/` bodies are stripped at
+  build time; the raw upstream file is not. The remote path now strips it too,
+  so both render identically.
+- **A stale test fixture briefly showed a false pass** — an old unzip of a
+  previous build. Worth stating because it is the failure mode of this kind of
+  verification: the harness passes while testing the wrong artifact.
+
+The tree and git history were scanned for credentials, tokens, private keys and
+local paths before publication. Clean — the only match was `/home/airflow/`,
+which is Google's own documentation path.
+
 ---
 
 ## Rebuilding from scratch
@@ -242,3 +289,6 @@ survive rebuilds and upstream updates.
   bridge, on purpose — no account, no server, nothing leaves the machine.
 - **Duplicate clustering only reads name and description.** Two skills with
   identical bodies and different descriptions will not cluster.
+- **Indexed-only sources need the network.** The 10 skills from
+  `slavingia/skills` fetch their body from GitHub when opened, so they are the
+  one part of the offline bundle that is not offline. Their metadata still is.

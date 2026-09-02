@@ -50,6 +50,7 @@
  "origin_url": "https://github.com/google/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/application-design-center-design-deploy/SKILL.md",
+ "redistributable": true,
  "score": 83,
  "score_breakdown": {
   "body": 18,

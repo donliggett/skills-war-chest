@@ -27,6 +27,12 @@ python3 -m http.server 8080
 `dist/skills-war-chest-lite.html` is the same interface with the skill bodies
 stripped (0.5 MB) — the catalogue without the content, for sharing.
 
+**On a static host** — `dist/site/` is a deployable site: `index.html` at the
+root beside `data/`, so any host serves it as-is, and `dist/site.zip` is the
+same tree packed for upload. It keeps progressive loading (a 0.5 MB index
+first, skill bodies fetched when a card is opened), so it reaches first paint
+noticeably sooner than the 3.5 MB single file.
+
 ## Rebuild it
 
 ```bash
@@ -50,6 +56,7 @@ runtime dependencies and no build toolchain.
 | `data/` | generated: `index.json`, `meta.json`, `duplicates.json`, `skills/<id>.json` |
 | `dist/` | generated: the two self-contained HTML bundles |
 | `docs/` | `PROCESS.md` (how this was built), `ARCHITECTURE.md` (data contracts), `TAGS.md` (generated) |
+| `licenses/` | generated: verbatim upstream license texts, one per source |
 | `sources/` | gitignored upstream clones — a cache, reproduced by `sync.py` |
 | `CREDITS.md` | generated per-repo attribution, licenses and pinned commits |
 
@@ -93,11 +100,32 @@ that shows where the collection is thin.
 Dark and light themes, responsive to phone width, keyboard-driven
 (`/` search, `j`/`k` cards, `1`–`5` rate, `g s` stats, `?` help).
 
-## Sources
+## Sources and licensing
 
 Matt Pocock · Emil Kowalski · Google · Sahil Lavingia · Hugging Face · Meng To ·
-Addy Osmani. Licenses, pinned commits and per-repo counts in
+Addy Osmani. Per-repo counts, pinned commits and licenses in
 [`CREDITS.md`](CREDITS.md).
+
+Every skill belongs to its author. This project changes no upstream licensing,
+and installing a skill always pulls from its original repository.
+
+- **Where the license permits it** (MIT, Apache-2.0), the `SKILL.md` text is
+  carried here so the interface can render it offline. It stays under its
+  upstream license, reproduced verbatim in [`licenses/`](licenses/), and
+  bodies are redistributed unmodified — this project adds only derived
+  metadata beside them.
+- **Where the repository declares no license**, the source is marked
+  `"redistribute": false` in `sources.json` and is **indexed only**: card,
+  tags, score and description are built from it, but no copy of its text lives
+  here. The interface fetches the body from the source repository when you open
+  the skill. That currently applies to `slavingia/skills` (10 skills), whose
+  content also derives from a published book.
+
+No license is not the same as permissive — it means all rights reserved. If you
+add a source, check for a `LICENSE` before letting the build carry its text.
+
+This repository's own work — `tools/`, the taxonomy, the forge score, `web/`
+and `docs/` — is MIT ([`LICENSE`](LICENSE)).
 
 ## How it was made
 

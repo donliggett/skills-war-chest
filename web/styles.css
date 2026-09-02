@@ -351,12 +351,23 @@ textarea.notes:focus { border-color: var(--brass); }
   .grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); padding: 14px; }
   .drawer { width: 100%; }
 }
-@media (max-width: 620px) {
-  .topbar { flex-wrap: wrap; padding: 9px 12px; gap: 8px; }
+/* The toolbar collapses in three steps rather than one, because the button
+   cluster cannot shrink and the search field has a min-width: first the text
+   labels go at 1080, then the search drops to its own row at 940 — the same
+   point the sidebar becomes a drawer — then the secondary icons go at 620. */
+@media (max-width: 1080px) {
+  #ratebtn .hide-sm, #kitbtn .hide-sm, #cmpbtn .hide-sm { display: none; }
+}
+@media (max-width: 940px) {
+  .topbar { flex-wrap: wrap; padding: 9px 14px; gap: 8px; }
   .tools { margin-left: auto; }
   .tbtn { padding: 7px 9px; }
   .searchwrap { order: 3; flex-basis: 100%; max-width: none; }
   .searchwrap kbd { display: none; }
+}
+
+@media (max-width: 620px) {
+  .topbar { padding: 9px 12px; }
   .brand h1 { font-size: 16px; }
   .hide-sm { display: none; }
   .grid { grid-template-columns: 1fr; }

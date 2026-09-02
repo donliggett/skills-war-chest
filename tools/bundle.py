@@ -34,9 +34,11 @@ def main():
     bodies, extras = {}, {}
     for f in sorted((DATA / "skills").glob("*.json")):
         rec = json.loads(f.read_text(encoding="utf-8"))
-        bodies[rec["id"]] = rec.get("body", "")
         if rec.get("extra_files"):
             extras[rec["id"]] = rec["extra_files"]
+        if rec.get("body") is None:
+            continue                      # index-only source: never inline its text
+        bodies[rec["id"]] = rec["body"]
 
     payload = {"meta": meta, "index": index, "duplicates": dupes, "bodies": bodies, "extras": extras}
 
@@ -50,7 +52,9 @@ def main():
         "<!--WARCHEST_DATA-->",
         f"<script>window.__WARCHEST__={js_json(payload)};</script>")
 
-    for marker in ("WARCHEST_STYLE", "WARCHEST_SCRIPT", "WARCHEST_DATA"):
+    # Check the comment markers themselves, not bare names: the inlined app.js
+    # legitimately contains `window.__WARCHEST_DATA_BASE__`.
+    for marker in ("<!--WARCHEST_STYLE-->", "<!--WARCHEST_SCRIPT-->", "<!--WARCHEST_DATA-->"):
         if marker in html:
             raise SystemExit(f"bundle: marker {marker} was not replaced — did web/index.html change?")
 
@@ -65,6 +69,7 @@ def main():
     (DIST / "skills-war-chest-lite.html").write_text(lite, encoding="utf-8")
     print(f"  bundled -> dist/skills-war-chest-lite.html  ({(DIST / 'skills-war-chest-lite.html').stat().st_size / 1048576:.2f} MB, index only)")
     artifact_variant()
+    site_variant()
 
 
 def artifact_variant():
@@ -79,6 +84,33 @@ def artifact_variant():
     print(f"  bundled -> dist/skills-war-chest-artifact.html  ({out.stat().st_size / 1048576:.2f} MB, no doctype/head)")
 
 
+def site_variant():
+    """A deployable static site at dist/site/: index.html at the root beside
+    data/, so a host serves it as-is. Unlike the single-file bundle this keeps
+    progressive loading — a 0.5 MB index first, skill bodies fetched on open."""
+    import shutil
+    site = DIST / "site"
+    if site.exists():
+        shutil.rmtree(site)
+    site.mkdir(parents=True)
+
+    html = (WEB / "index.html").read_text(encoding="utf-8")
+    html = html.replace("<!--WARCHEST_DATA-->",
+                        '<script>window.__WARCHEST_DATA_BASE__ = "data/";</script>')
+    (site / "index.html").write_text(html, encoding="utf-8")
+    shutil.copy2(WEB / "styles.css", site / "styles.css")
+    shutil.copy2(WEB / "app.js", site / "app.js")
+    shutil.copytree(DATA, site / "data")
+
+    files = [f for f in site.rglob("*") if f.is_file()]
+    mb = sum(f.stat().st_size for f in files) / 1048576
+    print(f"  bundled -> dist/site/  ({len(files)} files, {mb:.2f} MB, index.html at root)")
+
+    archive = Path(shutil.make_archive(str(DIST / "site"), "zip", root_dir=site))
+    print(f"  packed  -> dist/site.zip  ({archive.stat().st_size / 1048576:.2f} MB)")
+
+
 if __name__ == "__main__":
     main()
     artifact_variant()
+    site_variant()

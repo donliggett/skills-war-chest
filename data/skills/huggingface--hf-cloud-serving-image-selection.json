@@ -36,6 +36,7 @@
  "origin_url": "https://github.com/huggingface/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/huggingface/skills/HEAD/skills/hf-cloud-serving-image-selection/SKILL.md",
+ "redistributable": true,
  "score": 73,
  "score_breakdown": {
   "body": 25,

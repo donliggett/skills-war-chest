@@ -37,6 +37,7 @@
  "origin_url": "https://github.com/google/skills",
  "parse_error": null,
  "raw_url": "https://raw.githubusercontent.com/google/skills/HEAD/skills/cloud/iam-helper-for-policy-simulator/SKILL.md",
+ "redistributable": true,
  "score": 88,
  "score_breakdown": {
   "body": 25,
