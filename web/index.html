@@ -42,7 +42,17 @@
   </header>
 
   <div class="body">
-    <nav class="sidebar" id="sidebar" aria-label="Filters"></nav>
+    <div class="sidescrim" id="sidescrim"></div>
+    <nav class="sidebar" id="sidebar" aria-label="Filters">
+      <div class="sidehead">
+        <h2>Filters</h2>
+        <button class="dclose" id="sideclose" aria-label="Close filters">✕</button>
+      </div>
+      <div class="facets" id="facets"></div>
+      <div class="sideapply">
+        <button id="sideapply" type="button">Show results</button>
+      </div>
+    </nav>
 
     <main class="main" id="main">
       <div class="mainbar">

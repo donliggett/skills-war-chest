@@ -385,10 +385,29 @@ function renderSidebar() {
   parts.push(`<div class="sidefoot">built ${esc((m.built_at || "").slice(0, 10))}<br>
     ${m.skill_count} skills · ${m.source_count} repos<br>
     <a href="${esc(m.spec)}" target="_blank" rel="noopener">agentskills.io spec</a></div>`);
-  $("#sidebar").innerHTML = parts.join("");
+  $("#facets").innerHTML = parts.join("");
 }
 
-function render() { apply(); renderGrid(); renderChips(); renderSidebar(); }
+function filtersOpen() { return $("#sidebar").classList.contains("open"); }
+
+/* The filter panel is an overlay on small screens: opening it hides the results
+   it is filtering, so it needs its own way out. All four routes close it. */
+function setFilters(open) {
+  // A fresh open starts at the top; scroll position is left alone while the
+  // panel stays open, so ticking a box doesn't jump the list under your finger.
+  if (open && !filtersOpen()) $("#facets").scrollTop = 0;
+  $("#sidebar").classList.toggle("open", open);
+  $("#sidescrim").classList.toggle("open", open);
+  $("#menubtn").setAttribute("aria-expanded", String(open));
+}
+
+function render() {
+  apply(); renderGrid(); renderChips(); renderSidebar();
+  const n = S.results.length;
+  $("#sideapply").textContent = n
+    ? `Show ${n} skill${n === 1 ? "" : "s"}`
+    : "No matches — adjust filters";
+}
 
 /* ---------------------------------------------------------- skill body --- */
 async function loadSkill(r) {
@@ -450,6 +469,7 @@ async function openSkill(id) {
   const src = srcOf(r.origin), rt = rating(id), w = S.meta.score_weights;
   const dupIds = r.dup_cluster ? (S.dupes.clusters[r.dup_cluster] || []).filter(x => x !== id) : [];
 
+  setFilters(false);
   $("#drawer").classList.add("open");
   $("#scrim").classList.add("open");
 
@@ -814,7 +834,10 @@ function wire() {
       document.documentElement.dataset.theme === "light" ? "dark" : "light";
     savePrefs();
   });
-  $("#menubtn").addEventListener("click", () => $("#sidebar").classList.toggle("open"));
+  $("#menubtn").addEventListener("click", () => setFilters(!filtersOpen()));
+  $("#sidescrim").addEventListener("click", () => setFilters(false));
+  $("#sideclose").addEventListener("click", () => setFilters(false));
+  $("#sideapply").addEventListener("click", () => setFilters(false));
 
   $("#statsbtn").addEventListener("click", () => openModal("Stats", "Computed over the current result set.", statsHtml()));
   $("#dupbtn").addEventListener("click", () => openModal("Near-duplicates",
@@ -973,6 +996,7 @@ function wire() {
     if (e.key === "Escape") {
       if ($("#modal").classList.contains("open")) return closeModal();
       if ($("#drawer").classList.contains("open")) return closeDrawer();
+      if (filtersOpen()) return setFilters(false);
       if (typing) { qEl.value = ""; S.q = ""; qEl.blur(); render(); }
       return;
     }

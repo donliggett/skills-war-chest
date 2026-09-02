@@ -119,9 +119,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* -------------------------------------------------------------- sidebar -- */
 .sidebar {
-  border-right: 1px solid var(--line); overflow-y: auto; padding: 14px 12px 40px;
-  background: var(--panel); display: flex; flex-direction: column; gap: 14px;
+  border-right: 1px solid var(--line); background: var(--panel);
+  display: flex; flex-direction: column; overflow: hidden;
 }
+.facets {
+  flex: 1 1 auto; overflow-y: auto; padding: 14px 12px 40px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+/* Only meaningful once the sidebar is an overlay — see the 940px block. */
+.sidehead, .sideapply, .sidescrim { display: none; }
 .facet > summary {
   list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
   font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
@@ -342,11 +348,44 @@ textarea.notes:focus { border-color: var(--brass); }
 .mobtoggle { display: none; }
 @media (max-width: 940px) {
   .body { grid-template-columns: 1fr; }
+  /* The sidebar becomes an overlay that covers the topbar, so it has to carry
+     its own way out: a header close, a tap-anywhere scrim, Escape, and an
+     apply button that reports what the current filters actually match. */
   .sidebar {
-    position: fixed; top: 0; bottom: 0; left: 0; width: 278px; z-index: 45;
+    position: fixed; top: 0; bottom: 0; left: 0; width: min(300px, 86vw); z-index: 45;
     transform: translateX(-102%); transition: transform .2s; box-shadow: var(--shadow);
   }
   .sidebar.open { transform: none; }
+
+  .sidescrim {
+    display: block; position: fixed; inset: 0; z-index: 44;
+    background: rgba(0, 0, 0, .58); backdrop-filter: blur(1px);
+    opacity: 0; pointer-events: none; transition: opacity .18s;
+  }
+  .sidescrim.open { opacity: 1; pointer-events: auto; }
+
+  .sidehead {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    flex: 0 0 auto; padding: 11px 12px 11px 14px;
+    border-bottom: 1px solid var(--line); background: var(--panel-2);
+  }
+  .sidehead h2 {
+    margin: 0; font: 600 10px/1 var(--mono); letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+
+  .sideapply {
+    display: block; flex: 0 0 auto; background: var(--panel-2);
+    border-top: 1px solid var(--line);
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+  .sideapply button {
+    width: 100%; padding: 11px; cursor: pointer;
+    border: 1px solid var(--brass); border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--brass) 16%, var(--panel));
+    color: var(--brass-hi); font: 600 13px/1 var(--sans);
+  }
+  .sideapply button:active { background: color-mix(in srgb, var(--brass) 26%, var(--panel)); }
   .mobtoggle { display: inline-flex; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); padding: 14px; }
   .drawer { width: 100%; }
