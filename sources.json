@@ -80,6 +80,131 @@
       "blurb": "Engineering-discipline skills: performance, code review, migrations, architecture.",
       "roots": ["skills"],
       "accent": "#7f9cf5"
+    },
+    {
+      "id": "obra",
+      "repo": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "author": "Jesse Vincent",
+      "author_url": "https://github.com/obra",
+      "license": "MIT",
+      "blurb": "A development methodology as skills: brainstorming, planning, TDD, debugging and code review.",
+      "roots": ["skills"],
+      "accent": "#5fb3b3"
+    },
+    {
+      "id": "anthropic",
+      "repo": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "author": "Anthropic",
+      "author_url": "https://github.com/anthropics",
+      "license": "Mixed (per skill)",
+      "license_note": "No repository LICENSE. Most skills carry Apache-2.0; docx, pdf, pptx and xlsx are source-available, not open source.",
+      "blurb": "Anthropic's reference skills: document formats, artifacts, MCP servers and skill authoring.",
+      "roots": ["skills"],
+      "accent": "#d97757"
+    },
+    {
+      "id": "openai",
+      "repo": "openai/skills",
+      "url": "https://github.com/openai/skills",
+      "author": "OpenAI",
+      "author_url": "https://github.com/openai",
+      "license": "Apache-2.0 (per skill)",
+      "license_note": "No repository LICENSE; each skill ships its own Apache-2.0 LICENSE.txt.",
+      "blurb": "The Codex skills catalog: curated and system skills for apps, deploys and tooling.",
+      "roots": ["skills"],
+      "accent": "#9aa5b1"
+    },
+    {
+      "id": "coreyhaines",
+      "repo": "coreyhaines31/marketingskills",
+      "url": "https://github.com/coreyhaines31/marketingskills",
+      "author": "Corey Haines",
+      "author_url": "https://github.com/coreyhaines31",
+      "license": "MIT",
+      "blurb": "Marketing skills: CRO, copywriting, SEO, analytics, pricing and growth.",
+      "roots": ["skills"],
+      "accent": "#e27396"
+    },
+    {
+      "id": "kepano",
+      "repo": "kepano/obsidian-skills",
+      "url": "https://github.com/kepano/obsidian-skills",
+      "author": "Steph Ango",
+      "author_url": "https://github.com/kepano",
+      "license": "MIT",
+      "blurb": "Obsidian's CLI and open formats: Markdown, Bases and JSON Canvas.",
+      "roots": ["skills"],
+      "accent": "#8e7cc3"
+    },
+    {
+      "id": "trailofbits",
+      "repo": "trailofbits/skills",
+      "url": "https://github.com/trailofbits/skills",
+      "author": "Trail of Bits",
+      "author_url": "https://github.com/trailofbits",
+      "license": "CC-BY-SA-4.0",
+      "blurb": "Security research, vulnerability detection, smart-contract and audit skills.",
+      "roots": ["plugins"],
+      "accent": "#c44d58"
+    },
+    {
+      "id": "vercel",
+      "repo": "vercel-labs/agent-skills",
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "author": "Vercel",
+      "author_url": "https://github.com/vercel-labs",
+      "license": "Unspecified",
+      "redistribute": false,
+      "license_note": "No LICENSE file upstream. No license means all rights reserved.",
+      "blurb": "React and Next.js performance, web design guidelines and Vercel deploys.",
+      "roots": ["skills"],
+      "accent": "#7a8c99"
+    },
+    {
+      "id": "cloudflare",
+      "repo": "cloudflare/skills",
+      "url": "https://github.com/cloudflare/skills",
+      "author": "Cloudflare",
+      "author_url": "https://github.com/cloudflare",
+      "license": "Apache-2.0",
+      "blurb": "Building on Cloudflare: Workers, Durable Objects, the Agents SDK and Wrangler.",
+      "roots": ["skills"],
+      "accent": "#f08a4b"
+    },
+    {
+      "id": "sentry",
+      "repo": "getsentry/skills",
+      "url": "https://github.com/getsentry/skills",
+      "author": "Sentry",
+      "author_url": "https://github.com/getsentry",
+      "license": "Apache-2.0",
+      "blurb": "The skills Sentry's own team uses: code review, commits, PRs and security review.",
+      "roots": ["skills"],
+      "accent": "#8b5fbf"
+    },
+    {
+      "id": "gsap",
+      "repo": "greensock/gsap-skills",
+      "url": "https://github.com/greensock/gsap-skills",
+      "author": "GreenSock",
+      "author_url": "https://github.com/greensock",
+      "license": "MIT",
+      "blurb": "GSAP animation: core, timelines, ScrollTrigger, plugins and React.",
+      "roots": ["skills"],
+      "accent": "#88ce02"
+    },
+    {
+      "id": "phuryn",
+      "repo": "phuryn/pm-skills",
+      "url": "https://github.com/phuryn/pm-skills",
+      "author": "Paweł Huryn",
+      "author_url": "https://github.com/phuryn",
+      "license": "MIT",
+      "blurb": "Product management from discovery and strategy to execution and go-to-market.",
+      "roots": ["."],
+      "accent": "#b5895a"
     }
   ]
 }

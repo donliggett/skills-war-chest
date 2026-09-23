@@ -1,7 +1,7 @@
 # War Chest
 
 A searchable, tagged, rated browser interface over agent skills gathered from
-across GitHub. 369 skills from 7 repositories, indexed against the open
+across GitHub. 746 skills from 18 repositories, indexed against the open
 [Agent Skills specification](https://agentskills.io/specification).
 
 Nothing here forks anyone's work. The chest is an **index**: it reads upstream
@@ -14,7 +14,7 @@ repository, and installing one pulls from there too.
 ## Open it
 
 **No setup** — double-click `dist/skills-war-chest.html`. The interface and the
-whole index are inlined into that one 0.6 MB file: no server, no build step.
+whole index are inlined into that one 1.1 MB file: no server, no build step.
 Browsing, search, ratings and compare work offline; the text of a skill is
 fetched from GitHub when you open it, so reading one needs a connection.
 
@@ -34,7 +34,7 @@ separate files.
 ## Rebuild it
 
 ```bash
-python3 tools/sync.py     # clone / fast-forward the 7 upstream repos into sources/
+python3 tools/sync.py     # clone / update the upstream repos into sources/
 python3 tools/build.py    # parse → tag → score → emit data/, docs, dist/
 ```
 
@@ -83,7 +83,7 @@ upstream credit. The text is read live from the source repository, so it is the
 current version; if GitHub can't be reached, the drawer says so and links to it.
 
 **Near-duplicate detection.** Token-overlap clustering across all repos flags the
-10 clusters where skills substantially restate each other, and suggests which one
+13 clusters where skills substantially restate each other, and suggests which one
 to keep.
 
 **Compare.** Shift-click up to four cards to see them side by side with a tag
@@ -102,7 +102,9 @@ Dark and light themes, responsive to phone width, keyboard-driven
 ## Sources and licensing
 
 Matt Pocock · Emil Kowalski · Google · Sahil Lavingia · Hugging Face · Meng To ·
-Addy Osmani. Per-repo counts, pinned commits and licenses in
+Addy Osmani · Jesse Vincent (Superpowers) · Anthropic · OpenAI · Corey Haines ·
+Steph Ango (Obsidian) · Trail of Bits · Vercel · Cloudflare · Sentry · GreenSock ·
+Paweł Huryn. Per-repo counts, pinned commits and licenses in
 [`CREDITS.md`](CREDITS.md).
 
 Every skill belongs to its author. This project changes no upstream licensing

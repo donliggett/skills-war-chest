@@ -450,7 +450,7 @@ const NOTE = "font:11px/1.6 var(--mono);color:var(--ink-3);border-left:2px solid
 function bodyNote(r) {
   return `<p style="${NOTE}">Read live from <a href="${esc(r.github_url)}" target="_blank" rel="noopener">${esc(r.origin_repo)}</a>`
     + ` (its latest version) — this chest keeps an index, not a copy of the text.`
-    + (r.redistributable === false ? ` ${esc(r.origin_author)}'s repository declares no license, so treat it as all rights reserved.` : "")
+    + (r.origin_license === "Unspecified" ? ` ${esc(r.origin_author)}'s repository declares no license, so treat it as all rights reserved.` : "")
     + `</p>`;
 }
 
@@ -490,7 +490,7 @@ async function openSkill(id) {
       from <a href="${esc(r.github_url)}" target="_blank" rel="noopener">${esc(r.origin_repo)}</a>
       by <a href="${esc(src.author_url || src.url || "#")}" target="_blank" rel="noopener">${esc(r.origin_author)}</a>
       · ${esc(r.origin_license)} · <code>${esc(r.source_path)}</code>${src.commit ? ` · @${esc(src.commit)}` : ""}
-      ${r.redistributable === false ? '<span style="color:var(--ember)"> · no license upstream</span>' : ""}
+      ${r.origin_license === "Unspecified" ? '<span style="color:var(--ember)"> · no license upstream</span>' : ""}
     </div>
     <div class="dactions">
       <button class="tbtn" data-act="copy-md">⧉ Copy SKILL.md</button>

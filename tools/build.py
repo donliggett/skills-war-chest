@@ -193,7 +193,7 @@ def collect(src):
 
 def build():
     cfg = json.loads((ROOT / "sources.json").read_text(encoding="utf-8"))
-    records, by_hash, warnings = [], {}, []
+    records, by_hash, warnings, first_at = [], {}, [], {}
 
     for src in cfg["sources"]:
         gi = git_info(SOURCES / src["id"])
@@ -211,6 +211,15 @@ def build():
             rel = skill_dir.relative_to(SOURCES / src["id"]).as_posix()
             scoped = skill_dir.relative_to(SOURCES / src["id"] / root).as_posix() if root != "." else rel
             dir_name = skill_dir.name
+            # The id is <origin>--<directory>, and ratings key off it, so two
+            # different skills with the same directory name in one source would
+            # collide. First match wins (roots order, then path order); the
+            # later one is skipped and reported instead of silently shadowing.
+            sid = f"{src['id']}--{dir_name}"
+            if sid in first_at:
+                warnings.append({"id": sid, "issue": f"id collision: skipped {src['id']}/{rel}, "
+                                                      f"same directory name as {first_at[sid]}"})
+                continue
             heads = headings_of(body)
             fences = code_fences(body)
 
@@ -284,6 +293,7 @@ def build():
                 warnings.append({"id": rec["id"], "issue": "empty description"})
 
             by_hash[digest] = rec
+            first_at[sid] = f"{src['id']}/{rel}"
             records.append(rec)
             seen_here += 1
         print(f"  {src['id']:<14} {seen_here:>4} skills   @{gi['commit'] or '?'}")

@@ -2,10 +2,10 @@
 """
 War Chest — source sync.
 
-Clones (or fast-forwards) every repo listed in sources.json into sources/<id>.
+Clones (or updates to the latest commit) every repo listed in sources.json into sources/<id>.
 sources/ is gitignored: it is a cache, never part of this repo's history.
 
-    python3 tools/sync.py            # clone missing, pull existing
+    python3 tools/sync.py            # clone missing, update existing
     python3 tools/sync.py --fresh    # delete and re-clone everything
     python3 tools/sync.py --only google mengto
 """
@@ -37,8 +37,13 @@ def main():
         if args.fresh and dest.exists():
             shutil.rmtree(dest, ignore_errors=True)
         if dest.exists():
-            r = run(["git", "pull", "--ff-only", "--depth", "1"], cwd=dest)
-            status = "updated" if r.returncode == 0 else f"pull failed: {r.stderr.strip()[:80]}"
+            # Clones are depth 1, so `pull --ff-only` can't prove a fast-forward
+            # and fails whenever upstream moved. sources/ is a cache that is never
+            # edited, so fetch the new tip and move to it.
+            r = run(["git", "fetch", "--depth", "1", "origin", "HEAD"], cwd=dest)
+            if r.returncode == 0:
+                r = run(["git", "reset", "--hard", "-q", "FETCH_HEAD"], cwd=dest)
+            status = "updated" if r.returncode == 0 else f"update failed: {r.stderr.strip()[:80]}"
         else:
             r = run(["git", "clone", "--depth", "1", f"https://github.com/{src['repo']}.git", str(dest)])
             status = "cloned" if r.returncode == 0 else f"clone failed: {r.stderr.strip()[:80]}"

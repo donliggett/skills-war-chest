@@ -56,12 +56,14 @@ served, bundled and hosted without a code path for each.
 `roots` matters. Several repos keep skills in more than one subtree, and a few
 ship the same skill twice (Google has 5 duplicated under `plugins/`). Listing
 both roots and deduplicating by content hash keeps the count honest while still
-recording where else a file appeared.
+recording where else a file appeared. Two *different* skills with the same
+directory name in one source would share an id; the first match wins and the
+other is reported in `meta.json` `warnings`.
 
 ### `data/index.json` — one record per skill, no body
 
 Everything the grid, sidebar, search and compare view need, so the first paint
-costs one 0.5 MB request instead of 369 small ones.
+costs one request (about 1.2 MB for 746 skills) instead of hundreds of small ones.
 
 | Field | Notes |
 |---|---|
@@ -159,7 +161,7 @@ the whole body enters context on activation.
 
 `S` ≥ 90 · `A` 78–89 · `B` 65–77 · `C` 50–64 · `D` < 50.
 
-Current distribution: 9 S, 197 A, 101 B, 52 C, 10 D — median 78. A low grade
+Current distribution: 43 S, 387 A, 250 B, 56 C, 10 D — median 78. A low grade
 often means "written for a human reader" rather than "bad": several of the most
 useful short skills score in the C band because they are 30 lines with no code.
 That is exactly the gap the star rating fills.
@@ -178,7 +180,7 @@ is where near-duplicates actually hurt — two skills with near-identical
 descriptions make the routing decision ambiguous no matter how different their
 bodies are.
 
-At 0.42 it finds 10 clusters (24 skills), including families that are correctly
+At 0.42 it finds 13 clusters (30 skills), including families that are correctly
 distinct but confusingly described: the five Google WAF pillars, three mobile-ads
 formats, `bigtable-basics` vs `spanner-basics`. Lower it to ~0.35 and the noise
 overwhelms the signal.
@@ -199,7 +201,7 @@ a catalogue tool that needs `npm install` to open is a catalogue tool that rots.
   the body without frontmatter; Copy puts the whole upstream file on the
   clipboard.
 - **State** — one `S` object. Every mutation calls `render()`, which recomputes
-  filters, grid, chips and sidebar counts. 369 records re-filter in well under a
+  filters, grid, chips and sidebar counts. 746 records re-filter in well under a
   frame, so there is no virtualisation and no framework.
 - **Markdown** — a deliberate subset (headings, fences, lists, tables, quotes,
   rules, inline marks). Input is HTML-escaped *before* parsing and only

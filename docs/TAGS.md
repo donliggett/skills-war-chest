@@ -34,105 +34,111 @@ Tagging is **deterministic**: the same clone always produces the same tags, so
 
 | Tag | Skills | Matches on |
 |---|--:|---|
-| `domain:cloud-infra` | 124 | `\bcloud\b`, `\binfrastructure\b`, `\bdeployment\b`, `\bkubernetes\b` *(+3)* |
-| `domain:design` | 121 | `\bdesign\b`, `\bvisual\b`, `\btypograph`, `\bcolor\b` *(+3)* |
-| `domain:web` | 105 | `\bweb\b`, `\bfrontend\b`, `\bbrowser\b`, `\bwebsite\b` *(+2)* |
-| `domain:data` | 52 | `\bdata(set|base)?\b`, `\bsql\b`, `\banalytics\b`, `\betl\b` *(+2)* |
-| `domain:ml-ai` | 47 | `\bmachine learning\b`, `\bml\b`, `\bmodel\b`, `\bllm\b` *(+6)* |
-| `domain:ui-ux` | 47 | `\bui\b`, `\bux\b`, `\binterface\b`, `\bcomponent\b` *(+2)* |
-| `domain:animation` | 42 | `\banimat`, `\bmotion\b`, `\btransition\b`, `\beasing\b` *(+2)* |
-| `domain:backend` | 42 | `\bbackend\b`, `\bserver[- ]side\b`, `\bapi\b`, `\bendpoint\b` *(+1)* |
-| `domain:devops` | 26 | `\bci/?cd\b`, `\bpipeline\b`, `\bgithub actions\b`, `\bdocker\b` *(+3)* |
-| `domain:docs-writing` | 24 | `\bdocumentation\b`, `\bdocs\b`, `\bwriting\b`, `\breadme\b` *(+2)* |
-| `domain:testing` | 24 | `\btest(s|ing)?\b`, `\bunit test\b`, `\be2e\b`, `\bcoverage\b` *(+2)* |
-| `domain:automation` | 22 | `\bautomat`, `\bworkflow\b`, `\bscript(ing)?\b`, `\bbatch\b` *(+1)* |
-| `domain:game-dev` | 21 | `\bgame\b`, `\bgameplay\b`, `\benemy\b`, `\bcombat\b` *(+3)* |
-| `domain:security` | 20 | `\bsecurity\b`, `\bauth(entication|orization)?\b`, `\boauth\b`, `\bvulnerab` *(+2)* |
-| `domain:agent-workflow` | 19 | `\bhand ?off\b`, `\bretro(spective)?\b`, `\bcontext (window|management|engineering)\b`, `\bprompt(ing|s)?\b` *(+4)* |
-| `domain:product` | 17 | `\bproduct\b`, `\broadmap\b`, `\bmvp\b`, `\bfeature spec\b` *(+1)* |
-| `domain:marketing` | 16 | `\bmarketing\b`, `\bseo\b`, `\bcampaign\b`, `\bads?\b` *(+2)* |
-| `domain:research` | 16 | `\bresearch\b`, `\bliterature\b`, `\bbenchmark\b`, `\bevaluat` *(+1)* |
-| `domain:mobile` | 15 | `\bmobile\b`, `\bios\b`, `\bandroid\b`, `\bapp store\b` *(+2)* |
-| `domain:media` | 13 | `\bvideo\b`, `\baudio\b`, `\bimage generation\b`, `\bscreenshot\b` *(+3)* |
-| `domain:business` | 10 | `\bpricing\b`, `\brevenue\b`, `\bbusiness\b`, `\bstartup\b` *(+2)* |
+| `domain:design` | 165 | `\bdesign\b`, `\bvisual\b`, `\btypograph`, `\bcolor\b` *(+4)* |
+| `domain:cloud-infra` | 162 | `\bcloud\b`, `\binfrastructure\b`, `\bdeployment\b`, `\bkubernetes\b` *(+5)* |
+| `domain:web` | 128 | `\bweb\b`, `\bfrontend\b`, `\bbrowser\b`, `\bwebsite\b` *(+2)* |
+| `domain:docs-writing` | 100 | `\bdocumentation\b`, `\bdocs\b`, `\bwriting\b`, `\breadme\b` *(+5)* |
+| `domain:data` | 96 | `\bdata(set|base)?\b`, `\bsql\b`, `\banalytics\b`, `\betl\b` *(+2)* |
+| `domain:product` | 84 | `\bproduct\b`, `\broadmap\b`, `\bmvp\b`, `\bfeature spec\b` *(+5)* |
+| `domain:security` | 76 | `\bsecurity\b`, `\bauth(entication|orization)?\b`, `\boauth\b`, `\bvulnerab` *(+2)* |
+| `domain:testing` | 72 | `\btest(s|ing)?\b`, `\bunit test\b`, `\be2e\b`, `\bcoverage\b` *(+2)* |
+| `domain:ui-ux` | 68 | `\bui\b`, `\bux\b`, `\binterface\b`, `\bcomponent\b` *(+2)* |
+| `domain:ml-ai` | 66 | `\bmachine learning\b`, `\bml\b`, `\bmodel\b`, `\bllm\b` *(+6)* |
+| `domain:marketing` | 64 | `\bmarketing\b`, `\bseo\b`, `\bcampaign\b`, `\bads?\b` *(+7)* |
+| `domain:backend` | 58 | `\bbackend\b`, `\bserver[- ]side\b`, `\bapi\b`, `\bendpoint\b` *(+1)* |
+| `domain:animation` | 57 | `\banimat`, `\bmotion\b`, `\btransition\b`, `\beasing\b` *(+2)* |
+| `domain:automation` | 54 | `\bautomat`, `\bworkflow\b`, `\bscript(ing)?\b`, `\bbatch\b` *(+1)* |
+| `domain:devops` | 47 | `\bci/?cd\b`, `\bpipeline\b`, `\bgithub actions\b`, `\bdocker\b` *(+7)* |
+| `domain:research` | 47 | `\bresearch\b`, `\bliterature\b`, `\bbenchmark\b`, `\bevaluat` *(+1)* |
+| `domain:business` | 46 | `\bpricing\b`, `\brevenue\b`, `\bbusiness\b`, `\bstartup\b` *(+2)* |
+| `domain:agent-workflow` | 41 | `\bhand ?off\b`, `\bretro(spective)?\b`, `\bcontext (window|management|engineering)\b`, `\bprompt(ing|s)?\b` *(+5)* |
+| `domain:game-dev` | 23 | `\bgame\b`, `\bgameplay\b`, `\benemy\b`, `\bcombat\b` *(+3)* |
+| `domain:media` | 21 | `\bvideo\b`, `\baudio\b`, `\bimage generation\b`, `\bscreenshot\b` *(+3)* |
+| `domain:mobile` | 19 | `\bmobile\b`, `\bios\b`, `\bandroid\b`, `\bapp store\b` *(+2)* |
 
 ### `capability` — Capability
 
 | Tag | Skills | Matches on |
 |---|--:|---|
-| `capability:build` | 133 | `\bbuild\b`, `\bcreate\b`, `\bimplement\b`, `\bscaffold\b` *(+2)* |
-| `capability:plan` | 55 | `\bplan(ning)?\b`, `\bspec\b`, `\barchitect`, `\bstrategy\b` *(+3)* |
-| `capability:optimize` | 41 | `\boptimi[sz]`, `\bperformance\b`, `\bspeed ?up\b`, `\bbundle size\b` *(+1)* |
-| `capability:audit` | 40 | `\baudit\b`, `\binspect\b`, `\bcompliance\b`, `\bverify\b` *(+1)* |
-| `capability:analyze` | 38 | `\banaly[sz]`, `\bprofil`, `\bmeasure\b`, `\bmetrics\b` *(+1)* |
-| `capability:debug` | 38 | `\bdebug\b`, `\btroubleshoot\b`, `\bdiagnos`, `\bfix(ing)?\b` *(+1)* |
-| `capability:deploy` | 35 | `\bdeploy\b`, `\bpublish\b`, `\brelease\b`, `\bhost(ing)?\b` |
-| `capability:review` | 16 | `\breview\b`, `\bcritique\b`, `\bfeedback\b`, `\bcode review\b` |
-| `capability:migrate` | 13 | `\bmigrat`, `\bupgrade\b`, `\bport(ing)?\b`, `\bdeprecat` |
-| `capability:document` | 9 | `\bdocument\b`, `\bwrite docs\b`, `\bexplain\b`, `\bsummari[sz]` |
-| `capability:teach` | 9 | `\bteach\b`, `\btutor`, `\bquiz\b`, `\bgrill\b` *(+3)* |
-| `capability:orchestrate` | 8 | `\borchestrat`, `\bsub-?agent\b`, `\bmulti-?agent\b`, `\bdelegate\b` *(+1)* |
-| `capability:refactor` | 8 | `\brefactor\b`, `\bclean ?up\b`, `\brestructur`, `\brewrite\b` *(+1)* |
-| `capability:convert` | 6 | `\bconvert\b`, `\btransform\b`, `\btranslate\b`, `\bexport\b` |
-| `capability:prototype` | 4 | `\bprototyp`, `\bmock ?up\b`, `\bwireframe\b`, `\bproof of concept\b` |
-| `capability:extract` | 3 | `\bextract\b`, `\bscrape\b`, `\bparse\b`, `\bingest\b` |
-| `capability:test` | 1 | `\bwrite tests?\b`, `\btest suite\b`, `\bplaywright\b`, `\bvitest\b` *(+1)* |
+| `capability:build` | 239 | `\bbuild\b`, `\bcreate\b`, `\bimplement\b`, `\bscaffold\b` *(+2)* |
+| `capability:plan` | 134 | `\bplan(ning)?\b`, `\bspec\b`, `\barchitect`, `\bstrategy\b` *(+3)* |
+| `capability:analyze` | 132 | `\banaly[sz]`, `\bprofil`, `\bmeasure\b`, `\bmetrics\b` *(+1)* |
+| `capability:audit` | 112 | `\baudit\b`, `\binspect\b`, `\bcompliance\b`, `\bverify\b` *(+1)* |
+| `capability:optimize` | 80 | `\boptimi[sz]`, `\bperformance\b`, `\bspeed ?up\b`, `\bbundle size\b` *(+1)* |
+| `capability:debug` | 76 | `\bdebug\b`, `\btroubleshoot\b`, `\bdiagnos`, `\bfix(ing)?\b` *(+1)* |
+| `capability:review` | 69 | `\breview\b`, `\bcritique\b`, `\bfeedback\b`, `\bcode review\b` |
+| `capability:deploy` | 48 | `\bdeploy\b`, `\bpublish\b`, `\brelease\b`, `\bhost(ing)?\b` |
+| `capability:migrate` | 32 | `\bmigrat`, `\bupgrade\b`, `\bport(ing)?\b`, `\bdeprecat` |
+| `capability:document` | 26 | `\bdocument\b`, `\bwrite docs\b`, `\bexplain\b`, `\bsummari[sz]` |
+| `capability:refactor` | 21 | `\brefactor\b`, `\bclean ?up\b`, `\brestructur`, `\brewrite\b` *(+1)* |
+| `capability:orchestrate` | 17 | `\borchestrat`, `\bsub-?agent\b`, `\bmulti-?agent\b`, `\bdelegate\b` *(+1)* |
+| `capability:convert` | 15 | `\bconvert\b`, `\btransform\b`, `\btranslate\b`, `\bexport\b` |
+| `capability:teach` | 11 | `\bteach\b`, `\btutor`, `\bquiz\b`, `\bgrill\b` *(+3)* |
+| `capability:extract` | 9 | `\bextract\b`, `\bscrape\b`, `\bparse\b`, `\bingest\b` |
+| `capability:prototype` | 5 | `\bprototyp`, `\bmock ?up\b`, `\bwireframe\b`, `\bproof of concept\b` |
+| `capability:test` | 4 | `\bwrite tests?\b`, `\btest suite\b`, `\bplaywright\b`, `\bvitest\b` *(+1)* |
 
 ### `stack` — Stack
 
 | Tag | Skills | Matches on |
 |---|--:|---|
-| `stack:gcp` | 59 | `\bgoogle cloud\b`, `\bgcp\b`, `\bcloud run\b`, `\bvertex ai\b` *(+1)* |
-| `stack:kubernetes` | 37 | `\bkubernetes\b`, `\bk8s\b`, `\bgke\b`, `\bhelm\b` |
-| `stack:threejs` | 36 | `\bthree\.?js\b`, `\bwebgl\b`, `\br3f\b`, `\breact three fiber\b` |
-| `stack:huggingface` | 23 | `\bhugging ?face\b`, `\bhf hub\b`, `\bspaces?\b`, `\btransformers\b` *(+1)* |
-| `stack:sql` | 17 | `\bsql\b`, `\bpostgres\b`, `\bbigquery\b`, `\bsqlite\b` |
-| `stack:react` | 15 | `\breact\b`, `\bjsx\b`, `\bhooks?\b` |
-| `stack:gemini` | 13 | `\bgemini\b`, `\bgoogle ai studio\b` |
-| `stack:css` | 12 | `\bcss\b`, `\bflexbox\b`, `\bgrid layout\b`, `\bstylesheet\b` |
-| `stack:python` | 11 | `\bpython\b`, `\bpip\b`, `\buv\b`, `\bpytest\b` |
-| `stack:android` | 10 | `\bandroid\b`, `\bgradle\b`, `\bplay store\b` |
-| `stack:mcp` | 10 | `\bmcp\b`, `\bmodel context protocol\b` |
-| `stack:google-ads` | 9 | `\bgoogle ads\b`, `\bads api\b`, `\badmob\b`, `\bdata manager api\b` |
-| `stack:ios` | 8 | `\bios\b`, `\bapp store\b`, `\buikit\b` |
-| `stack:gsap` | 7 | `\bgsap\b`, `\bscrolltrigger\b`, `\blenis\b` |
-| `stack:terraform` | 7 | `\bterraform\b`, `\biac\b` |
-| `stack:firebase` | 5 | `\bfirebase\b`, `\bfirestore\b` |
-| `stack:aws` | 4 | `\baws\b`, `\blambda\b`, `\bs3\b`, `\bdynamodb\b` |
-| `stack:tailwind` | 4 | `\btailwind\b` |
-| `stack:typescript` | 4 | `\btypescript\b`, `\.tsx?\b`, `\btype[- ]safe\b` |
-| `stack:git` | 3 | `\bgit\b`, `\bcommit\b`, `\bbranch\b`, `\brebase\b` |
-| `stack:github` | 3 | `\bgithub\b`, `\bpull request\b`, `\bgithub actions\b` |
-| `stack:javascript` | 3 | `\bjavascript\b`, `\bes6\b`, `\bnpm\b` |
-| `stack:nextjs` | 3 | `\bnext\.?js\b`, `\bapp router\b`, `\bserver components?\b` |
+| `stack:gcp` | 71 | `\bgoogle cloud\b`, `\bgcp\b`, `\bcloud run\b`, `\bvertex ai\b` *(+1)* |
+| `stack:kubernetes` | 42 | `\bkubernetes\b`, `\bk8s\b`, `\bgke\b`, `\bhelm\b` |
+| `stack:threejs` | 41 | `\bthree\.?js\b`, `\bwebgl\b`, `\br3f\b`, `\breact three fiber\b` |
+| `stack:react` | 27 | `\breact\b`, `\bjsx\b`, `\bhooks?\b` |
+| `stack:huggingface` | 25 | `\bhugging ?face\b`, `\bhf hub\b`, `\bspaces?\b`, `\btransformers\b` *(+1)* |
+| `stack:python` | 25 | `\bpython\b`, `\bpip\b`, `\buv\b`, `\bpytest\b` |
+| `stack:sql` | 25 | `\bsql\b`, `\bpostgres\b`, `\bbigquery\b`, `\bsqlite\b` |
+| `stack:mcp` | 23 | `\bmcp\b`, `\bmodel context protocol\b` |
+| `stack:gemini` | 20 | `\bgemini\b`, `\bgoogle ai studio\b` |
+| `stack:github` | 17 | `\bgithub\b`, `\bpull request\b`, `\bgithub actions\b` |
+| `stack:css` | 16 | `\bcss\b`, `\bflexbox\b`, `\bgrid layout\b`, `\bstylesheet\b` |
+| `stack:gsap` | 15 | `\bgsap\b`, `\bscrolltrigger\b`, `\blenis\b` |
+| `stack:android` | 12 | `\bandroid\b`, `\bgradle\b`, `\bplay store\b` |
+| `stack:javascript` | 12 | `\bjavascript\b`, `\bes6\b`, `\bnpm\b` |
+| `stack:google-ads` | 10 | `\bgoogle ads\b`, `\bads api\b`, `\badmob\b`, `\bdata manager api\b` |
+| `stack:ios` | 10 | `\bios\b`, `\bapp store\b`, `\buikit\b` |
+| `stack:figma` | 9 | `\bfigma\b` |
+| `stack:rust` | 9 | `\brust\b`, `\bcargo\b` |
+| `stack:terraform` | 9 | `\bterraform\b`, `\biac\b` |
+| `stack:nextjs` | 8 | `\bnext\.?js\b`, `\bapp router\b`, `\bserver components?\b` |
+| `stack:typescript` | 8 | `\btypescript\b`, `\.tsx?\b`, `\btype[- ]safe\b` |
+| `stack:git` | 7 | `\bgit\b`, `\bcommit\b`, `\bbranch\b`, `\brebase\b` |
+| `stack:aws` | 6 | `\baws\b`, `\blambda\b`, `\bs3\b`, `\bdynamodb\b` |
+| `stack:firebase` | 6 | `\bfirebase\b`, `\bfirestore\b` |
+| `stack:tailwind` | 5 | `\btailwind\b` |
+| `stack:playwright` | 4 | `\bplaywright\b`, `\bpuppeteer\b`, `\bheadless browser\b` |
+| `stack:swift` | 4 | `\bswift(ui)?\b`, `\bxcode\b` |
+| `stack:expo` | 3 | `\bexpo\b`, `\breact native\b` |
+| `stack:node` | 3 | `\bnode\.?js\b`, `\bpnpm\b`, `\byarn\b` |
 | `stack:blender` | 2 | `\bblender\b`, `\bgltf\b`, `\bglb\b`, `\brigging\b` |
-| `stack:node` | 2 | `\bnode\.?js\b`, `\bpnpm\b`, `\byarn\b` |
+| `stack:kotlin` | 2 | `\bkotlin\b`, `\bjetpack compose\b` |
 | `stack:pytorch` | 2 | `\bpytorch\b`, `\btorch\b`, `\bcuda\b` |
-| `stack:swift` | 2 | `\bswift(ui)?\b`, `\bxcode\b` |
 | `stack:unsplash` | 2 | `\bunsplash\b` |
 | `stack:docker` | 1 | `\bdocker\b`, `\bcontainer image\b` |
 | `stack:elevenlabs` | 1 | `\belevenlabs\b` |
-| `stack:expo` | 1 | `\bexpo\b`, `\breact native\b` |
-| `stack:playwright` | 1 | `\bplaywright\b`, `\bpuppeteer\b`, `\bheadless browser\b` |
 
 ### `format` — Format
 
 | Tag | Skills | Matches on |
 |---|--:|---|
-| `format:image` | 22 | `\bimage\b`, `\bpng\b`, `\bsvg\b`, `\bscreenshot\b` *(+1)* |
-| `format:cli` | 16 | `\bcli\b`, `\bcommand[- ]line\b`, `\bterminal\b`, `\bshell script\b` |
-| `format:video` | 9 | `\bvideo\b`, `\bmp4\b`, `\bscreen recording\b`, `\bgif\b` |
-| `format:markdown` | 4 | `\bmarkdown\b`, `\bmdx\b` |
-| `format:api` | 3 | `\brest api\b`, `\bgraphql\b`, `\bopenapi\b`, `\bwebhook\b` |
-| `format:audio` | 3 | `\baudio\b`, `\bmp3\b`, `\bsound effect\b`, `\bvoiceover\b` |
+| `format:cli` | 32 | `\bcli\b`, `\bcommand[- ]line\b`, `\bterminal\b`, `\bshell script\b` |
+| `format:image` | 29 | `\bimage\b`, `\bpng\b`, `\bsvg\b`, `\bscreenshot\b` *(+1)* |
+| `format:video` | 15 | `\bvideo\b`, `\bmp4\b`, `\bscreen recording\b`, `\bgif\b` |
+| `format:markdown` | 11 | `\bmarkdown\b`, `\bmdx\b` |
+| `format:api` | 7 | `\brest api\b`, `\bgraphql\b`, `\bopenapi\b`, `\bwebhook\b` |
+| `format:audio` | 5 | `\baudio\b`, `\bmp3\b`, `\bsound effect\b`, `\bvoiceover\b` |
+| `format:pdf` | 5 | `\bpdf\b` |
+| `format:office` | 4 | `\bdocx\b`, `\bxlsx\b`, `\bpptx\b`, `\bword document\b` *(+2)* |
+| `format:slides` | 3 | `\bslide deck\b`, `\bpresentation\b`, `\bslides\b` |
 
 ### `agent` — Agent
 
 | Tag | Skills | Matches on |
 |---|--:|---|
-| `agent:codex` | 24 | `\bcodex\b`, `\bopenai\b` |
+| `agent:codex` | 41 | `\bcodex\b`, `\bopenai\b` |
+| `agent:claude-code` | 13 | `\bclaude code\b`, `\bclaude\.md\b`, `\banthropic\b` |
 | `agent:cursor` | 7 | `\bcursor\b` |
-| `agent:claude-code` | 3 | `\bclaude code\b`, `\bclaude\.md\b`, `\banthropic\b` |
 | `agent:copilot` | 1 | `\bcopilot\b` |
 
 ### `trait` — Trait
@@ -141,13 +147,13 @@ Derived from the file tree and frontmatter, never from keywords — always true.
 
 | Tag | Skills | Matches on |
 |---|--:|---|
-| `trait:spec-clean` | 365 | *structural* |
-| `trait:code-heavy` | 165 | *structural* |
-| `trait:quick-ref` | 118 | *structural* |
-| `trait:has-references` | 108 | *structural* |
-| `trait:has-scripts` | 42 | *structural* |
-| `trait:has-assets` | 27 | *structural* |
-| `trait:long-form` | 18 | *structural* |
+| `trait:spec-clean` | 742 | *structural* |
+| `trait:code-heavy` | 346 | *structural* |
+| `trait:has-references` | 255 | *structural* |
+| `trait:quick-ref` | 207 | *structural* |
+| `trait:has-assets` | 134 | *structural* |
+| `trait:has-scripts` | 100 | *structural* |
+| `trait:long-form` | 61 | *structural* |
 
 ## Adding or changing a tag
 

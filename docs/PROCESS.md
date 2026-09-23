@@ -272,6 +272,44 @@ still escaped.
 The trade: wherever outside requests are blocked — offline, or a hosted
 Artifact page — the catalogue works and the text doesn't.
 
+## 10. Eleven more sources
+
+With no text carried, a license stops deciding *whether* a repo can be indexed;
+it only decides what the credits say. That opened the search up. Candidates
+came from GitHub topic searches and the "official" section of a large awesome
+list (used to find repos, never as a source itself). Each was shallow-cloned
+and checked for skill count and layout, repository and per-skill licenses,
+frontmatter spec compliance, trigger phrasing, recent activity, name overlap
+with the existing index, and — the aggregator test — byte-identical `SKILL.md`
+files shared with other repos. That test is what ruled out
+`anthropics/claude-plugins-official` and `antfu/skills`, both of which carry
+copies of other repos' skills. The full shortlist, with the tiers and reasons,
+lives outside the repo.
+
+Added: Jesse Vincent's Superpowers, Anthropic, OpenAI, Corey Haines, Steph Ango
+(Obsidian), Trail of Bits, Vercel, Cloudflare, Sentry, GreenSock and Paweł
+Huryn — 345 skills. The original seven grew to 401 on the same sync, so 746
+in total. Four things changed to take them:
+
+- **Sync could not update.** Clones are depth 1, so `git pull --ff-only` can't
+  prove a fast-forward and failed on every repo that had moved. `sync.py` now
+  fetches the new tip and resets to it; `sources/` is a cache nobody edits.
+- **Two skills could share an id.** OpenAI ships `openai-docs` in both
+  `.curated/` and `.system/` with different text, and the id is
+  `<origin>--<directory>`. The first match now wins and the other is listed in
+  `meta.json` warnings instead of silently shadowing it.
+- **License labels keyed off the wrong thing.** The "full text" link in
+  `CREDITS.md` and the drawer's "no license upstream" note both read the
+  `redistribute` flag. Anthropic and OpenAI license per skill with no
+  repository file, so either value mislabelled them. The link now appears only
+  when a license file was actually copied, and the note only when the license
+  is `Unspecified`.
+- **Tags for new domains.** A handful of rules — churn, cold email, referrals,
+  Cloudflare, OKRs, sprints, stakeholders, Obsidian, Notion, pull requests,
+  commit messages — moved 35 untagged skills into a domain. A bare `\bprs?\b`
+  was tried and dropped: it tagged Corey Haines' public-relations skill as
+  DevOps.
+
 ---
 
 ## Rebuilding from scratch
@@ -279,7 +317,7 @@ Artifact page — the catalogue works and the text doesn't.
 ```bash
 git clone <this repo> && cd skills-war-chest
 pip install pyyaml
-python3 tools/sync.py       # ~2 min, ~110 MB into sources/
+python3 tools/sync.py       # a few minutes, ~235 MB into sources/
 python3 tools/build.py      # ~15 s
 open dist/skills-war-chest.html
 ```

@@ -9,10 +9,21 @@ written upstream — so each upstream license is copied here for attribution.
 - [`mattpocock-LICENSE.txt`](mattpocock-LICENSE.txt) — Matt Pocock ([mattpocock/skills](https://github.com/mattpocock/skills), MIT)
 - [`emilkowalski-LICENSE.txt`](emilkowalski-LICENSE.txt) — Emil Kowalski ([emilkowalski/skills](https://github.com/emilkowalski/skills), MIT)
 - [`google-LICENSE.txt`](google-LICENSE.txt) — Google ([google/skills](https://github.com/google/skills), Apache-2.0)
-- **Sahil Lavingia** ([slavingia/skills](https://github.com/slavingia/skills)) — no license file upstream; indexed only
+- **Sahil Lavingia** ([slavingia/skills](https://github.com/slavingia/skills), Unspecified) — no repository-level license file; see `CREDITS.md`
 - [`huggingface-LICENSE.txt`](huggingface-LICENSE.txt) — Hugging Face ([huggingface/skills](https://github.com/huggingface/skills), Apache-2.0)
 - [`mengto-LICENSE.txt`](mengto-LICENSE.txt) — Meng To ([MengTo/Skills](https://github.com/MengTo/Skills), MIT)
 - [`addyosmani-LICENSE.txt`](addyosmani-LICENSE.txt) — Addy Osmani ([addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), MIT)
+- [`obra-LICENSE.txt`](obra-LICENSE.txt) — Jesse Vincent ([obra/superpowers](https://github.com/obra/superpowers), MIT)
+- **Anthropic** ([anthropics/skills](https://github.com/anthropics/skills), Mixed (per skill)) — no repository-level license file; see `CREDITS.md`
+- **OpenAI** ([openai/skills](https://github.com/openai/skills), Apache-2.0 (per skill)) — no repository-level license file; see `CREDITS.md`
+- [`coreyhaines-LICENSE.txt`](coreyhaines-LICENSE.txt) — Corey Haines ([coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills), MIT)
+- [`kepano-LICENSE.txt`](kepano-LICENSE.txt) — Steph Ango ([kepano/obsidian-skills](https://github.com/kepano/obsidian-skills), MIT)
+- [`trailofbits-LICENSE.txt`](trailofbits-LICENSE.txt) — Trail of Bits ([trailofbits/skills](https://github.com/trailofbits/skills), CC-BY-SA-4.0)
+- **Vercel** ([vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills), Unspecified) — no repository-level license file; see `CREDITS.md`
+- [`cloudflare-LICENSE.txt`](cloudflare-LICENSE.txt) — Cloudflare ([cloudflare/skills](https://github.com/cloudflare/skills), Apache-2.0)
+- [`sentry-LICENSE.txt`](sentry-LICENSE.txt) — Sentry ([getsentry/skills](https://github.com/getsentry/skills), Apache-2.0)
+- [`gsap-LICENSE.txt`](gsap-LICENSE.txt) — GreenSock ([greensock/gsap-skills](https://github.com/greensock/gsap-skills), MIT)
+- [`phuryn-LICENSE.txt`](phuryn-LICENSE.txt) — Paweł Huryn ([phuryn/pm-skills](https://github.com/phuryn/pm-skills), MIT)
 
 ## What is taken from upstream
 

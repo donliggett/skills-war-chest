@@ -12,33 +12,33 @@ reads each skill live from its source repository when you open it. Upstream
 licenses are reproduced verbatim in [`licenses/`](licenses/) for attribution.
 Sources whose repository declares **no** license are marked **Unspecified**.
 
-Indexed 369 skills from 7 repositories on 2026-09-23.
+Indexed 746 skills from 18 repositories on 2026-09-23.
 
 ## Matt Pocock — [mattpocock/skills](https://github.com/mattpocock/skills)
 
 TypeScript, testing and repo-hygiene skills from the Total TypeScript author.
 
-- **Skills indexed:** 37
+- **Skills indexed:** 38
 - **License:** MIT — [full text](licenses/mattpocock-LICENSE.txt)
-- **Pinned at:** `6654f6b60cd9` (2026-08-24)
+- **Pinned at:** `c55ee46073ed` (2026-09-18)
 - **Author:** https://github.com/mattpocock
 
 ## Emil Kowalski — [emilkowalski/skills](https://github.com/emilkowalski/skills)
 
 Animation and design-engineering skills from the author of Sonner and Vaul.
 
-- **Skills indexed:** 12
+- **Skills indexed:** 13
 - **License:** MIT — [full text](licenses/emilkowalski-LICENSE.txt)
-- **Pinned at:** `d23d7f88a2e2` (2026-08-21)
+- **Pinned at:** `85e8e2363b71` (2026-09-15)
 - **Author:** https://github.com/emilkowalski
 
 ## Google — [google/skills](https://github.com/google/skills)
 
 Official Google skills for Ads, Cloud, Android, Firebase and Gemini surfaces.
 
-- **Skills indexed:** 127
+- **Skills indexed:** 147
 - **License:** Apache-2.0 — [full text](licenses/google-LICENSE.txt)
-- **Pinned at:** `5e13c394c12f` (2026-09-01)
+- **Pinned at:** `2a1e4549d591` (2026-09-23)
 - **Author:** https://github.com/google
 
 ## Sahil Lavingia — [slavingia/skills](https://github.com/slavingia/skills)
@@ -58,16 +58,16 @@ Model, dataset, Space and MCP workflow skills for the Hugging Face ecosystem.
 
 - **Skills indexed:** 26
 - **License:** Apache-2.0 — [full text](licenses/huggingface-LICENSE.txt)
-- **Pinned at:** `cead19e10754` (2026-08-27)
+- **Pinned at:** `a45d88703192` (2026-09-23)
 - **Author:** https://github.com/huggingface
 
 ## Meng To — [MengTo/Skills](https://github.com/MengTo/Skills)
 
 Design-heavy skills for UI craft, web motion, game development and media pipelines.
 
-- **Skills indexed:** 132
+- **Skills indexed:** 142
 - **License:** MIT — [full text](licenses/mengto-LICENSE.txt)
-- **Pinned at:** `321c769739b8` (2026-08-29)
+- **Pinned at:** `a965851e27dc` (2026-09-23)
 - **Author:** https://github.com/MengTo
 
 ## Addy Osmani — [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)
@@ -76,8 +76,113 @@ Engineering-discipline skills: performance, code review, migrations, architectur
 
 - **Skills indexed:** 25
 - **License:** MIT — [full text](licenses/addyosmani-LICENSE.txt)
-- **Pinned at:** `d2c37ef6225d` (2026-08-28)
+- **Pinned at:** `bcab6a1b8503` (2026-09-22)
 - **Author:** https://github.com/addyosmani
+
+## Jesse Vincent — [obra/superpowers](https://github.com/obra/superpowers)
+
+A development methodology as skills: brainstorming, planning, TDD, debugging and code review.
+
+- **Skills indexed:** 15
+- **License:** MIT — [full text](licenses/obra-LICENSE.txt)
+- **Pinned at:** `5bf4e7801107` (2026-09-18)
+- **Author:** https://github.com/obra
+
+## Anthropic — [anthropics/skills](https://github.com/anthropics/skills)
+
+Anthropic's reference skills: document formats, artifacts, MCP servers and skill authoring.
+
+- **Skills indexed:** 19
+- **License:** Mixed (per skill)
+- **Pinned at:** `34040c9c5685` (2026-09-10)
+- **Author:** https://github.com/anthropics
+
+> No repository LICENSE. Most skills carry Apache-2.0; docx, pdf, pptx and xlsx are source-available, not open source.
+
+## OpenAI — [openai/skills](https://github.com/openai/skills)
+
+The Codex skills catalog: curated and system skills for apps, deploys and tooling.
+
+- **Skills indexed:** 43
+- **License:** Apache-2.0 (per skill)
+- **Pinned at:** `49f948faa925` (2026-06-23)
+- **Author:** https://github.com/openai
+
+> No repository LICENSE; each skill ships its own Apache-2.0 LICENSE.txt.
+
+## Corey Haines — [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills)
+
+Marketing skills: CRO, copywriting, SEO, analytics, pricing and growth.
+
+- **Skills indexed:** 50
+- **License:** MIT — [full text](licenses/coreyhaines-LICENSE.txt)
+- **Pinned at:** `5b2c0007766c` (2026-09-04)
+- **Author:** https://github.com/coreyhaines31
+
+## Steph Ango — [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills)
+
+Obsidian's CLI and open formats: Markdown, Bases and JSON Canvas.
+
+- **Skills indexed:** 6
+- **License:** MIT — [full text](licenses/kepano-LICENSE.txt)
+- **Pinned at:** `3ccff5338ea7` (2026-09-15)
+- **Author:** https://github.com/kepano
+
+## Trail of Bits — [trailofbits/skills](https://github.com/trailofbits/skills)
+
+Security research, vulnerability detection, smart-contract and audit skills.
+
+- **Skills indexed:** 85
+- **License:** CC-BY-SA-4.0 — [full text](licenses/trailofbits-LICENSE.txt)
+- **Pinned at:** `32e34f817379` (2026-09-21)
+- **Author:** https://github.com/trailofbits
+
+## Vercel — [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills)
+
+React and Next.js performance, web design guidelines and Vercel deploys.
+
+- **Skills indexed:** 9
+- **License:** Unspecified
+- **Pinned at:** `063bee94c3f4` (2026-08-28)
+- **Author:** https://github.com/vercel-labs
+
+> No LICENSE file upstream. No license means all rights reserved.
+
+## Cloudflare — [cloudflare/skills](https://github.com/cloudflare/skills)
+
+Building on Cloudflare: Workers, Durable Objects, the Agents SDK and Wrangler.
+
+- **Skills indexed:** 14
+- **License:** Apache-2.0 — [full text](licenses/cloudflare-LICENSE.txt)
+- **Pinned at:** `6dc760490312` (2026-09-22)
+- **Author:** https://github.com/cloudflare
+
+## Sentry — [getsentry/skills](https://github.com/getsentry/skills)
+
+The skills Sentry's own team uses: code review, commits, PRs and security review.
+
+- **Skills indexed:** 27
+- **License:** Apache-2.0 — [full text](licenses/sentry-LICENSE.txt)
+- **Pinned at:** `c2f99a5b04b4` (2026-08-25)
+- **Author:** https://github.com/getsentry
+
+## GreenSock — [greensock/gsap-skills](https://github.com/greensock/gsap-skills)
+
+GSAP animation: core, timelines, ScrollTrigger, plugins and React.
+
+- **Skills indexed:** 8
+- **License:** MIT — [full text](licenses/gsap-LICENSE.txt)
+- **Pinned at:** `aed9cfd32777` (2026-04-21)
+- **Author:** https://github.com/greensock
+
+## Paweł Huryn — [phuryn/pm-skills](https://github.com/phuryn/pm-skills)
+
+Product management from discovery and strategy to execution and go-to-market.
+
+- **Skills indexed:** 69
+- **License:** MIT — [full text](licenses/phuryn-LICENSE.txt)
+- **Pinned at:** `8607e3b07781` (2026-09-14)
+- **Author:** https://github.com/phuryn
 
 ## If you are one of these authors
 

@@ -4,7 +4,7 @@ Facts about this repository, for any agent working in it. Personal working
 preferences don't belong here: put them in `CLAUDE.local.md` (gitignored) or in
 a CLAUDE.md in a folder above the repo.
 
-An **index** of agent skills from seven upstream repos, plus a zero-dependency
+An **index** of agent skills from the upstream repos in `sources.json`, plus a zero-dependency
 browser interface over it. Read `docs/ARCHITECTURE.md` before changing anything
 structural; `docs/PROCESS.md` explains why it is shaped this way.
 

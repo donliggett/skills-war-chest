@@ -91,7 +91,7 @@ def tags_md(meta):
     return "\n".join(out)
 
 
-def credits_md(meta):
+def credits_md(meta, copied=()):
     out = [
         "# Credits",
         "",
@@ -119,7 +119,7 @@ def credits_md(meta):
             "",
             f"- **Skills indexed:** {s['count']}",
             f"- **License:** {s['license']}"
-            + (f" — [full text](licenses/{s['id']}-LICENSE.txt)" if s.get("redistribute", True) else ""),
+            + (f" — [full text](licenses/{s['id']}-LICENSE.txt)" if s["id"] in copied else ""),
             f"- **Pinned at:** `{s['commit']}`" + (f" ({s['committed_at'][:10]})" if s.get("committed_at") else ""),
             f"- **Author:** {s['author_url']}",
         ]
@@ -182,8 +182,8 @@ def copy_licenses(meta):
             f"- [`{s['id']}-LICENSE.txt`]({s['id']}-LICENSE.txt) — {s['author']} "
             f"([{s['repo']}]({s['url']}), {s['license']})\n"
             if s["id"] in copied else
-            f"- **{s['author']}** ([{s['repo']}]({s['url']})) — no license file upstream; "
-            f"indexed only\n"
+            f"- **{s['author']}** ([{s['repo']}]({s['url']}), {s['license']}) — no repository-level "
+            f"license file; see `CREDITS.md`\n"
             for s in meta["sources"])
         + "\n## What is taken from upstream\n\n"
           "Only each skill's `name` and `description`, quoted unmodified, and its list of\n"
@@ -192,14 +192,15 @@ def copy_licenses(meta):
           "copied or modified.\n",
         encoding="utf-8")
     print(f"  wrote licenses/ ({len(copied)} upstream license files)")
+    return set(copied)
 
 
 def main():
     meta = json.loads((ROOT / "data" / "meta.json").read_text(encoding="utf-8"))
-    copy_licenses(meta)
+    copied = copy_licenses(meta)
     (ROOT / "docs").mkdir(exist_ok=True)
     (ROOT / "docs" / "TAGS.md").write_text(tags_md(meta), encoding="utf-8")
-    (ROOT / "CREDITS.md").write_text(credits_md(meta), encoding="utf-8")
+    (ROOT / "CREDITS.md").write_text(credits_md(meta, copied), encoding="utf-8")
     print("  wrote docs/TAGS.md and CREDITS.md")
 
 

@@ -1,5 +1,14 @@
 {
  "clusters": {
+  "anthropic--doc-coauthoring": [
+   "anthropic--doc-coauthoring",
+   "sentry--doc-coauthoring"
+  ],
+  "cloudflare--sandbox-migrate-to-next": [
+   "cloudflare--sandbox-migrate-to-next",
+   "cloudflare--sandbox-next",
+   "cloudflare--sandbox-stable"
+  ],
   "google--agent-platform-tuning": [
    "google--agent-platform-tuning",
    "google--agent-platform-tuning-management"
@@ -16,16 +25,15 @@
    "google--data-manager-api-audience-ingestion",
    "google--data-manager-api-event-ingestion"
   ],
-  "google--genkit-js": [
-   "google--genkit-js",
-   "google--genkit-python"
+  "google--developing-genkit-js": [
+   "google--developing-genkit-js",
+   "google--developing-genkit-python"
   ],
-  "google--google-cloud-waf-operational-excellence": [
+  "google--google-cloud-waf-cost-optimization": [
    "google--google-cloud-waf-cost-optimization",
    "google--google-cloud-waf-operational-excellence",
    "google--google-cloud-waf-performance-optimization",
-   "google--google-cloud-waf-security",
-   "google--google-cloud-waf-sustainability"
+   "google--google-cloud-waf-security"
   ],
   "google--google-mobile-ads-banner": [
    "google--google-mobile-ads-banner",
@@ -43,9 +51,19 @@
   "mengto--landing-page": [
    "mengto--landing-page",
    "mengto--pricing-page"
+  ],
+  "openai--vercel-deploy": [
+   "openai--vercel-deploy",
+   "vercel--deploy-to-vercel"
   ]
  },
  "pairs": [
+  {
+   "a": "anthropic--doc-coauthoring",
+   "b": "sentry--doc-coauthoring",
+   "cross_repo": true,
+   "similarity": 1.0
+  },
   {
    "a": "google--google-mobile-ads-interstitial",
    "b": "google--google-mobile-ads-rewarded",
@@ -53,22 +71,34 @@
    "similarity": 1.0
   },
   {
-   "a": "google--genkit-js",
-   "b": "google--genkit-python",
+   "a": "openai--vercel-deploy",
+   "b": "vercel--deploy-to-vercel",
+   "cross_repo": true,
+   "similarity": 1.0
+  },
+  {
+   "a": "google--developing-genkit-js",
+   "b": "google--developing-genkit-python",
    "cross_repo": false,
    "similarity": 0.65
   },
   {
-   "a": "google--google-cloud-waf-cost-optimization",
-   "b": "google--google-cloud-waf-sustainability",
+   "a": "cloudflare--sandbox-next",
+   "b": "cloudflare--sandbox-stable",
    "cross_repo": false,
-   "similarity": 0.645
+   "similarity": 0.643
   },
   {
    "a": "google--google-cloud-waf-operational-excellence",
    "b": "google--google-cloud-waf-performance-optimization",
    "cross_repo": false,
    "similarity": 0.618
+  },
+  {
+   "a": "cloudflare--sandbox-migrate-to-next",
+   "b": "cloudflare--sandbox-next",
+   "cross_repo": false,
+   "similarity": 0.615
   },
   {
    "a": "google--google-cloud-waf-operational-excellence",
@@ -78,27 +108,9 @@
   },
   {
    "a": "google--google-cloud-waf-performance-optimization",
-   "b": "google--google-cloud-waf-sustainability",
-   "cross_repo": false,
-   "similarity": 0.588
-  },
-  {
-   "a": "google--google-cloud-waf-performance-optimization",
    "b": "google--google-cloud-waf-security",
    "cross_repo": false,
    "similarity": 0.576
-  },
-  {
-   "a": "google--google-cloud-waf-security",
-   "b": "google--google-cloud-waf-sustainability",
-   "cross_repo": false,
-   "similarity": 0.576
-  },
-  {
-   "a": "google--google-cloud-waf-operational-excellence",
-   "b": "google--google-cloud-waf-sustainability",
-   "cross_repo": false,
-   "similarity": 0.571
   },
   {
    "a": "google--google-mobile-ads-banner",
@@ -123,6 +135,12 @@
    "b": "mattpocock--grill-with-docs",
    "cross_repo": false,
    "similarity": 0.545
+  },
+  {
+   "a": "cloudflare--sandbox-migrate-to-next",
+   "b": "cloudflare--sandbox-stable",
+   "cross_repo": false,
+   "similarity": 0.538
   },
   {
    "a": "google--data-manager-api-audience-ingestion",
