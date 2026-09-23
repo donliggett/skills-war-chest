@@ -10,7 +10,6 @@ sources.json ──▶ tools/sync.py ──▶ sources/<id>/          (gitignore
                                         ▼
                  tools/build.py ──▶ data/meta.json
                                     data/index.json
-                                    data/skills/<id>.json
                                     data/duplicates.json
                                         │
                  tools/gen_docs.py ─────┼──▶ docs/TAGS.md, CREDITS.md
@@ -20,8 +19,13 @@ sources.json ──▶ tools/sync.py ──▶ sources/<id>/          (gitignore
                  web/{index,styles,app} ┴──▶ the interface (served or inlined)
 ```
 
-The interface never reads `sources/`. It reads `data/` and nothing else, which is
-why the same `app.js` runs served, bundled and hosted without a code path for each.
+The interface never reads `sources/`. It reads `data/` (or the copy inlined into
+a bundle) for everything except `SKILL.md` text, which it fetches from each
+record's `raw_url` when a skill is opened. That is why the same `app.js` runs
+served, bundled and hosted without a code path for each.
+
+**Index only.** No `SKILL.md` text is stored anywhere in this repository.
+`build.py` reads each body to derive tags, score and shape, then drops it.
 
 ---
 
@@ -40,7 +44,11 @@ why the same `app.js` runs served, bundled and hosted without a code path for ea
     "license":    "Apache-2.0",          // "Unspecified" when the repo declares none
     "blurb":      "One line shown in Credits.",
     "roots":      ["skills", "plugins"], // subtrees to walk; first match wins on ties
-    "accent":     "#e0a34a"              // the card's left rule and its bar in Stats
+    "accent":     "#e0a34a",             // the card's left rule and its bar in Stats
+    "redistribute": false,               // only when the repo declares no license
+    "license_note": "…"                  // shown in Credits beside that source
+    // (redistribute no longer changes what is stored — nothing is — only what
+    //  the drawer and CREDITS.md say about the source)
   }]
 }
 ```
@@ -61,7 +69,8 @@ costs one 0.5 MB request instead of 369 small ones.
 | `name` / `description` | from frontmatter, falling back to the directory name |
 | `origin`, `origin_repo`, `origin_author`, `origin_license` | denormalised so a card renders without a join |
 | `source_path` | path inside the upstream repo — what `sparse-checkout` is given |
-| `github_url`, `raw_url` | deep links, pinned to `HEAD` |
+| `github_url`, `raw_url` | deep links, pinned to `HEAD`; the body is fetched from `raw_url` on open |
+| `extra_files` | up to 60 bundled file paths, listed in the drawer |
 | `tags` | sorted `facet:value` strings — see `docs/TAGS.md` |
 | `score`, `grade`, `score_breakdown` | see below |
 | `body_lines`, `words`, `code_blocks`, `languages`, `file_count` | shape of the skill |
@@ -69,11 +78,11 @@ costs one 0.5 MB request instead of 369 small ones.
 | `dup_cluster` | cluster key, or `null` |
 | `also_at` | paths where a byte-identical copy was found |
 
-### `data/skills/<id>.json` — the full record
+### No `data/skills/`
 
-The index record plus `body` (the complete `SKILL.md` markdown), `frontmatter`
-(everything except the description), `extra_files` (up to 60 bundled paths), and
-`parse_error` when the frontmatter was malformed.
+Before the index-only switch this held one full record per skill, body
+included. It is gone: `extra_files` moved into `index.json`, parse errors are
+listed in `meta.json` `warnings`, and other frontmatter is not emitted.
 
 ### `data/meta.json` — build stamp and vocabulary
 
@@ -86,7 +95,7 @@ stats, and `warnings` — every skill whose frontmatter is off-spec.
 `clusters` (key → member ids, union-find over pairs) and the top 400 `pairs`
 with their similarity, so the drawer can show "82% overlap" on a specific pair.
 
-All four files are written with `sort_keys=True` and a stable record order, so a
+All three files are written with `sort_keys=True` and a stable record order, so a
 rebuild that changes nothing produces a byte-identical diff.
 
 ---
@@ -182,7 +191,13 @@ overwhelms the signal.
 a catalogue tool that needs `npm install` to open is a catalogue tool that rots.
 
 - **Loading** — `window.__WARCHEST__` if bundled, otherwise `fetch('../data/…')`.
-  Skill bodies load on demand when served, and come pre-inlined when bundled.
+- **Skill bodies** — fetched from `raw_url` when a drawer opens, in every
+  context. A success is cached for the session. A failure (404, other HTTP
+  error, network error, or no answer within 12 s) shows a note with a GitHub
+  link instead of a body, is not cached, and is retried on reopen; **Copy
+  SKILL.md** then shows a toast rather than copying anything. The drawer renders
+  the body without frontmatter; Copy puts the whole upstream file on the
+  clipboard.
 - **State** — one `S` object. Every mutation calls `render()`, which recomputes
   filters, grid, chips and sidebar counts. 369 records re-filter in well under a
   frame, so there is no virtualisation and no framework.

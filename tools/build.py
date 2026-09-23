@@ -5,9 +5,11 @@ War Chest — build pipeline.
 Reads the upstream clones in sources/, and emits everything the browser needs:
 
     data/meta.json            build stamp, source credits, tag vocabulary + counts
-    data/index.json           one lightweight record per skill (no body)
-    data/skills/<id>.json     full record incl. the complete SKILL.md body
+    data/index.json           one record per skill (no body)
     data/duplicates.json      near-duplicate clusters across repos
+
+Index only: SKILL.md bodies are read to derive tags, score and shape, and are
+never written out. The interface fetches them from raw_url on open.
 
 Deterministic: same clones in, byte-identical JSON out (sorted keys, stable ids).
 
@@ -329,36 +331,19 @@ def build():
         r["dup_cluster"] = find(r["id"]) if r["id"] in dup_ids else None
 
     # ------------------------------------------------------------- emit ----
+    # Index only: no SKILL.md text is written anywhere in this repository. The
+    # body is read here to derive tags, score and shape, then dropped; the
+    # interface fetches it from raw_url when a skill is opened.
     DATA.mkdir(exist_ok=True)
-    (DATA / "skills").mkdir(exist_ok=True)
-    stale = 0
-    for old in (DATA / "skills").glob("*.json"):
-        try:
-            old.unlink()
-        except OSError:
-            stale += 1  # read-only mount / locked file: it will simply be overwritten
-    if stale:
-        print(f"  note: could not clear {stale} old json file(s); they were overwritten in place")
-
     index, tag_counts = [], Counter()
     for r in records:
         tag_counts.update(r["tags"])
-        full = {k: v for k, v in r.items() if k != "_body"}
-        if r["redistributable"]:
-            full["body"] = r["_body"]
-        else:
-            # Upstream declares no license. We index it; we do not carry its
-            # text. The interface fetches the body from raw_url at open time.
-            full["body"] = None
-            full["body_omitted"] = "upstream declares no license — fetched live from raw_url"
-        (DATA / "skills" / f"{r['id']}.json").write_text(
-            json.dumps(full, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
         index.append({k: r[k] for k in (
             "id", "name", "description", "origin", "origin_author", "origin_repo", "origin_license",
             "source_path", "github_url", "raw_url", "group", "tags", "score", "grade",
             "score_breakdown", "body_lines", "words", "bytes", "code_blocks", "languages",
-            "file_count", "has_scripts", "has_references", "has_assets", "dup_cluster", "also_at",
-            "redistributable",
+            "file_count", "extra_files", "has_scripts", "has_references", "has_assets",
+            "dup_cluster", "also_at", "redistributable",
         )})
 
     vocab = {f: sorted({t for t in tag_counts if t.startswith(f + ":")}) for f in taxonomy.FACETS}

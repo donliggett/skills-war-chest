@@ -18,7 +18,7 @@ was written, because each one forecloses a different design:
 
 | Question | Chosen | Why it mattered |
 |---|---|---|
-| Payload | index + full text; upstream clones gitignored | Vendoring everything meant a 100 MB+ repo (Meng To's assets alone); metadata-only meant no offline reading. |
+| Payload | index + full text; upstream clones gitignored — **later revised to index only, see §9** | Vendoring everything meant a 100 MB+ repo (Meng To's assets alone); metadata-only meant no offline reading. |
 | Theme | dark slate + brass | Sets the token palette, which everything downstream inherits. |
 | Rating | manual stars **and** a computed score | Two different questions — "is this well built" vs "is this useful to me" — and conflating them makes both useless. |
 | Extras | all four: dedupe, install kit, stats, hosted copy | Each is a separate module; knowing up front avoided retrofitting. |
@@ -239,6 +239,39 @@ The tree and git history were scanned for credentials, tokens, private keys and
 local paths before publication. Clean — the only match was `/home/airflow/`,
 which is Google's own documentation path.
 
+## 9. Index only
+
+Carrying the text had a cost that grew with time. The copy drifted from
+upstream — three weeks after pinning, four Google `genkit-*` skills had already
+moved — every re-sync rewrote hundreds of files, and each license's obligations
+rode along in git. So the repository stopped carrying `SKILL.md` text at all:
+the path built for `slavingia/skills` in §8 became the path for everything.
+
+- `build.py` still reads every body to derive tags, score and shape, then drops
+  it. `data/skills/` is gone; the one field the interface needed from it,
+  `extra_files`, moved into `index.json` (about +60 KB).
+- `bundle.py` inlines only the index. The single file went from 3.5 MB to
+  0.6 MB, and the lite variant, which it now equals, was removed.
+- `app.js` fetches every body from `raw_url` when a skill opens. `raw_url`
+  points at `HEAD`, so you read the latest upstream text, while tags and score
+  describe the pinned commit until the next sync.
+- `redistribute: false` still marks a source with no license. It no longer
+  changes what is stored, only what the drawer and `CREDITS.md` say.
+
+Failure is soft by design, and was tested by stubbing the network in headless
+Chromium against the real bundle. A 404 (moved or removed upstream), a 500, a
+network error and a hung request (aborted at 12 s) each show a note with a
+GitHub link in place of the body, while score, rating and the bundled-file list
+still render; reopening retries. One defect surfaced: **Copy SKILL.md** used to
+copy the failure message to the clipboard as if it were the skill. It now shows
+a toast instead, and on success copies the whole upstream file, frontmatter
+included, so a pasted `SKILL.md` is a valid skill. A slow response can't
+overwrite the drawer after you've moved to another skill, and a hostile body is
+still escaped.
+
+The trade: wherever outside requests are blocked — offline, or a hosted
+Artifact page — the catalogue works and the text doesn't.
+
 ---
 
 ## Rebuilding from scratch
@@ -282,13 +315,14 @@ survive rebuilds and upstream updates.
 - **The score rewards a house style.** Explicit triggers, anti-triggers and
   bundled resources are Google's conventions as much as they are the spec's.
   Short, sharp, human-voiced skills score lower than they deserve.
-- **`HEAD` links, pinned display.** `github_url` points at `HEAD`, so a link can
-  drift if a skill is moved upstream. `meta.json` records the commit actually
-  indexed, which is what the drawer and `CREDITS.md` display.
+- **`HEAD` links, pinned display.** `github_url` and `raw_url` point at `HEAD`,
+  so the text you read can be newer than the tags and score describing it, and
+  a skill moved upstream 404s until the next sync. `meta.json` records the
+  commit actually indexed, which is what the drawer and `CREDITS.md` display.
 - **Ratings are per-browser.** `localStorage` is not synced. Export/import is the
   bridge, on purpose — no account, no server, nothing leaves the machine.
 - **Duplicate clustering only reads name and description.** Two skills with
   identical bodies and different descriptions will not cluster.
-- **Indexed-only sources need the network.** The 10 skills from
-  `slavingia/skills` fetch their body from GitHub when opened, so they are the
-  one part of the offline bundle that is not offline. Their metadata still is.
+- **Reading a skill needs the network.** Browsing, search, ratings, compare and
+  the kit work offline; `SKILL.md` text is fetched from GitHub on open, so it is
+  unavailable offline or on hosts that block outside requests.

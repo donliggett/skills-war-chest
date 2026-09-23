@@ -6,14 +6,13 @@ Every skill indexed here was written by someone else. This repository holds an
 **index**, not a fork: it changes no upstream licensing, and every install path
 pulls from the original repository.
 
-Where a source's license permits redistribution, this project also carries the
-`SKILL.md` text so the interface can render it offline. That text stays under its
-upstream license, and each license is reproduced verbatim in [`licenses/`](licenses/).
-Sources whose repository declares **no** license are **indexed only**: their
-metadata is recorded, their text is not, and the interface fetches it from the
-source repository at read time.
+It records each skill's metadata — name and description as written upstream, plus
+derived tags, score and size — and carries **no `SKILL.md` text**. The interface
+reads each skill live from its source repository when you open it. Upstream
+licenses are reproduced verbatim in [`licenses/`](licenses/) for attribution.
+Sources whose repository declares **no** license are marked **Unspecified**.
 
-Indexed 369 skills from 7 repositories on 2026-09-02.
+Indexed 369 skills from 7 repositories on 2026-09-23.
 
 ## Matt Pocock — [mattpocock/skills](https://github.com/mattpocock/skills)
 
@@ -21,7 +20,6 @@ TypeScript, testing and repo-hygiene skills from the Total TypeScript author.
 
 - **Skills indexed:** 37
 - **License:** MIT — [full text](licenses/mattpocock-LICENSE.txt)
-- **Redistribution:** `SKILL.md` text included in this repository
 - **Pinned at:** `6654f6b60cd9` (2026-08-24)
 - **Author:** https://github.com/mattpocock
 
@@ -31,7 +29,6 @@ Animation and design-engineering skills from the author of Sonner and Vaul.
 
 - **Skills indexed:** 12
 - **License:** MIT — [full text](licenses/emilkowalski-LICENSE.txt)
-- **Redistribution:** `SKILL.md` text included in this repository
 - **Pinned at:** `d23d7f88a2e2` (2026-08-21)
 - **Author:** https://github.com/emilkowalski
 
@@ -41,7 +38,6 @@ Official Google skills for Ads, Cloud, Android, Firebase and Gemini surfaces.
 
 - **Skills indexed:** 127
 - **License:** Apache-2.0 — [full text](licenses/google-LICENSE.txt)
-- **Redistribution:** `SKILL.md` text included in this repository
 - **Pinned at:** `5e13c394c12f` (2026-09-01)
 - **Author:** https://github.com/google
 
@@ -51,7 +47,6 @@ Founder-oriented skills on shipping MVPs, pricing and solo operating.
 
 - **Skills indexed:** 10
 - **License:** Unspecified
-- **Redistribution:** **indexed only — text not carried here**
 - **Pinned at:** `eb9f57fba03d` (2026-04-13)
 - **Author:** https://github.com/slavingia
 
@@ -63,7 +58,6 @@ Model, dataset, Space and MCP workflow skills for the Hugging Face ecosystem.
 
 - **Skills indexed:** 26
 - **License:** Apache-2.0 — [full text](licenses/huggingface-LICENSE.txt)
-- **Redistribution:** `SKILL.md` text included in this repository
 - **Pinned at:** `cead19e10754` (2026-08-27)
 - **Author:** https://github.com/huggingface
 
@@ -73,7 +67,6 @@ Design-heavy skills for UI craft, web motion, game development and media pipelin
 
 - **Skills indexed:** 132
 - **License:** MIT — [full text](licenses/mengto-LICENSE.txt)
-- **Redistribution:** `SKILL.md` text included in this repository
 - **Pinned at:** `321c769739b8` (2026-08-29)
 - **Author:** https://github.com/MengTo
 
@@ -83,16 +76,14 @@ Engineering-discipline skills: performance, code review, migrations, architectur
 
 - **Skills indexed:** 25
 - **License:** MIT — [full text](licenses/addyosmani-LICENSE.txt)
-- **Redistribution:** `SKILL.md` text included in this repository
 - **Pinned at:** `d2c37ef6225d` (2026-08-28)
 - **Author:** https://github.com/addyosmani
 
 ## If you are one of these authors
 
-If you would rather this project not carry your skills' text, open an issue and
-it will be switched to indexed-only in the next build — set `"redistribute": false`
-on your entry in `sources.json`. If your repository has no license and you would
-like the text carried, adding a `LICENSE` upstream is all it takes.
+This project keeps no copy of your text — it links to your repository and reads
+from it. If you would rather not be indexed at all, open an issue and your entry
+will be removed from `sources.json` in the next build.
 
 ## Format
 
@@ -107,5 +98,4 @@ respect it when you install, adapt or redistribute a skill.
 
 Skills whose upstream repository declares no license are marked **Unspecified**. Absence
 of a license is not permission: treat those as all-rights-reserved and ask the author
-before reusing them in anything you ship. This project does the same — it does not
-carry their text.
+before reusing them in anything you ship.

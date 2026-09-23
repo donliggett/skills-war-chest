@@ -2,9 +2,10 @@
 """
 War Chest — standalone bundler.
 
-Inlines web/styles.css, web/app.js and the whole of data/ into a single
-self-contained HTML file at dist/skills-war-chest.html. That file needs no
-server, no network and no build step: double-click it, or publish it.
+Inlines web/styles.css, web/app.js and the index (data/*.json) into a single
+HTML file at dist/skills-war-chest.html. It needs no server and no build step:
+double-click it, or publish it. Browsing, search, ratings and compare work
+offline; SKILL.md text is fetched from GitHub when a skill is opened.
 
     python3 tools/bundle.py
 """
@@ -31,16 +32,7 @@ def main():
     index = json.loads((DATA / "index.json").read_text(encoding="utf-8"))
     dupes = json.loads((DATA / "duplicates.json").read_text(encoding="utf-8"))
 
-    bodies, extras = {}, {}
-    for f in sorted((DATA / "skills").glob("*.json")):
-        rec = json.loads(f.read_text(encoding="utf-8"))
-        if rec.get("extra_files"):
-            extras[rec["id"]] = rec["extra_files"]
-        if rec.get("body") is None:
-            continue                      # index-only source: never inline its text
-        bodies[rec["id"]] = rec["body"]
-
-    payload = {"meta": meta, "index": index, "duplicates": dupes, "bodies": bodies, "extras": extras}
+    payload = {"meta": meta, "index": index, "duplicates": dupes}   # index only, no SKILL.md text
 
     html = html.replace(
         '<!--WARCHEST_STYLE-->\n<link rel="stylesheet" href="styles.css">',
@@ -61,20 +53,16 @@ def main():
     out = DIST / "skills-war-chest.html"
     out.write_text(html, encoding="utf-8")
     mb = out.stat().st_size / 1048576
-    print(f"  bundled -> dist/skills-war-chest.html  ({mb:.2f} MB, {len(index)} skills, no external requests)")
-
-    # A body-less variant: same UI, fetches nothing, ~30x smaller. Handy for
-    # sharing the catalogue when the full text isn't needed.
-    lite = html.replace(js_json(payload), js_json({**payload, "bodies": {}, "extras": {}}))
-    (DIST / "skills-war-chest-lite.html").write_text(lite, encoding="utf-8")
-    print(f"  bundled -> dist/skills-war-chest-lite.html  ({(DIST / 'skills-war-chest-lite.html').stat().st_size / 1048576:.2f} MB, index only)")
+    print(f"  bundled -> dist/skills-war-chest.html  ({mb:.2f} MB, {len(index)} skills, bodies fetched on open)")
     artifact_variant()
     site_variant()
 
 
 def artifact_variant():
     """A body-only copy of the full bundle, for hosts that supply their own
-    <!doctype>/<head> skeleton (the Artifact publisher). Same page, no wrapper."""
+    <!doctype>/<head> skeleton (the Artifact publisher). Same page, no wrapper.
+    Hosts that block outside requests can't fetch SKILL.md text; the drawer
+    then shows a GitHub link instead."""
     src = (DIST / "skills-war-chest.html").read_text(encoding="utf-8")
     title = "<title>War Chest</title>"
     style = src[src.index("<style>"):src.index("</style>") + 8]
@@ -87,7 +75,7 @@ def artifact_variant():
 def site_variant():
     """A deployable static site at dist/site/: index.html at the root beside
     data/, so a host serves it as-is. Unlike the single-file bundle this keeps
-    progressive loading — a 0.5 MB index first, skill bodies fetched on open."""
+    progressive loading — the index first, skill bodies fetched from GitHub on open."""
     import shutil
     site = DIST / "site"
     if site.exists():

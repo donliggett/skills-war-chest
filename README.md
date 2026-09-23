@@ -5,16 +5,18 @@ across GitHub. 369 skills from 7 repositories, indexed against the open
 [Agent Skills specification](https://agentskills.io/specification).
 
 Nothing here forks anyone's work. The chest is an **index**: it reads upstream
-clones, derives tags and a quality score, and renders the full `SKILL.md` body
-in the browser. Installing a skill pulls it from its original repository.
+clones, derives tags and a quality score, and stores that metadata — no
+`SKILL.md` text. Opening a skill reads its text live from the original
+repository, and installing one pulls from there too.
 
 ---
 
 ## Open it
 
-**No setup** — double-click `dist/skills-war-chest.html`. Everything (interface,
-index, all 369 skill bodies) is inlined into that one 3.5 MB file. No server, no
-network, no build step.
+**No setup** — double-click `dist/skills-war-chest.html`. The interface and the
+whole index are inlined into that one 0.6 MB file: no server, no build step.
+Browsing, search, ratings and compare work offline; the text of a skill is
+fetched from GitHub when you open it, so reading one needs a connection.
 
 **While iterating on the interface** — serve the repo so `web/index.html` can
 fetch `data/`:
@@ -24,14 +26,10 @@ python3 -m http.server 8080
 # http://localhost:8080/web/
 ```
 
-`dist/skills-war-chest-lite.html` is the same interface with the skill bodies
-stripped (0.5 MB) — the catalogue without the content, for sharing.
-
 **On a static host** — `dist/site/` is a deployable site: `index.html` at the
 root beside `data/`, so any host serves it as-is, and `dist/site.zip` is the
-same tree packed for upload. It keeps progressive loading (a 0.5 MB index
-first, skill bodies fetched when a card is opened), so it reaches first paint
-noticeably sooner than the 3.5 MB single file.
+same tree packed for upload. It behaves like the single file, served as
+separate files.
 
 ## Rebuild it
 
@@ -41,7 +39,7 @@ python3 tools/build.py    # parse → tag → score → emit data/, docs, dist/
 ```
 
 `build.py` chains `gen_docs.py` and `bundle.py`, so one command refreshes the
-index, `docs/TAGS.md`, `CREDITS.md` and both standalone bundles. Add a repo by
+index, `docs/TAGS.md`, `CREDITS.md` and the standalone bundle. Add a repo by
 appending to `sources.json` and running those two commands again.
 
 Requires Python 3.9+, `pyyaml`, and `git`. Nothing else — the interface has zero
@@ -53,8 +51,8 @@ runtime dependencies and no build toolchain.
 |---|---|
 | `web/` | the interface — `index.html`, `styles.css`, `app.js`, vanilla, no deps |
 | `tools/` | `sync.py`, `build.py`, `taxonomy.py`, `gen_docs.py`, `bundle.py` |
-| `data/` | generated: `index.json`, `meta.json`, `duplicates.json`, `skills/<id>.json` |
-| `dist/` | generated: the two self-contained HTML bundles |
+| `data/` | generated: `index.json`, `meta.json`, `duplicates.json` |
+| `dist/` | generated: the single-file HTML bundle (and, untracked, `site/`) |
 | `docs/` | `PROCESS.md` (how this was built), `ARCHITECTURE.md` (data contracts), `TAGS.md` (generated) |
 | `licenses/` | generated: verbatim upstream license texts, one per source |
 | `sources/` | gitignored upstream clones — a cache, reproduced by `sync.py` |
@@ -81,7 +79,8 @@ retired) and free notes, held in `localStorage`, exportable as JSON you can comm
 
 **Full contents in the page.** Opening a skill renders its entire `SKILL.md` —
 headings, tables, code fences — plus its score breakdown, bundled file list and
-upstream credit. No round-trip to GitHub to read one.
+upstream credit. The text is read live from the source repository, so it is the
+current version; if GitHub can't be reached, the drawer says so and links to it.
 
 **Near-duplicate detection.** Token-overlap clustering across all repos flags the
 10 clusters where skills substantially restate each other, and suggests which one
@@ -106,23 +105,18 @@ Matt Pocock · Emil Kowalski · Google · Sahil Lavingia · Hugging Face · Meng
 Addy Osmani. Per-repo counts, pinned commits and licenses in
 [`CREDITS.md`](CREDITS.md).
 
-Every skill belongs to its author. This project changes no upstream licensing,
-and installing a skill always pulls from its original repository.
+Every skill belongs to its author. This project changes no upstream licensing
+and carries **no `SKILL.md` text**: it stores metadata — each skill's name and
+description as written upstream, plus derived tags, score and size — and the
+interface reads the text live from the source repository. Installing a skill
+pulls from there too. Upstream licenses are reproduced in
+[`licenses/`](licenses/) for attribution.
 
-- **Where the license permits it** (MIT, Apache-2.0), the `SKILL.md` text is
-  carried here so the interface can render it offline. It stays under its
-  upstream license, reproduced verbatim in [`licenses/`](licenses/), and
-  bodies are redistributed unmodified — this project adds only derived
-  metadata beside them.
-- **Where the repository declares no license**, the source is marked
-  `"redistribute": false` in `sources.json` and is **indexed only**: card,
-  tags, score and description are built from it, but no copy of its text lives
-  here. The interface fetches the body from the source repository when you open
-  the skill. That currently applies to `slavingia/skills` (10 skills), whose
-  content also derives from a published book.
-
-No license is not the same as permissive — it means all rights reserved. If you
-add a source, check for a `LICENSE` before letting the build carry its text.
+Where a repository declares no license, its source is marked
+`"redistribute": false` in `sources.json` and the drawer says so. That
+currently applies to `slavingia/skills` (10 skills), whose content also derives
+from a published book. No license is not the same as permissive — it means all
+rights reserved. If you add a source, record its license in `sources.json`.
 
 This repository's own work — `tools/`, the taxonomy, the forge score, `web/`
 and `docs/` — is MIT ([`LICENSE`](LICENSE)).

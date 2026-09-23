@@ -11,8 +11,8 @@ structural; `docs/PROCESS.md` explains why it is shaped this way.
 **Never hand-edit generated files.** These are build outputs — edits are silently
 destroyed on the next build:
 
-- `data/` — `index.json`, `meta.json`, `duplicates.json`, `skills/*.json`
-- `dist/` — all three HTML bundles
+- `data/` — `index.json`, `meta.json`, `duplicates.json`
+- `dist/` — the HTML bundles and `dist/site/`
 - `docs/TAGS.md` and `CREDITS.md`
 
 Edit the source instead, then rebuild:
@@ -52,6 +52,10 @@ without saying so first:
   what makes upstream-drift reviews possible. Anything nondeterministic (an LLM
   pass, a timestamp inside a record) belongs in a separate file that `build.py`
   merges.
+- **Index only: no `SKILL.md` text is stored in this repo.** `build.py` reads
+  each body to derive tags, score and shape, then drops it; the interface
+  fetches the text from `raw_url` when a skill is opened. Don't reintroduce
+  stored bodies (in `data/` or a bundle) without saying so first.
 - **`SKILL.md` bodies are untrusted third-party text.** The markdown renderer in
   `app.js` escapes input *before* parsing and admits only `http(s):` and `#`
   hrefs. Keep both properties.
@@ -62,7 +66,9 @@ without saying so first:
   fails loudly if they move — fix the markers, don't loosen the matcher.
 - **`app.js` runs in three contexts:** served (fetches `../data/`), bundled
   (`window.__WARCHEST__`), and hosted as an Artifact (same, plus the `downloads`
-  capability for saving files). Any new I/O needs a path for all three.
+  capability for saving files). Any new I/O needs a path for all three. The
+  body fetch can be blocked in any of them, so it must fail soft: a note and a
+  GitHub link, never a stuck "loading…" or error text passed off as content.
 
 **Ratings are the user's data.** Stars, notes and kit live in `localStorage`
 under `warchest.*.v1`, keyed by the stable `<origin>--<directory>` id. Never
