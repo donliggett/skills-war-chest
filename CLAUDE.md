@@ -1,76 +1,8 @@
-# CLAUDE.md
+# CLAUDE.md — War Chest
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
-
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
-
-## 1. Think Before Coding
-
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
-
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
-
-## 2. Simplicity First
-
-**Minimum code that solves the problem. Nothing speculative.**
-
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-
-## 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
-
-## 4. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
-
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
-
----
-
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
-
----
-
-<!-- Everything above is upstream: forrestchang/andrej-karpathy-skills.
-     Everything below is specific to this repository. If you re-fetch the
-     upstream file, re-append this section. -->
-
-## 5. This Repository — War Chest
+Facts about this repository, for any agent working in it. Personal working
+preferences don't belong here: put them in `CLAUDE.local.md` (gitignored) or in
+a CLAUDE.md in a folder above the repo.
 
 An **index** of agent skills from seven upstream repos, plus a zero-dependency
 browser interface over it. Read `docs/ARCHITECTURE.md` before changing anything
@@ -93,9 +25,20 @@ Edit the source instead, then rebuild:
 | attribution text | `blurb`/`license` in `sources.json` | `CREDITS.md` |
 | the interface | `web/{index.html,styles.css,app.js}` | `dist/*.html` |
 
-**One command rebuilds everything:** `python3 tools/build.py` (chains
-`gen_docs.py` and `bundle.py`). `python3 tools/sync.py` first if upstream may
-have moved. `sources/` is a gitignored clone cache — never commit it, never edit
+**One command rebuilds everything:** `tools/build.py` (chains `gen_docs.py`
+and `bundle.py`). Run `tools/sync.py` first if upstream may have moved, and
+check it succeeded before building:
+
+```
+python3 tools/sync.py
+python3 tools/build.py
+```
+
+On Windows, use `python` (or `py`) in place of `python3`. Commands are written
+one per line on purpose: Windows PowerShell 5.1 has no `&&`, and a second line
+still runs if the first one fails.
+
+`sources/` is a gitignored clone cache — never commit it, never edit
 files inside it, and never treat anything in it as this project's own code.
 
 **Constraints that are decisions, not accidents** — do not "improve" these

@@ -13,3 +13,6 @@ dist/site.zip
 __pycache__/
 *.pyc
 .DS_Store
+
+# personal agent notes for this repo — never committed
+CLAUDE.local.md
