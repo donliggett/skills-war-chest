@@ -4,6 +4,8 @@ A searchable, tagged, rated browser interface over agent skills gathered from
 across GitHub. 746 skills from 18 repositories, indexed against the open
 [Agent Skills specification](https://agentskills.io/specification).
 
+**Live:** [warchest.surge.sh](https://warchest.surge.sh)
+
 Nothing here forks anyone's work. The chest is an **index**: it reads upstream
 clones, derives tags and a quality score, and stores that metadata — no
 `SKILL.md` text. Opening a skill reads its text live from the original
@@ -30,6 +32,23 @@ python3 -m http.server 8080
 root beside `data/`, so any host serves it as-is, and `dist/site.zip` is the
 same tree packed for upload. It behaves like the single file, served as
 separate files.
+
+### Host your own copy
+
+The live copy above runs on [Surge](https://surge.sh)'s free tier; any host
+that serves a static folder works the same way. The site is about 1.3 MB with
+no server code, and skill text still loads from GitHub. With Node installed:
+
+```bash
+python3 tools/build.py
+npx surge dist/site your-name.surge.sh
+```
+
+The first deploy asks you to log in. Surge then writes the domain to
+`dist/site/CNAME`, which the build keeps between rebuilds, so later deploys
+need only `npx surge dist/site`. For unattended deploys, generate a token with
+`npx surge token` and set `SURGE_LOGIN` and `SURGE_TOKEN` in the environment;
+keep both out of the repo. The free `*.surge.sh` address includes HTTPS.
 
 ## Rebuild it
 

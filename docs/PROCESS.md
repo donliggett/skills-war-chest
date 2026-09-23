@@ -310,6 +310,15 @@ in total. Four things changed to take them:
   was tried and dropped: it tagged Corey Haines' public-relations skill as
   DevOps.
 
+## 11. Hosted on Surge
+
+Index only made the static site small enough to host anywhere: `dist/site/`
+is about 1.3 MB, and skill text comes from `raw.githubusercontent.com`, which
+answers any origin (`Access-Control-Allow-Origin: *`). The live copy is at
+`warchest.surge.sh`, deployed with `npx surge dist/site warchest.surge.sh`.
+Surge records the domain in `dist/site/CNAME`; `bundle.py` rebuilds that folder
+from scratch, so it now carries the CNAME across rebuilds.
+
 ---
 
 ## Rebuilding from scratch

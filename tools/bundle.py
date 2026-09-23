@@ -75,12 +75,18 @@ def artifact_variant():
 def site_variant():
     """A deployable static site at dist/site/: index.html at the root beside
     data/, so a host serves it as-is. Unlike the single-file bundle this keeps
-    progressive loading — the index first, skill bodies fetched from GitHub on open."""
+    progressive loading — the index first, skill bodies fetched from GitHub on open.
+
+    The folder is rebuilt from scratch each time, except for a CNAME file: Surge
+    writes one there on first deploy to remember the domain, so it is kept."""
     import shutil
     site = DIST / "site"
+    cname = (site / "CNAME").read_text(encoding="utf-8") if (site / "CNAME").is_file() else None
     if site.exists():
         shutil.rmtree(site)
     site.mkdir(parents=True)
+    if cname:
+        (site / "CNAME").write_text(cname, encoding="utf-8")
 
     html = (WEB / "index.html").read_text(encoding="utf-8")
     html = html.replace("<!--WARCHEST_DATA-->",
